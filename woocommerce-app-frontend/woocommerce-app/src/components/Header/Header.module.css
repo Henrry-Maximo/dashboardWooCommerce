@@ -1,0 +1,31 @@
+/* ESTILIZAÇÃO DO HEADER */
+.cabecalho {
+    min-height: 50px;
+    max-height: auto;
+  }
+  
+  .cabecalhoStyle {
+    background-color: #daaa00;
+    text-align: center;
+    color: black;
+  }
+  
+  .sizeImg {
+    width: 25em;
+    height: 3em;
+  }
+  
+  .titleAnimation {
+    display: inline-block;
+    animation: slideText 20s linear infinite;
+  }
+  
+  @keyframes slideText {
+    0% {
+      transform: translateX(200%);
+    }
+  
+    100% {
+      transform: translateX(-200%);
+    }
+  }
