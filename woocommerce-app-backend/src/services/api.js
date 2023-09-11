@@ -1,27 +1,24 @@
+// solicitações HTTP + Autenticação Woocommerce
 const axios = require("axios");
 const oauth = require("../config/index.js");
+// --------------------------------------------
+
+// operações para serem efetuadas no banco de dados
 const { insertOrders } = require("../database/db_operations/databaseOperations.js");
 const { checkAndUpdateOrderStatus } = require("../database/db_operations/orderStatusUpdater.js");
+// --------------------------------------------
 
-const apiUrl = "http://mov.tecnologia.ws/wp-json/wc/v3";
+// destinatário das requisições/respostas
+const apiUrl = "http://mov.tecnologia.ws/wp-json/wc/v3/orders?per_page=12&page=1&orderby=date&order=asc&status=nfe-emitida,pedido_separacao,retirada,transporte";
+// destinário de envio/consulta - bd (identificação)
+const db = require("../database/db.js");
+// --------------------------------------------
 
-// Importa a conexão do módulo
-const db = require('../database/db.js');
-
-async function getUser() {
-  try {
-    const query = 'SELECT * FROM dashboard_users';
-    const users = await db.promise().query(query);
-    return users[0]; // Retorna os resultados da consulta (array de usuários)
-  } catch (error) {
-    throw error;
-  }
-}
-
+// função para obter orders cadastradas no woocommerce com seus respectivos detalhes
 async function getOrders() {
   try {
     const requestData = {
-      url: `${apiUrl}/orders?per_page=12&page=1&orderby=date&order=asc&status=nfe-emitida,pedido_separacao,retirada,transporte`,
+      url: `${apiUrl}`,
       method: "GET",
     };
 
@@ -43,10 +40,22 @@ async function getOrders() {
   }
 }
 
+// função para consultar usuário cadastrados no banco de dados
+async function getUser() {
+  try {
+    const query = "SELECT * FROM dashboard_users";
+    const users = await db.promise().query(query);
+    return users[0]; // Retorna os resultados da consulta (array de usuários)
+  } catch (error) {
+    throw error;
+  }
+}
+
+// função para inserir os pedidos no bd
 async function insertOrder() {
   try {
     const requestData = {
-      url: `${apiUrl}/orders?per_page=12&page=1&orderby=date&order=asc&status=nfe-emitida,pedido_separacao,retirada,transporte`,
+      url: `${apiUrl}`,
       method: "GET",
     };
 
@@ -72,6 +81,7 @@ async function insertOrder() {
   }
 }
 
+// função para atualizar o status do pedido senão for igual o do woocommerce
 async function updateOrder() {
   try {
     await checkAndUpdateOrderStatus();
@@ -82,5 +92,8 @@ async function updateOrder() {
 }
 
 module.exports = {
-  getOrders, getUser, insertOrder, updateOrder
+  getOrders,
+  getUser,
+  insertOrder,
+  updateOrder,
 };

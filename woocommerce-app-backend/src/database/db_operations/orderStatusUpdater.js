@@ -8,21 +8,21 @@ const apiUrl = "http://mov.tecnologia.ws/wp-json/wc/v3";
 async function fetchOrdersFromAPI(orders) {
     try {
         const requestData = {
-          url: `${apiUrl}/orders?per_page=12&page=1&orderby=date&order=asc&status=nfe-emitida,pedido_separacao,retirada,transporte`,
-          method: "GET",
+            url: `${apiUrl}/orders?per_page=12&page=1&orderby=date&order=asc&status=nfe-emitida,pedido_separacao,retirada,transporte`,
+            method: "GET",
         };
-    
+
         const authHeader = oauth.toHeader(oauth.authorize(requestData));
         const response = await axios.get(requestData.url, { headers: authHeader });
-    
+
         const orders = response.data.map((order) => ({
-          id: order.id,
-          status: order.status,
-          date: order.date_created,
+            id: order.id,
+            status: order.status,
+            date: order.date_created,
         }));
-    
+
         return orders;
-    } catch ( error ) {
+    } catch (error) {
         throw error;
     }
 }
@@ -40,7 +40,7 @@ async function updateOrderStatusInDB(orders) {
     }
 }
 
-// Função de verificação periódica
+// Função de verificação periódica de status dos pedidos
 async function checkAndUpdateOrderStatus() {
     try {
         const orders = await fetchOrdersFromAPI();
