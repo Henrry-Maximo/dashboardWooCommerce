@@ -1,12 +1,17 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Container, Row, Col } from "react-bootstrap";
+
 import OrderCard from "../../components/Cards";
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
 import { fetchOrders } from "../../service/api";
+
+// images:
 import imgPedido from "../../images/nf-emitidaDash.png";
 import imgSeparacao from "../../images/separacaoDash.png";
 import imgColeta from "../../images/coletaDash.png";
 import imgTransporte from "../../images/transporteDash.png";
+// ---------
+
 import "./styles.css";
 // import { determineBackgroundColor } from "../../utils/utils.js";
 
@@ -16,6 +21,7 @@ function DashboardPage() {
   useEffect(() => {
     async function fetchData() {
       try {
+        console.log("Atualização Card01"); // Adicione um console log para teste
         const ordersData = await fetchOrders();
         setOrders(ordersData);
       } catch (error) {
@@ -23,22 +29,21 @@ function DashboardPage() {
       }
     }
 
-    const interval = setInterval(fetchData, 5000);
-
-    return () => clearInterval(interval);
+    fetchData();
+    const fetchDataInterval = setInterval(fetchData, 50000);
+    return () => clearInterval(fetchDataInterval);
   }, []);
 
+  // Parâmetro representa o status que queremos contar no array orders.
   const countOrdersByStatus = (status) => {
-    return orders.filter((order) => order.status === status).length;
+    return orders.filter(
+      (order) => order.status === status
+    ).length;// status da ordem seja igual ao do parâmetro
   };
 
   const renderOrderCards = (status) => {
-    return orders
-      .filter((order) => order.status === status)
-      .map((order) => <OrderCard key={order.id} order={order} />);
+    return orders.filter((order) => order.status === status).map((order) => <OrderCard key={order.id} orderId={order.id_order} orderDate={order.date_created} />);
   };
-
-  
 
   return (
     <Container fluid className="dashboard-container">
@@ -47,7 +52,7 @@ function DashboardPage() {
           <span className="centered-span">
             <div>
               <img src={imgPedido} className="position-icon" />
-              Novo Pedido:{" "}
+              Liberado:
               <div className="caixa">{countOrdersByStatus("nfe-emitida")}</div>
             </div>
           </span>
@@ -59,7 +64,7 @@ function DashboardPage() {
           <span className="centered-span">
             <div>
               <img src={imgSeparacao} className="position-icon" />
-              Seperação:{" "}
+              Seperação:
               <div className="caixa">
                 {countOrdersByStatus("pedido_separacao")}
               </div>
@@ -85,7 +90,7 @@ function DashboardPage() {
           <span className="centered-span">
             <div>
               <img src={imgTransporte} className="position-icon" />
-              Transporte:{" "}
+              Transporte:
               <div className="caixa">{countOrdersByStatus("transporte")}</div>
             </div>
           </span>

@@ -1,21 +1,17 @@
-// importando rotas
 const apiRoutes = require("./src/routes/apiRoutes");
-
-// importando o express/cors
 const express = require("express");
 const cors = require("cors");
 
-// utilizando o express
-const app = express();
+const os = require("node:os"); // module provides operating system-related utility methods and properties.
+const networkAddress = os.networkInterfaces(); // object containing network interfaces 
 
-// atribuindo a função: cors() para acessar recursos
+const app = express();
 app.use(cors());
 
-// rota raiz
 app.use("/", apiRoutes);
 
-// inicialização do servidor
+// port 
 const port = 5000;
 app.listen(port, () => {
-  console.log(`Servidor iniciado na porta ${port}`);
+  console.log(`Servidor iniciado: ${networkAddress.Ethernet[0].address}:${port}`);
 });

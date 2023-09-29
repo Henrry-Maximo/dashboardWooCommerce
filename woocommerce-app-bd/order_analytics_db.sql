@@ -6,11 +6,15 @@ CREATE DATABASE order_analytics_db;
 -- Seleciona o novo banco de dados criado
 USE order_analytics_db;
 
-select * from dashboard_users;
+#select * from dashboard_users;
+
 select * from dashboard_orders;
-select * from dashboard_orders_products;
+select * from dashboard_orders_line;
+select * from dashboard_orders_shipping;
 select * from dashboard_slas;
 select * from dashboard_order_sla;
+
+
 #SELECT id, secret, type FROM dashboard_users WHERE name = "Henrique";
 #UPDATE dashboard_users SET type = "1" WHERE id = 6;
 
@@ -28,15 +32,31 @@ create table dashboard_orders (
    date_created DATE
 );
 
--- Cria a tabela dashboard_orders_products
-create table dashboard_orders_products (
-   id INT(11) PRIMARY KEY AUTO_INCREMENT,
+-- Cria a tabela dashboard_orders_line
+create table dashboard_orders_line (
+   id INT(11) PRIMARY KEY,
+   id_order INT(11),
    name VARCHAR(45),
    quantity INT(11),
    sku INT(13),
-   name_client VARCHAR(45),
-   data_creation DATE,
-   address VARCHAR(255)
+   FOREIGN KEY (id_order) REFERENCES dashboard_orders(id_order)
+);
+
+-- Cria a tabela dashboard_orders_shipping
+create table dashboard_orders_shipping (
+   id INT(11) PRIMARY KEY AUTO_INCREMENT,
+   id_order INT(11),
+   first_name VARCHAR(45),
+   last_name VARCHAR(45),
+   company VARCHAR(45),
+   address VARCHAR(255),
+   city VARCHAR(45),
+   state VARCHAR(45),
+   postcode VARCHAR(20),
+   country VARCHAR(20),
+   phone INT(16),
+   number INT(11),
+   FOREIGN KEY (id_order) REFERENCES dashboard_orders(id_order)
 );
 
 -- Cria a tabela dashboard_slas

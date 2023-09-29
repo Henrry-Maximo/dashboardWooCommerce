@@ -13,8 +13,8 @@ INSERT INTO dashboard_orders (STATUS, DATE_CREATED)
 VALUES ("nfe-emitida",  "2023/08/24");
 
 UPDATE dashboard_orders
-SET status = 'retirada'
-WHERE id_order = 4386;
+SET status = 'nfe-emitida'
+WHERE id_order = 4530;
 
        
        
