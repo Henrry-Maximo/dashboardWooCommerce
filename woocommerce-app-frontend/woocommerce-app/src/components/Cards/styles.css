@@ -9,6 +9,10 @@
   box-shadow: 0 9px 5px rgba(0, 0, 0, 0.342);
   transition: z-index 0.3s ease-in-out;
 }
+.order-card {
+  max-height: 200px; /* Ajuste conforme necessário */
+  overflow: hidden; /* Adiciona uma barra de rolagem se necessário */
+}
 
 */ .order-card:hover {
   transform: translateY(-15px);
@@ -178,4 +182,21 @@
 .order-card:nth-child(10):hover {
   transform: translateY(-6px);
   z-index: 10;
+}
+
+/* OrderCard.css */
+
+.order-card.red {
+  background: linear-gradient(45deg, #ff5151, #ff8787);
+  box-shadow: 0px 4px 20px rgba(255, 81, 81, 0.2);
+}
+
+.order-card.yellow {
+  background: linear-gradient(45deg, #ffd651, #ffec87);
+  box-shadow: 0px 4px 20px rgba(255, 214, 81, 0.2);
+}
+
+.order-card.green {
+  background: linear-gradient(45deg, #51ff51, #87ff87);
+  box-shadow: 0px 4px 20px rgba(81, 255, 81, 0.2);
 }

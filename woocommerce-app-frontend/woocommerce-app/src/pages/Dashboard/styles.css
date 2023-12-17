@@ -52,33 +52,33 @@ body {
   }
 }
 
-#colorStatusAguardando {
+/* #colorStatusAguardando {
   background-color: #e5e5e5 !important;
 }
 
 #colorStatusAprovado {
   background-color: #c6e1c6 !important;
-}
+} */
 
 #colorStatusNfEmitida {
-  background-color: #00ffaa !important;
+  background-color: #ffffffaa;
 }
 
 #colorStatusSeparacao {
-  background-color: #b5967d;
+  background-color: #ffffff;
 }
 
 #colorStatusColeta {
-  background-color: #ed1d1d;
+  background-color: #ffffff;
 }
 
 #colorStatusTransporte {
-  background-color: #ff9500;
+  background-color: #ffffff;
 }
 
-#colorStatusEntregue {
+/* #colorStatusEntregue {
   background-color: #c8d7e1;
-}
+} */
 
 .position-icon {
   width: 30px;

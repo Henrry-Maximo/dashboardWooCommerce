@@ -12,23 +12,23 @@ const PopoverComponent = ({ order }) => {
         setShowPopover(!showPopover);
     };
 
-    const renderProductDetails = () => {
-        return order.map((item) => (
-            <div key={item.id}>
-                <div className="product-name">{item.name}</div>
-                <div>
-                    <strong>Total:</strong> {item.quantity}
-                </div>
-                <div>
-                    <strong>SKU:</strong> {item.sku}
-                </div>
-                <div>
-                    <strong>Cliente</strong>: {order.shipping.first_name}{" "}
-                    {order.shipping.last_name}
-                </div>
-            </div>
-        ));
-    };
+    // const renderProductDetails = () => {
+    //     return order.map((item) => (
+    //         <div>
+    //             {/* <div className="product-name">{item.name}</div> */}
+    //             {/* <div>
+    //                 <strong>Total:</strong> {item.quantity}
+    //             </div>
+    //             <div>
+    //                 <strong>SKU:</strong> {item.sku}
+    //             </div>
+    //             <div>
+    //                 <strong>Cliente</strong>: {order.shipping.first_name}{" "}
+    //                 {order.shipping.last_name}
+    //             </div> */}
+    //         </div>
+    //     ));
+    // };
 
     const popover = (
         <BootstrapPopover id={`popover-${order.orderId}`} className="custom-popover">
@@ -38,11 +38,11 @@ const PopoverComponent = ({ order }) => {
             >
                 Detalhes do Pedido
             </BootstrapPopover.Header>
-            <BootstrapPopover.Body>
+            {/* <BootstrapPopover.Body>
                 {renderProductDetails()}
                 {/* <strong>Endereço de Entrega:</strong> {order.shipping.address_1} */}
-            </BootstrapPopover.Body>
-        </BootstrapPopover>
+            {/* </BootstrapPopover.Body> * /} */}
+        </BootstrapPopover >
     );
 
     return (
