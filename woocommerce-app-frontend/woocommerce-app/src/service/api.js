@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://192.168.0.100:5000/mov-painel";
+const API_BASE_URL = "http://10.10.2.16:5000/mov-painel";
 
 export const fetchOrders = async () => {
   try {
@@ -19,3 +19,4 @@ export const fetchOrderSla = async () => {
     throw err;
   }
 }
+

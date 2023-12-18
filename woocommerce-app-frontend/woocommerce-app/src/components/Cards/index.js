@@ -3,7 +3,7 @@ import Card from "react-bootstrap/Card";
 import "./styles.css";
 import moment from "moment-timezone";
 import { fetchOrderSla } from "../../service/api.js";
-import time from "../../images/time_orders.png";
+import time from "../../assets/images/time_orders.png";
 import { calculateBackgroundColor } from "../../utils/utils.js";
 import PopoverComponent from "../../components/Popover/index.js";
 

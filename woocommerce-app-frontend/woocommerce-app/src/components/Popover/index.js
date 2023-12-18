@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { Popover as BootstrapPopover } from "react-bootstrap";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Imagenotification from "../../images/alertNotification.png";
+import Imagenotification from "../../assets/images/alertNotification.png";
 import "./styles.css";
 
 const PopoverComponent = ({ order }) => {
