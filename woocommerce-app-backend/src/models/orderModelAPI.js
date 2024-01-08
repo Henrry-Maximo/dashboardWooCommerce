@@ -3,16 +3,25 @@ const WooCommerceAPI = require("../services/api.js");
 async function getOrders() {
     try {
         const response = await WooCommerceAPI.getOrders();
-        const orders = await response.data.map((order) => ({
-            id: order.id,
-            status: order.status,
-            date: order.date,
-        }));
 
-        return orders;
-    } catch (error) {
-        console.error("Erro ao Obter os Pedidos da API.\n")
-        throw error;
+        const allStatuses = Object.keys(response);
+        const formattedOrders = [];
+
+        allStatuses.forEach((status) => {
+            if (Array.isArray(response[status])) {
+                const orders = response[status].map((order) => ({
+                    id: order.order_id,
+                    createdAt: order.created_at,
+                }));
+
+                formattedOrders.push(...orders);
+            }
+        });
+
+        return formattedOrders;
+    } catch (err) {
+        console.error(`Erro ao obter os dados: ${err}`);
+        throw err;
     }
 }
 
