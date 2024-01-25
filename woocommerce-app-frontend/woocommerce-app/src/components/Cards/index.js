@@ -3,9 +3,9 @@ import Card from "react-bootstrap/Card";
 import "./styles.css";
 import moment from "moment-timezone";
 import { fetchOrderSla } from "../../service/api.js";
-import time from "../../assets/images/time_orders.png";
+import time from "../../assets/img/time_orders.png";
 import { calculateBackgroundColor } from "../../utils/utils.js";
-import PopoverComponent from "../../components/Popover/index.js";
+// import PopoverComponent from "../../components/Popover/index.js";
 
 
 function OrderCard({ orderId, orderDate }) {
@@ -52,7 +52,7 @@ function OrderCard({ orderId, orderDate }) {
     // const fetchDataInterval = setInterval(fetchData, 1000);
 
     calcularTempoRestante(); // Calcular o tempo restante imediatamente
-    const calculateInterval = setInterval(calcularTempoRestante, 1000); // updante in seconds
+    const calculateInterval = setInterval(calcularTempoRestante, 30000); // updante in seconds
 
     return () => {
       // clearInterval(fetchDataInterval);

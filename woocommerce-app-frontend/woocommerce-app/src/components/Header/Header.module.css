@@ -16,6 +16,12 @@
   height: 3em;
 }
 
+@media screen and (max-width: 900px) {
+  .sizeImg {
+    width: 10px;
+  }
+}
+
 .titleAnimation {
   display: inline-block;
   animation: slideText 20s linear infinite;

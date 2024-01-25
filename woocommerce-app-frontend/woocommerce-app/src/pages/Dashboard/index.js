@@ -3,10 +3,10 @@ import { Container, Row, Col } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import OrderCard from "../../components/Cards";
 import { fetchOrders } from "../../service/api";
-import imgPedido from "../../assets/images/nf-emitidaDash.png";
-import imgSeparacao from "../../assets/images/separacaoDash.png";
-import imgColeta from "../../assets/images/coletaDash.png";
-import imgTransporte from "../../assets/images/transporteDash.png";
+import imgPedido from "../../assets/img/nf-emitidaDash.png";
+import imgSeparacao from "../../assets/img/separacaoDash.png";
+import imgColeta from "../../assets/img/coletaDash.png";
+import imgTransporte from "../../assets/img/transporteDash.png";
 import "./styles.css";
 
 function DashboardPage() {
@@ -18,11 +18,13 @@ function DashboardPage() {
       try {
         const ordersData = await fetchOrders();
         setOrders(ordersData);
-      } catch (error) {
-        console.error("Erro ao obter ordens:", error);
+      } catch (err) {
+        console.error("Erro na consulta dos pedidos.");
+        return;
       }
     }
-    const fetchDataInterval = setInterval(fetchData, 1000);
+
+    const fetchDataInterval = setInterval(fetchData, 30000);
     return () => clearInterval(fetchDataInterval);
   }, []);
 

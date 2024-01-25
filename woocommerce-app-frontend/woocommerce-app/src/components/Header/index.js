@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Header.module.css';
 import { Row, Col } from "react-bootstrap";
-import imgLogo from "../../assets/images/mov-logo.png";
+import imgLogo from "../../assets/img/mov-logo.png";
 
 const Header = () => {
   return (

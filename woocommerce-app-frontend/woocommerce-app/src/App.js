@@ -3,7 +3,6 @@ import React from "react";
 import DashboardPage from "./pages/Dashboard";
 import Header from "./components/Header";
 import { Container } from "react-bootstrap";
-// import Login from "./pages/Login";
 import { BrowserRouter } from "react-router-dom";
 
 const App = () => {
@@ -12,7 +11,6 @@ const App = () => {
       <BrowserRouter>
         <Header />
         <DashboardPage />
-        {/* <Login /> */}
       </BrowserRouter>
     </Container>
   );

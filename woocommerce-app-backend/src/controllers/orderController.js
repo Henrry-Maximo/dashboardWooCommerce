@@ -1,150 +1,202 @@
-const { getOrders } = require("../models/orderModelAPI.js");
+const { getOrders } = require("../models/orderModel.js");
 const db = require("../database/db.js");
 const connection = db.promise();
 
-// get all information of orders
+// Arguments for on and off orders in bd
+const orderActiveOn = "1";
+
+// get all information of orders #01
 async function getOrderById(orderId) {
-  const getByIdQuery = "SELECT * FROM dashboard_orders WHERE id_order = ?;";
   try {
+    const getByIdQuery = "SELECT * FROM dashboard_orders WHERE id_order = ?;";
     const [orderResult] = await connection.query(getByIdQuery, [orderId]);
     return orderResult;
   } catch (err) {
-    console.error(`Erro de consulta ao pedido: ${err}`);
+    console.error(`Erro de consulta ao pedido: ${err.message}`);
     throw err;
   }
 }
 
-// identify order of status sla
-async function getSLAIdPorStatus(statusSLA) {
-  const getSlaByStatus = "SELECT * FROM dashboard_slas WHERE status = ?;";
+// identify order of status sla #03
+async function getSlaByStatus(statusSLA) {
   try {
-    const [slaOrderResult] = await connection.query(getSlaByStatus, [statusSLA]);
+    const getSlaByStatus = "SELECT * FROM dashboard_slas WHERE status = ?;";
+    const [slaOrderResult] = await connection.query(getSlaByStatus, [
+      statusSLA,
+    ]);
     if (slaOrderResult && slaOrderResult.length > 0) {
       return {
         id: slaOrderResult[0].id,
         status: slaOrderResult[0].status,
         time: slaOrderResult[0].number_time,
-      }
+      };
     }
-  } catch (error) {
-    console.error('Erro ao consultar SLA', error);
-    throw error;
+  } catch (err) {
+    console.error(`Erro na consulta do SLA: ${err.message}`);
+    throw err;
   }
 }
 
-// add sla for order 
-async function getOrderIdSla(orderId, orderDate, slaId, sla_start) {
-  const queryOrderSla = "INSERT INTO dashboard_order_sla(order_id, date_order, sla_id, sla_start) VALUES (?, ?, ?, ?);"
-  const queryInsertOrderSlaValues = [orderId, orderDate, slaId, sla_start];
+// add sla for order #04
+async function addOrderSla(orderId, orderDate, slaId, sla_start) {
   try {
-    await connection.query(queryOrderSla, queryInsertOrderSlaValues);
-  } catch (error) {
-    console.error("Erro ao inserir no banco de dados: ", error);
-    throw error;
+    const queryOrderSla =
+      "INSERT INTO dashboard_order_sla(order_id, date_order, sla_id, sla_start) VALUES (?, ?, ?, ?);";
+    const queryOrderSlaValues = [orderId, orderDate, slaId, sla_start];
+    await connection.query(queryOrderSla, queryOrderSlaValues);
+  } catch (err) {
+    console.error(`Erro ao inserir informações do SLA: ${err.message}`);
+    throw err;
   }
 }
 
-// update sla for all orders
+// update sla for all orders #04
 async function updateOrderSla(date, id, time, order) {
   try {
     const queryUpdateSla = `UPDATE dashboard_order_sla SET date_order = ?, sla_id = ?, sla_start = ? WHERE order_id = ?`;
     const queryUpdateSlaValues = [date, id, time, [order]];
-    console.log(queryUpdateSlaValues);
-    const [resultQuerySla] = await connection.query(queryUpdateSla, queryUpdateSlaValues);
+    const [resultQuerySla] = await connection.query(
+      queryUpdateSla,
+      queryUpdateSlaValues
+    );
     return resultQuerySla;
   } catch (err) {
-    (err) => console.log(`Erro: ${err}`);
+    console.error(`Erro ao atualizar registro de SLA: ${err.message}`);
+    throw err;
+  }
+}
+
+/* se o perdido retornado pela API não existir, então inserir     - NOVO
+não existe, então cadastra SLA também                          - NOVO
+se existir, mas os status diferem (BD && API):
+então atualiza o status e data do BD com a resposta da API     - ATUALIZA
+também atualiza o cadastro de status do pedido refente ao SLA  - ATUALIZA */
+// registration of new orders #02
+async function insertNewOrder(order) {
+  try {
+    const queryInsertOrder = `INSERT INTO dashboard_orders(id_order, status, date_created, active) VALUES(?, ?, ?, ?)`;
+    const queryInsertOrderValues = [
+      order.id,
+      order.status,
+      order.date,
+      orderActiveOn,
+    ];
+    const [resultOrder] = await connection.query(
+      queryInsertOrder,
+      queryInsertOrderValues
+    );
+
+    const slaForOrderStatus = await getSlaByStatus(order.status);
+    addOrderSla(
+      resultOrder.insertId,
+      order.date,
+      slaForOrderStatus.id,
+      slaForOrderStatus.time
+    );
+  } catch (err) {
+    console.error(`Erro ao tentar cadastrar pedido: ${err.message}`);
+  }
+}
+
+// update of new orders and sla
+async function updateExistingOrder(order, resultOrder) {
+  try {
+    const queryUpdateOrder = `UPDATE dashboard_orders SET status = ?, date_created = ? WHERE id_order = ? `;
+    const queryUpdateOrderValues = [order.status, order.date, order.id];
+    await connection.query(queryUpdateOrder, queryUpdateOrderValues);
+
+    const slaForOrderStatus = await getSlaByStatus(order.status);
+    updateOrderSla(
+      order.date,
+      slaForOrderStatus.id,
+      slaForOrderStatus.time,
+      resultOrder[0].id_order
+    );
+  } catch (err) {
+    console.error(`Erro ao tentar atualizar pedido: ${err.message}`);
+  }
+}
+
+// select orders that not were delivered for API
+async function getOrdersOut(orders) {
+  if (orders.length > 0) {
+    const querySelectMissingOrders = `SELECT * FROM dashboard_orders WHERE id_order NOT IN (?)`;
+    const [missingOrdersRows] = await connection.query(
+      querySelectMissingOrders,
+      [orders.map((apiOrder) => apiOrder.id)]
+    );
+    return missingOrdersRows || [];
+  }
+  return [];
+}
+
+// dasactivated orders were delivered
+async function appendOrdersOut(missingOrders) {
+  if (missingOrders) {
+    const orderActiveOff = "0"; // argumento pra desativar pedido no BD
+    for (let i = 0; i < missingOrders.length; i++) {
+      const missingOrder = missingOrders[i];
+      const queryUpdateActive = `UPDATE dashboard_orders SET active = ? WHERE id_order = ? AND active <> 0`;
+      const queryUpdateActiveValues = [orderActiveOff, missingOrder.id_order];
+      await connection.query(queryUpdateActive, queryUpdateActiveValues);
+    }
+  }
+}
+
+async function processOrder(order) {
+  const resultOrders = await getOrderById(order.id);
+
+  if (resultOrders.length === 0) {
+    await insertNewOrder(order);
+  } else if (resultOrders[0].status !== order.status) {
+    await updateExistingOrder(order, resultOrders[0].status);
   }
 }
 
 const getOrderData = async (req, res) => {
   try {
+    // obter os dados dos pedidos da API
     const orders = await getOrders();
-    const orderActiveOn = "1";
-    const orderActiveOff = "0";
 
     for (let i = 0; i < orders.length; i++) {
-      const order = orders[i];
-      const resultOrder = await getOrderById(order.id);
-      const existingStatus = resultOrder[0] && resultOrder[0].status;
+      const order = orders[i]; // retorno da API
+      await processOrder(order);
 
-      try {
-        if (resultOrder.length === 0) {
-          const queryInsertOrder = `INSERT INTO dashboard_orders(id_order, status, date_created, active) VALUES(?, ?, ?, ?)`;
-          const queryInsertOrderValues = [order.id, order.status, order.date, orderActiveOn];
-          const [resultOrder] = await connection.query(queryInsertOrder, queryInsertOrderValues);
-
-          // verify status SLA
-          const allInfoSla = await getSLAIdPorStatus(order.status);
-          getOrderIdSla(resultOrder.insertId, order.date, allInfoSla.id, allInfoSla.time);
-        }
-        else if (existingStatus !== order.status) {
-          const queryUpdateOrder = `UPDATE dashboard_orders SET status = ?, date_created = ? WHERE id_order = ? `;
-          const queryUpdateOrderValues = [order.status, order.date, order.id];
-          await connection.query(queryUpdateOrder, queryUpdateOrderValues);
-
-          // verify status SLA and update
-          const allInfoSla = await getSLAIdPorStatus(order.status);
-          updateOrderSla(order.date, allInfoSla.id, allInfoSla.time, resultOrder[0].id_order);
-        }
-      } catch (error) {
-        throw error;
-      }
+      /* função: desativar no banco de dados - pedidos entregues pela API
+      verificar se pedidos coincidem com os do bd, retornando aqueles que não foram retornados pela API
+      aplicando desativamento nos não-retornados */
+      const ordersListOut = await getOrdersOut(orders);
+      appendOrdersOut(ordersListOut);
     }
 
-    missingOrders = [];
-    if (orders.length > 0) {
-      try {
-        const querySelectMissingOrders = `SELECT * FROM dashboard_orders WHERE id_order NOT IN (?)`;
-        const [missingOrdersRows] = await connection.query(querySelectMissingOrders, [orders.map(apiOrder => apiOrder.id)]);
-
-        if (missingOrdersRows) {
-          missingOrders = missingOrdersRows;
-        }
-
-      } catch (err) {
-        console.error("Erro ao executar a consulta:", err);
-        throw err;
-      }
-    }
-
-    for (let i = 0; i < missingOrders.length; i++) {
-      const missingOrder = missingOrders[i];
-      const queryUpdateActive = `UPDATE dashboard_orders SET active = ? WHERE id_order = ? AND active <> 0`;
-      const queryUpdateActiveValues = [orderActiveOff, missingOrder.id_order];
-      try {
-        await connection.query(queryUpdateActive, queryUpdateActiveValues);
-      } catch (error) {
-        console.error("Erro ao desativar a ordem: ", error);
-      }
-    }
-
-    const queryConsultOrders = "SELECT * FROM dashboard_orders WHERE active = 1 ORDER BY date_created ASC LIMIT 12;"
+    const queryConsultOrders =
+      "SELECT * FROM dashboard_orders WHERE active = 1 ORDER BY date_created ASC LIMIT 12;";
     const [resultOrders] = await connection.query(queryConsultOrders);
 
-    res.setHeader('Content-Type', 'application/json');
+    res.setHeader("Content-Type", "application/json");
     res.json(resultOrders);
   } catch (error) {
-    res.status(500).json({ error: "Falha ao obter ordens." });
-    console.error(error.message)
-    throw error;
+    res.status(500).json({ error: "Falha ao obter pedidos." });
+    console.error(error.message);
   }
 };
 
 const getOrderDataSla = async (req, res) => {
   try {
-    const queryConsultOrders = "SELECT * FROM dashboard_order_sla;"
+    const queryConsultOrders = "SELECT * FROM dashboard_order_sla;";
     const [resultOrders] = await connection.query(queryConsultOrders);
 
-    res.setHeader('Content-Type', 'application/json');
+    res.setHeader("Content-Type", "application/json");
+
     res.json(resultOrders);
   } catch (error) {
     res.status(500).json({ error: "Falha ao obter SLA das ordens." });
-    console.error(error.message)
+    console.error(error.message);
     throw error;
   }
 };
 
 module.exports = {
-  getOrderData, getOrderDataSla
+  getOrderData,
+  getOrderDataSla,
 };
