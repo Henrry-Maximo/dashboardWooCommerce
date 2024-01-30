@@ -3,16 +3,18 @@ import { Container, Row, Col } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import OrderCard from "../../components/Cards";
 import { fetchOrders } from "../../service/api";
-import imgPedido from "../../assets/img/nf-emitidaDash.png";
-import imgSeparacao from "../../assets/img/separacaoDash.png";
-import imgColeta from "../../assets/img/coletaDash.png";
-import imgTransporte from "../../assets/img/transporteDash.png";
 import "./styles.css";
+
+// images
+import { FaClipboardCheck } from "react-icons/fa6";
+import { FaBox } from "react-icons/fa";
+import { FaExclamationCircle } from "react-icons/fa";
+import { FaTruckFast } from "react-icons/fa6";
+
+
 
 function DashboardPage() {
   const [orders, setOrders] = useState([]);
-
-
   useEffect(() => {
     async function fetchData() {
       try {
@@ -46,12 +48,12 @@ function DashboardPage() {
   };
 
   return (
-    <Container fluid className="dashboard-container">
-      <Row className="body">
+    <Container fluid>
+      <Row>
         <Col md={3}>
           <span className="centered-span">
             <div>
-              <img src={imgPedido} className="position-icon" />
+              <FaClipboardCheck className="position-icon" />
               Liberado:
               <div className="caixa">{countOrdersByStatus("nfe-emitida")}</div>
             </div>
@@ -63,7 +65,7 @@ function DashboardPage() {
         <Col md={3}>
           <span className="centered-span">
             <div>
-              <img src={imgSeparacao} className="position-icon" />
+              <FaBox className="position-icon" />
               Separação:
               <div className="caixa">
                 {countOrdersByStatus("pedido_separacao")}
@@ -77,7 +79,7 @@ function DashboardPage() {
         <Col md={3}>
           <span className="centered-span">
             <div>
-              <img src={imgColeta} className="position-icon" />
+              <FaExclamationCircle className="position-icon" />
               Coleta
             </div>
             <div className="caixa">{countOrdersByStatus("retirada")}</div>
@@ -89,7 +91,7 @@ function DashboardPage() {
         <Col md={3}>
           <span className="centered-span">
             <div>
-              <img src={imgTransporte} className="position-icon" />
+              <FaTruckFast className="position-icon" />
               Transporte:
               <div className="caixa">{countOrdersByStatus("transporte")}</div>
             </div>

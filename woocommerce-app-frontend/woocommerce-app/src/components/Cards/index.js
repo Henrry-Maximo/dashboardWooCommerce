@@ -3,9 +3,11 @@ import Card from "react-bootstrap/Card";
 import "./styles.css";
 import moment from "moment-timezone";
 import { fetchOrderSla } from "../../service/api.js";
-import time from "../../assets/img/time_orders.png";
 import { calculateBackgroundColor } from "../../utils/utils.js";
 // import PopoverComponent from "../../components/Popover/index.js";
+
+import { RxLapTimer } from "react-icons/rx";
+
 
 
 function OrderCard({ orderId, orderDate }) {
@@ -72,7 +74,7 @@ function OrderCard({ orderId, orderDate }) {
         <Card.Title className="order-title-color">
           <div className="order-title">Pedido: {orderId}</div>
           <div className="timeOrders" style={{ backgroundColor }}>
-            <img src={time} id="order-icon" alt="Time Icon" />
+            <RxLapTimer id="order-icon" alt="Time Icon" />
             <div className="colorTitleTime" style={{ color: 'white' }}>
               <strong >{remainingTime}</strong>
             </div>
