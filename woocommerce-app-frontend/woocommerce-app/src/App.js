@@ -1,24 +1,28 @@
-import React from "react";
-import DashboardPage from "./pages/Dashboard";
-import Error from "./pages/Error"; // Renomeei o componente Error para ErrorPage
-import Header from "./components/Header";
-import { Container } from "react-bootstrap";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from 'react-router-dom';
+import "./App.css";
 
-const App = () => {
+import Home from "./pages/Home/Home.js";
+import Login from "./pages/Login/Login.js";
+// import Registration from "./pages/Registration/Registration.js"
+
+import Error from './pages/Error/Error.js';
+import ProtectedRouter from './ProtectedRouter.js';
+
+function App() {
   return (
-    <Container fluid>
-      <BrowserRouter>
-        <Header />
-        <Routes>
-          <Route path="/" element={<DashboardPage />} />
-          {/* <Route path="/login" element={<Login />} /> */}
-          {/* Adicione uma rota para o componente de erro */}
-          <Route path="*" element={<Error />} />
-        </Routes>
-      </BrowserRouter>
-    </Container>
+    <>
+      <Routes> {/* Organização das rotas dentro do componente Routes */}
+        <Route element={<ProtectedRouter />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Home />} />
+          <Route path="/sobre" element={<Home />} />
+          <Route path="/*" element={<Error />} />
+        </Route>
+        <Route path="/login" element={<Login />} />
+        {/* <Route path="/registration" element={<Registration />} /> */}
+      </Routes>
+    </>
   );
-};
+}
 
 export default App;

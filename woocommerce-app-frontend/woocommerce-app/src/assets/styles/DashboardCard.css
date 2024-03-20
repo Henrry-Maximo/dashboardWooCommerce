@@ -1,0 +1,50 @@
+/* profile */
+#container-card {
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+#container-card:hover {
+  /* transform: translateY(-16px);
+  z-index: 1;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); */
+}
+
+
+/* selector */
+.card-title {
+  color: #343a40;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+  gap: 2px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-time {
+  display: flex;
+  align-items: center;
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.card-time strong {
+  margin-left: 10px;
+}
+
+.card-data {
+  color: #000000;
+  font-size: 18px;
+  /* margin-top: auto; Faz a data ficar na parte inferior */
+  display: flex;
+  justify-content: end;
+}
+

@@ -1,0 +1,29 @@
+.dashboard-footer {
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  width: 100%;
+}
+
+/* Color Link */
+.a-link {
+  color: white;
+}
+
+.a-link:hover {
+  color: #daaa00;
+}
+
+/* Position Info */
+
+.config {
+  display: inline-block;
+  text-align: center;
+  width: 50%; /* Adiciona uma largura para ocupar metade da linha */
+}
+
+.version {
+  display: inline-block;
+  text-align: right;
+  width: 40%; /* Adiciona uma largura para ocupar metade da linha */
+}

@@ -1,5 +1,6 @@
 -- Exclui o banco de dados se ele existir
 DROP DATABASE order_analytics_db;
+
 -- Cria um novo banco de dados
 CREATE DATABASE order_analytics_db;
 

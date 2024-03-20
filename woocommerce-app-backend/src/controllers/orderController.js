@@ -145,7 +145,6 @@ async function appendOrdersOut(missingOrders) {
 
 async function processOrder(order) {
   const resultOrders = await getOrderById(order.id);
-  console.log(resultOrders);
 
   if (resultOrders.length === 0) {
     await insertNewOrder(order);

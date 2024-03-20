@@ -1,0 +1,72 @@
+
+/* profile */
+#login-container {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(to right, #757575, #474c55);
+}
+
+#login-content {
+  width: 400px;
+  padding: 40px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(51, 23, 23, 0.601);
+}
+
+/* class */
+.login-logo {
+  display: block;
+  margin: 0 auto 30px;
+  width: 100%;
+}
+
+.login-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.login-form .form-group label {
+  margin: 0px 0px 0px 10px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 13px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: #f8f9fa;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 13px;
+  border-radius: 8px;
+  border: none;
+  background-color: #daaa00;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #9c9c9c;
+}
+
+.error-message {
+  margin: 15px 0px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(252, 162, 162);
+  color: red;
+  border: 2px solid red;
+  /* border-radius: 10px; */
+}

@@ -1,0 +1,17 @@
+.main-content {
+  display: block;
+  background-color: #ffffff;
+  border-radius: 10px;
+  flex: 1;
+  padding: 30px;
+}
+
+.content-h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.content-p {
+  font-size: 16px;
+  margin-left: 4px;
+}

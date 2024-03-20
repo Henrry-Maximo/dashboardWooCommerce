@@ -1,0 +1,18 @@
+.about-container {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 20px;
+  width: 50%;
+  margin: 0 auto;
+}
+
+a {
+  color: #daaa00;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

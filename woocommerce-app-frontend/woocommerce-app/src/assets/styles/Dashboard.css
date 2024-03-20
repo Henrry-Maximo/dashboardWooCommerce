@@ -1,0 +1,46 @@
+.dashboard-content {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  padding: 1rem;
+}
+
+.dashboard-column {
+  padding: 30px 1rem;
+  margin: 0px 5px;
+}
+
+.dashboard-status {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 34px;
+}
+
+.dashboard-icon {
+  margin-right: 5px;
+}
+
+/* Exibição do Contador de Pedidos */
+.dashboard-count {
+  background-color: white;
+  box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.342);
+  border-radius: 5px;
+  text-align: center;
+  margin: 5px;
+  padding: 5px 0px;
+  font-size: 20px;
+}
+
+/* Exibição do Fundo do Card */
+.dashboard-cards {
+  display: block;
+  border-radius: 5px;
+  padding: 2px 4px;
+  margin: 10px 0px 0px 2px;
+}
+
+@media screen and (max-width: 700px) {
+  .dashboard-content {
+    display: inline;
+  }
+}
