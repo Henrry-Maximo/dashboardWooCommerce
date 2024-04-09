@@ -7,7 +7,7 @@ const router = express.Router();
 
 // router.use("/user", user);
 router.use("/login", login);
-router.get("/orders", verifyJWT, getOrderData);
-router.get("/order-data-sla", verifyJWT, getOrderDataSla);
+router.get("/orders",  getOrderData);
+router.get("/order-data-sla",  getOrderDataSla);
 
 module.exports = router;

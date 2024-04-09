@@ -11,7 +11,7 @@
 .sidebar-list {
   list-style: none;
   padding: 0;
-  margin-top: 80px;
+  padding: 10px;
 }
 
 .sidebar-item {
@@ -20,6 +20,9 @@
 
 .sidebar-item .sidebar-link {
   text-decoration: none !important;
+  justify-content: center;
+  gap: 10px;
+  display: inline-flex;
 }
 
 .sidebar-link {
@@ -47,13 +50,12 @@
 .sidebar {
   width: 200px;
   /* Defina a largura da barra lateral conforme necessário */
-  /* transition: width 0.3s ease; */
-/* } */ 
-/* */ 
+/* transition: width 0.3s ease; */
+/* } */
+/* */
 
-.sidebar.open   {
+.sidebar.open {
   width: 0%;
-  
 }
 
 .sidebar.open .sidebar-list {
@@ -65,14 +67,23 @@
 .sidebar-toggle {
   background-color: #575757;
   border-radius: 7px;
-  /* color: white; */
-  /* cursor: pointer; */
-  /* padding: 10px; */
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  margin: 10px;
   font-size: 18px;
-  /* left: 20px; */
-  position: fixed;
 }
 
 .sidebar-toggle:hover {
   background-color: #daaa00;
 }
+
+#sidebar-img {
+  height: 14px;
+  width: 30px;
+}
+
+.sidebar-item:not(:last-child) .sidebar-link {
+  border-bottom: 1px solid #ccc;
+}
+

@@ -1,7 +1,7 @@
 const axios = require("axios");
 const oauth = require("../config/index.js");
 
-async function WooCommerceAPI() {
+async function connect() {
   const maxTentativas = 3;
   let tentativaAtual = 1;
 
@@ -13,9 +13,9 @@ async function WooCommerceAPI() {
       };
 
       const authHeader = oauth.toHeader(oauth.authorize(identifyURL));
-      const authLogin = await axios.get(identifyURL.url, { headers: authHeader })
+      const response = await axios.get(identifyURL.url, { headers: authHeader })
 
-      return authLogin;
+      return response.data;
     } catch (err) {
       console.error(`Erro de autenticação: ${err.message}`);
 
@@ -25,7 +25,7 @@ async function WooCommerceAPI() {
       }
 
       // Aguarda por um período antes de tentar novamente (pode ser ajustado)
-      await aguardar(5000); // Aguarda por 5 segundo antes de tentar novamente
+      await aguardar(5000);
 
       // Incrementa o número da tentativa
       tentativaAtual++;
@@ -39,5 +39,5 @@ function aguardar(ms) {
 }
 
 module.exports = {
-  getOrders: WooCommerceAPI,
+  api: connect,
 };

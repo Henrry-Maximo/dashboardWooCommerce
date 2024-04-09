@@ -1,4 +1,4 @@
-const { getOrders } = require("../models/orderModel.js");
+const { response } = require("../models/orderModel.js");
 const db = require("../database/db.js");
 const connection = db.promise();
 
@@ -156,7 +156,7 @@ async function processOrder(order) {
 const getOrderData = async (req, res) => {
   try {
     // obter os dados dos pedidos da API
-    const orders = await getOrders();
+    const orders = await response();
 
     for (let i = 0; i < orders.length; i++) {
       const order = orders[i]; // retorno da API
@@ -200,3 +200,4 @@ module.exports = {
   getOrderData,
   getOrderDataSla,
 };
+
