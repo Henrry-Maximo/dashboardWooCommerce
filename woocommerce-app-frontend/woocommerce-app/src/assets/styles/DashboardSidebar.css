@@ -2,6 +2,7 @@
   background-color: #333;
   width: 256px;
   height: 100%;
+  transition: all 0.3s ease-out allow-discrete;
 }
 
 .sidebar-nav {

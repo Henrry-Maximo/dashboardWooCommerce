@@ -64,7 +64,7 @@ function OrderCard({ orderId, orderDate }) {
       // clearInterval(fetchDataInterval);
       clearInterval(calculateInterval);
     };
-  }, [orderId, slaData.date_order, slaData.sla_start]);
+  }, [orderId, orderDate, slaData.date_order, slaData.sla_start]);
 
   const backgroundColor = calculateBackgroundColor(remainingTime); // alart for warning order
   return (
