@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../services/api.js";
+import { api } from "../../services/api.js";
 import "../../assets/styles/Login.css";
 import Logo from "../../assets/images/mov-logo.png";
 import Logowork from "../../assets/images/key.svg";
@@ -14,16 +14,16 @@ const Login = (request, response) => {
 
   async function handleLogin(e) {
     e.preventDefault();
+    const formattedUser = user ? user.toLowerCase() : ""; 
+    const formattedPassword = password ? password.toLowerCase() : "";
 
     try {
       const dataLogin = {
-        user,
-        password,
+        user: formattedUser,
+        password: formattedPassword,
       };
 
       const { data } = await api.post("/login", dataLogin);
-
-      // alert("Login efetuado com sucesso!");
 
       sessionStorage.setItem("login", true);
       sessionStorage.setItem("jwt", data.token);

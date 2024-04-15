@@ -3,11 +3,11 @@ const login = require("../services/loginService.js");
 const generateToken = require("../../helpers/userfeatures.js");
 
 const router = express.Router();
+
 router.post("/", async (request, response) => {
     const { user, password } = request.body;
-
+    
     try {
-        // retornar usuário
         const results = await login(user, password);
 
         if (results.length > 0) {

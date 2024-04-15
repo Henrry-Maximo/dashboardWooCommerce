@@ -1,38 +1,38 @@
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: "http://10.10.2.16:8080/mov-painel",
-});
-const API_BASE_URL = "http://10.10.2.16:8080/mov-painel";
-const token = sessionStorage.getItem("jwt");
+const baseURL = "http://10.10.2.16:8080/mov-painel";
+
+export const api = axios.create({ baseURL });
+
+export function configureAxios(token) {
+  return axios.create({
+    baseURL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
 
 export const fetchOrders = async () => {
   try {
-    let response = await axios.get(`${API_BASE_URL}/orders`, { headers: {
-      Authorization: `Bearer ${token}`
-    }});
-
-    if (response.status === 200) {
-      return response.data;
-    }
+    const token = sessionStorage.getItem("jwt");
+    const apiToken = configureAxios(token);
+    const response = await apiToken.get("/orders");
+    return response.data;
   } catch (err) {
-    console.error("Sem acesso à API de dados (orders)", err.message);
+    console.error("Erro ao acessar a API de dados (orders)", err);
+    throw err;
   }
 };
 
 export const fetchOrderSla = async () => {
-  
   try {
-    let response = await axios.get(`${API_BASE_URL}/order-data-sla`, { headers: {
-      Authorization: `Bearer ${token}`
-    }});
-
-    if (response.status === 200) {
-      return response.data;
-    }
+    const token = sessionStorage.getItem("jwt");
+    const apiToken = configureAxios(token);
+    const response = await apiToken.get("/order-data-sla");
+    return response.data;
   } catch (err) {
-    alert("Sem acesso à API de dados (sla).");
+    console.error("Erro ao acessar a API de dados (sla)", err);
+    throw err;
   }
 };
-
-export default api;
