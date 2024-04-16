@@ -19,7 +19,7 @@ const Login = (request, response) => {
 
     try {
       const dataLogin = {
-        user: formattedUser,
+        username: formattedUser,
         password: formattedPassword,
       };
 

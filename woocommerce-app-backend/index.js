@@ -1,13 +1,18 @@
-const orderRoutes = require("./src/routes/orders");
+// Importando as rotas de pedidos do arquivo de rotas
+const routes = require("./src/routes/ordersRoutes");
 const express = require("express");
 const cors = require("cors");
-const PORT = process.env.PORT || 8080;
 
+const PORT = process.env.PORT || 8080;
 const app = express();
+
+// Configurando o CORS para permitir solicitações de diferentes origens
 app.use(cors());
+
+// Utilizando o middleware para analisar solicitações JSON
 app.use(express.json());
 
-app.use("/mov-painel", orderRoutes);
+app.use("/mov-painel", routes);
 
 try {
   app.listen(PORT, () => {

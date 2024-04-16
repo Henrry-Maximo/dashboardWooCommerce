@@ -4,22 +4,27 @@ const generateToken = require("../../helpers/userfeatures.js");
 
 const router = express.Router();
 
-router.post("/", async (request, response) => {
-    const { user, password } = request.body;
+router.post("/", async (req, res) => {
+    const { username, password } = req.body;
+
+    // verificar senha
+    if (!username && !password) {
+        return res.writeHead(400).end(JSON.stringify({ message: "usuário e senha são obrigatórios." }))
+    }
     
     try {
-        const results = await login(user, password);
+        const results = await login(username, password);
 
         if (results.length > 0) {
-            const { id, user } = results[0];
-            const token = generateToken(id, user);
+            const { id_user, name_user } = results[0];
+            const token = generateToken(id_user, name_user);
 
-            response.status(200).send({ message: "Login efetuado com sucesso.", token});
+            res.status(200).send({ message: "Login efetuado com sucesso.", token});
         } else {
-            response.status(401).send({ message: "Login ou senha inválidos." });
+            res.status(401).send({ message: "Login ou senha inválidos." });
         }
     } catch (error) {
-        response.status(500).send({ message: `Encontramos um Erro: ${error}` });
+        res.status(500).send({ message: `Encontramos um Erro: ${error}` });
     }
 }
 );

@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-
 const secret = "movpedidosdashboard";
 
 function generateToken(id, user) {
