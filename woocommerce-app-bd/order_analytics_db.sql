@@ -22,13 +22,6 @@ create table dashboard_orders (
    active CHAR(1)
 );
 
-INSERT INTO dashboard_orders (ID_ORDER, STATUS, DATE_CREATED, ACTIVE)
-VALUES ("2324", "nfe-emitida",  "2023-12-12 07:07:56", '1'),
-       ("4000", "nfe-emitida", "2023-12-12 07:07:56", '1'),
-       ("4001", "pedido_separacao", "2023-12-12 07:07:56", '1'),
-       ("4002", "nfe-emitida",  "2023-12-12 07:07:56", '1'),
-       ("4003", "transporte",  "2023-12-12 07:07:56", '1');
-
 -- Cria a tabela dashboard_orders_line
 create table dashboard_orders_line (
    id INT(11) PRIMARY KEY,
@@ -66,12 +59,6 @@ create table dashboard_slas (
    data_creation TIMESTAMP
 );
 
-INSERT INTO dashboard_slas (NAME, STATUS, NUMBER_TIME, DEFINITION_TIME, DATA_CREATION)
-VALUES ("4 Horas", "nfe-emitida", 4, "hour", "2023/08/24"),
-       ("8 Horas", "retirada", 8, "hour", "2023/08/24"),
-       ("16 Horas", "pedido_separacao", 16, "hour", "2023/08/24"),
-       ("22 Horas", "transporte", 22, "hour", "2023/08/24");
-
 CREATE TABLE dashboard_order_sla (
   id INT(11) PRIMARY KEY AUTO_INCREMENT,
   order_id INT(11), -- pedido
@@ -81,3 +68,12 @@ CREATE TABLE dashboard_order_sla (
   FOREIGN KEY (order_id) REFERENCES dashboard_orders(id_order),
   FOREIGN KEY (sla_id) REFERENCES dashboard_slas(id)
 );
+
+INSERT INTO dashboard_users (name, password)
+VALUES ("Admin", "@123");
+
+INSERT INTO dashboard_slas (NAME, STATUS, NUMBER_TIME, DEFINITION_TIME, DATA_CREATION)
+VALUES ("8 Horas", "nfe-emitida", 8, "hour", "2023/08/24"),
+       ("8 Horas", "retirada", 8, "hour", "2023/08/24"),
+       ("8 Horas", "pedido_separacao", 8, "hour", "2023/08/24"),
+       ("8 Horas", "transporte", 8, "hour", "2023/08/24");

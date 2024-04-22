@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const secret = "movpedidosdashboard";
+const secret = process.env.TOKEN_SECRET;
 
 function generateToken(id, user) {
     return jwt.sign({ infoUser: { id, user: user }}, secret, {

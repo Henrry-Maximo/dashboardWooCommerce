@@ -5,28 +5,33 @@ const generateToken = require("../../helpers/userfeatures.js");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
-    // verificar senha
-    if (!username && !password) {
-        return res.writeHead(400).end(JSON.stringify({ message: "usuário e senha são obrigatórios." }))
+  // Validar entrada de dados
+  if (!username || !password) {
+    return res.status(401).send({ message: "Credenciais inválidas." });
+  }
+
+  try {
+    const isValidCredentials = await login(username, password);
+
+    if (!isValidCredentials){
+        return res.status(401).send({ messsage: "Usuário não existe." })
     }
-    
-    try {
-        const results = await login(username, password);
 
-        if (results.length > 0) {
-            const { id_user, name_user } = results[0];
-            const token = generateToken(id_user, name_user);
+    if (isValidCredentials.length > 0) {
+      const { id_user, name_user } = isValidCredentials[0];
+      const token = generateToken(id_user, name_user);
 
-            res.status(200).send({ message: "Login efetuado com sucesso.", token});
-        } else {
-            res.status(401).send({ message: "Login ou senha inválidos." });
-        }
-    } catch (error) {
-        res.status(500).send({ message: `Encontramos um Erro: ${error}` });
+      res.status(200).send({ message: "Login efetuado com sucesso.", token });
+    } else {
+      res.status(401).send({ message: "Login ou senha inválidos." });
     }
-}
-);
+  } catch (error) {
+    res.status(500).send({
+      message: `Ocorreu um erro no login. Por favor, contate um administrador.`,
+    });
+  }
+});
 
 module.exports = router;
