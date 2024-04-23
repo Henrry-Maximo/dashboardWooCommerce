@@ -9,7 +9,6 @@ import { GrConfigure } from "react-icons/gr";
 
 
 const DashboardSidebar = ({ menuOpen, closeMenu }) => {
-  console.log(`teste: ${menuOpen}`);
   return (
     <aside className={`sidebar ${menuOpen ? "" : "open"}`}>
       <nav className="sidebar-nav">

@@ -144,8 +144,11 @@ async function appendOrdersOut(missingOrders) {
 }
 
 async function processOrder(order) {
+  // consulta/confere se pedido entregue pela api existe no banco de dados
   const resultOrders = await getOrderById(order.id);
 
+  // não existe = insere : se existir e status for diferente entre bd e api
+  // atualiza o pedido
   if (resultOrders.length === 0) {
     await insertNewOrder(order);
   } else if (resultOrders[0].status !== order.status) {
@@ -155,11 +158,15 @@ async function processOrder(order) {
 
 const getOrderData = async (req, res) => {
   try {
-    // obter os dados dos pedidos da API
-    const orders = await response();
+    // função de dados da API
+    const ordersFilterData = await response();
+    // console.log("teste");
 
-    for (let i = 0; i < orders.length; i++) {
-      const order = orders[i]; // retorno da API
+    // percorrendo o array
+    for (const orders of ordersFilterData) {
+      const order = orders; // retorno da API
+
+      // encaminha os dados dos pedidos da API
       await processOrder(order);
 
       /* função: desativar no banco de dados - pedidos entregues pela API
@@ -195,6 +202,17 @@ const getOrderDataSla = async (req, res) => {
     throw error;
   }
 };
+
+// separar a execução da chamada da api para me retornar os dados: isolar
+// criar uma função para tratar da consulta ao banco com os pedidos
+
+// script para tratar dos dados retornados da api: executar todas as
+// lógicas necessarias, alimentando o banco de dados com as atualizações.
+// Serão chamados por uma função que estará dentro de uma função anônima 
+// sendo requisitada por uma determinada rota.
+
+// função principal: vai manter toda a lógica - CRUD.
+// separar as operações do bd, manter em um arquivo databaseModel.js 
 
 module.exports = {
   getOrderData,

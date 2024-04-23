@@ -5,7 +5,7 @@ import DashboardSidebar from "../../components/Dashboard/DashboardSidebar.js";
 import DashboardFooter from "../../components/Dashboard/DashboardFooter.js";
 import DashboardCenter from "../../components/Dashboard/DashboardCenter.js";
 
-// import "../../assets/styles/Home.css";
+// import styles from "../../assets/styles/Home.css";
 import Welcome from './Welcome.js';
 import About from './About.js';
 
@@ -26,7 +26,7 @@ const Home = () => {
         <DashboardSidebar style={{ width: "256px" }} menuOpen={menuOpen} closeMenu={() => setMenuOpen(false)} />
         <div style={{ flex: "1", padding: "0px 5px" }}>
           {pathname === "/" && <Welcome />}
-          {pathname === "/dashboard" && <DashboardCenter />}
+          {pathname === "/dashboard" && <DashboardCenter  />}
           {pathname === "/sobre" && <About />}
         </div>
       </div>

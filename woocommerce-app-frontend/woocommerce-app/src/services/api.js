@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://10.10.2.16:8080/mov-painel";
-
+const baseURL = "http://localhost:8080/mov-painel";
 export const api = axios.create({ baseURL });
 
 export function configureAxios(token) {
