@@ -1,3 +1,4 @@
+// config database
 const db = require("../database/db.js");
 
 async function login(user, password) {

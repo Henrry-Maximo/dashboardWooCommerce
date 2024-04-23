@@ -160,11 +160,11 @@ const getOrderData = async (req, res) => {
   try {
     // função de dados da API
     const ordersFilterData = await response();
-    // console.log("teste");
+    // console.log(ordersFil  terData);
 
     // percorrendo o array
-    for (const orders of ordersFilterData) {
-      const order = orders; // retorno da API
+    for (let i = 0; i < ordersFilterData.length; i++) {
+      const order = ordersFilterData[i]; // retorno da API
 
       // encaminha os dados dos pedidos da API
       await processOrder(order);
@@ -172,8 +172,8 @@ const getOrderData = async (req, res) => {
       /* função: desativar no banco de dados - pedidos entregues pela API
       verificar se pedidos coincidem com os do bd, retornando aqueles que não foram retornados pela API
       aplicando desativamento nos não-retornados */
-      const ordersListOut = await getOrdersOut(orders);
-      appendOrdersOut(ordersListOut);
+      // const ordersListOut = await getOrdersOut(order);
+      // appendOrdersOut(ordersListOut);
     }
 
     const queryConsultOrders =
@@ -198,7 +198,7 @@ const getOrderDataSla = async (req, res) => {
     res.json(resultOrders);
   } catch (error) {
     res.status(500).json({ error: "Falha ao obter SLA das ordens." });
-    console.error(error.message);
+    console.error(error.messaxge);
     throw error;
   }
 };

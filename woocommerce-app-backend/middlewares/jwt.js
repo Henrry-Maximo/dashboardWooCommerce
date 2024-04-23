@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const secret = "movpedidosdashboard";
+const secret = process.env.TOKEN_SECRET;
 
 function verifyJWT(req, res, next) {
   const authHeader = req.headers.authorization;
