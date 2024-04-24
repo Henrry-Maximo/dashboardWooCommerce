@@ -1,42 +1,38 @@
 const connect = require("../services/api.js");
+const { parse, format } = require("date-fns");
 
-async function returnAllOrders() {
-    try {
-        const response = await connect.api();
-        const arrayOrders = [];
+async function formattedOrdersData() {
+  const ordersData = await connect.getOrdersData();
+  const formattedOrders = [];
 
-        // Itera sobre as chaves do objeto response
-        for (const status in response) {
-            if (response.hasOwnProperty(status)) {
-                // Itera sobre cada pedido dentro da lista correspondente
-                response[status].forEach(order => {
-                    const dateTimeParts = order.created_at.split(' ');
-
-                    // Divide a parte da data em dia, mês e ano
-                    const dateParts = dateTimeParts[0].split('/');
-                    const day = dateParts[0];
-                    const month = dateParts[1];
-                    const year = dateParts[2];
-
-                    // Obtém o formato "AAAA-MM-DD HH:MM:SS"
-                    const formattedDate = `${year}-${month}-${day} ${dateTimeParts[1]}`;
-
-                    arrayOrders.push({
-                        id: order.order_id,
-                        date: formattedDate,
-                        status: status,
-                        tag:order.printed,
-                    });
-                });
-            }
-        }
-
-        return arrayOrders;
-    } catch (err) {
-        console.error(`Erro ao obter os pedidos: ${err.message}`);
+  try {
+    // Função para formatar a data (MySQL - yyyy-MM-dd HH:mm:ss)
+    function formatDate(dateString) {
+      const parsedDate = parse(dateString, "dd/MM/yyyy HH:mm:ss", new Date());
+      return format(parsedDate, "yyyy-MM-dd HH:mm:ss");
     }
+
+    for (const status in ordersData) {
+      if (ordersData.hasOwnProperty(status)) {
+        ordersData[status].forEach((order) => {
+          formattedOrders.push({
+            id: order.order_id,
+            order_number: order.order_number,
+            status: status,
+            printed: order.printed,
+            date_created: formatDate(order.created_at),
+            date_modified: formatDate(order.modified_at),
+          });
+        });
+      }
+    }
+
+    return formattedOrders;
+  } catch (err) {
+    console.error(`Erro na tratativa dos pedidos: ${err.message}`);
+  }
 }
 
 module.exports = {
-    response: returnAllOrders,
+    formatOrderData: formattedOrdersData,
 };

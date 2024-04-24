@@ -1,5 +1,5 @@
 // config database
-const db = require("../database/db.js");
+const db = require("../database/configDatabase.js");
 
 async function login(user, password) {
     const connection = db.promise();
