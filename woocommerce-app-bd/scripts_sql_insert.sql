@@ -12,12 +12,8 @@ SELECT * FROM dashboard_order_sla; # tabela pedidos associados ao SLA
 -- Inserção:
 
 # Inserção de Pedidos na tabela "dashboard_orders"
-#INSERT INTO dashboard_orders (ID_ORDER, STATUS, DATE_CREATED, ACTIVE)
-#VALUES ("2324", "nfe-emitida",  "2023-12-12 07:07:56", '1'),
-#       ("4000", "nfe-emitida", "2023-12-12 07:07:56", '1'),
-#       ("4001", "pedido_separacao", "2023-12-12 07:07:56", '1'),
-#       ("4002", "nfe-emitida",  "2023-12-12 07:07:56", '1'),
-#       ("4003", "transporte",  "2023-12-12 07:07:56", '1');
+INSERT INTO dashboard_orders (ID_ORDER, STATUS, DATE_CREATED, ACTIVE)
+VALUES ("2324", "nfe-emitida",  "2023-12-12 07:07:56", '1');
        
 INSERT INTO dashboard_users (name, password)
 VALUES ("Edivanei", "@12345");

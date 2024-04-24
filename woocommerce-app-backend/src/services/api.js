@@ -40,16 +40,15 @@ const api = new WooCommerceRestApi({
 });
 
 // Função para buscar os pedidos da API
-async function fetchDataOrders() {
+async function fetchDataOrders(req, res) {
   try {
     // Requisição para obter os dados / retornar 12 pedidos de cada status
-    const response = await api.get("logistica/dashboard?limit=12");
+    const response = await api.get("logistica1/dashboard?limit=12");
 
     // Retorna os dados obtidos
     return response.data;
   } catch (error) {
-    console.error("Erro na solitação dos pedidos:", error.message);
-    // throw error; // Lança o erro para tratamento externo, se necessário
+    throw error; 
   }
 }
 

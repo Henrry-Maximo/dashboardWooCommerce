@@ -3,25 +3,20 @@ const { Database } = require("../models/databaseModel.js");
 
 const db = new Database();
 
-
 // Arguments for on and off orders in bd
 const orderActiveOn = "1";
 
 // get all information of orders
-async function getOrderById(orderId) {
-}
+async function getOrderById(orderId) {}
 
 // identify order of status sla
-async function getSlaByStatus(statusSLA) {
-}
+async function getSlaByStatus(statusSLA) {}
 
-// add sla for order 
-async function addOrderSla(orderId, orderDate, slaId, sla_start) {
-}
+// add sla for order
+async function addOrderSla(orderId, orderDate, slaId, sla_start) {}
 
 // update sla for all orders
-async function updateOrderSla(date, id, time, order) {
-}
+async function updateOrderSla(date, id, time, order) {}
 
 /* se o perdido retornado pela API não existir, então inserir     - NOVO
 não existe, então cadastra SLA também                          - NOVO
@@ -29,39 +24,53 @@ se existir, mas os status diferem (BD && API):
 então atualiza o status e data do BD com a resposta da API     - ATUALIZA
 também atualiza o cadastro de status do pedido refente ao SLA  - ATUALIZA */
 // registration of new orders #02
-async function insertNewOrder(order) {
-}
+async function insertNewOrder(order) {}
 
 // update of new orders and sla
-async function updateExistingOrder(order, resultOrder) {
-}
+async function updateExistingOrder(order, resultOrder) {}
 
 // select orders that not were delivered for API
-async function getOrdersOut(orders) {
-}
+async function getOrdersOut(orders) {}
 
 // dasactivated orders were delivered
-async function appendOrdersOut(missingOrders) {
-}
+async function appendOrdersOut(missingOrders) {}
 
-async function processOrder(order) {
-}
+async function processOrder(order) {}
 
 const getOrderData = async (req, res) => {
   try {
     const fetchApiData = await formatOrderData();
-    const {id, order_number, status, printed, date_created, date_modified} = fetchApiData;
+    const ordersFromDatabase = [];
 
-    const fetchOrderDatabase = db.getOrder(id);
-    if (!fetchOrderDatabase) {
-      return response.status(404).send({ message: "Id do pedido não encontrado" });
+    // pegar os pedidos retornados da api e consultar no bd
+    for (const line of fetchApiData) {
+      const orderFromDatabaseArray = await db.getOrder(line.id);
+      const orderFromDatabase = orderFromDatabaseArray[0]; // Acessar o primeiro elemento do array
+
+      if (!orderFromDatabase) {
+        console.log("Pedido não encontrado");
+      }
+
+      ordersFromDatabase.push(orderFromDatabase);
     }
 
     res.setHeader("Content-Type", "application/json");
-    res.json(fetchApiData);
+    res.status(200).json(ordersFromDatabase);
   } catch (error) {
-    res.status(500).json({ error: "Falha ao obter pedidos." });
-    console.error(error.message);
+    switch (error.status) {
+      case 500:
+        res
+          .status(500)
+          .json({ error: "Problema de conexão", message: `${error.message}` });
+        break;
+      case 404:
+        res
+          .status(404)
+          .json({ error: "Recurso não encontrado", message: `${error.message}` });
+        break;
+      default:
+        res.json({ error: "Erro inesperado", message: `${error.message}` });
+    }
   }
 };
 
@@ -85,14 +94,13 @@ const getOrderData = async (req, res) => {
 
 // script para tratar dos dados retornados da api: executar todas as
 // lógicas necessarias, alimentando o banco de dados com as atualizações.
-// Serão chamados por uma função que estará dentro de uma função anônima 
+// Serão chamados por uma função que estará dentro de uma função anônima
 // sendo requisitada por uma determinada rota.
 
 // função principal: vai manter toda a lógica - CRUD.
-// separar as operações do bd, manter em um arquivo databaseModel.js 
+// separar as operações do bd, manter em um arquivo databaseModel.js
 
 module.exports = {
   getOrderData,
   // getOrderDataSla,
 };
-
