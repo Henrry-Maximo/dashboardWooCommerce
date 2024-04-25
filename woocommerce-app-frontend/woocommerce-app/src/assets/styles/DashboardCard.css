@@ -44,5 +44,5 @@
   color: #000000;
   font-size: 18px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
