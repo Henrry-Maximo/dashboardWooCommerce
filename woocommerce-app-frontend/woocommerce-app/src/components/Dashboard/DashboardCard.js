@@ -7,6 +7,8 @@ import { calculateBackgroundColor } from "../../utils/helpers.js";
 // import PopoverComponent from "../../components/Popover/index.js";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import { RxLapTimer } from "react-icons/rx";
+import { FaRegCheckCircle } from "react-icons/fa";
+import { RxCrossCircled } from "react-icons/rx";
 
 function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
   let [slaData, setSlaData] = useState({});
@@ -96,9 +98,9 @@ function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
         </Card.Title>
 
         <Card.Text className="card-data">
-          <div>
+          <div className="card-printed">
             <strong>Impresso: </strong>
-            {orderPrinted ? "true" : "false"}
+            {orderPrinted ? <FaRegCheckCircle /> : <RxCrossCircled /> }
           </div>
           <div>
             <strong>Data: </strong>
