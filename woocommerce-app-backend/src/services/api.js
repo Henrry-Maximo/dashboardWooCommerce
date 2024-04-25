@@ -43,11 +43,12 @@ const api = new WooCommerceRestApi({
 async function fetchDataOrders(req, res) {
   try {
     // Requisição para obter os dados / retornar 12 pedidos de cada status
-    const response = await api.get("logistica1/dashboard?limit=12");
+    const response = await api.get("logistica/dashboard?limit=12");
 
     // Retorna os dados obtidos
     return response.data;
   } catch (error) {
+    res.status(404).end();
     throw error; 
   }
 }

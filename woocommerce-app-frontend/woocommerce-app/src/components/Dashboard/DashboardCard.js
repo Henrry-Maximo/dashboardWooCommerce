@@ -8,17 +8,21 @@ import { calculateBackgroundColor } from "../../utils/helpers.js";
 // import "bootstrap/dist/css/bootstrap.min.css";
 import { RxLapTimer } from "react-icons/rx";
 
-function OrderCard({ orderId, orderDate }) {
+function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
   let [slaData, setSlaData] = useState({});
   const [remainingTime, setRemainingTime] = useState("");
   const [isHovered, setIsHovered] = useState(false);
+
   useEffect(() => {
     async function fetchData() {
       try {
         const ordersData = await fetchOrderSla(orderId);
-        setSlaData(
-          ordersData.find((order) => order.order_id === orderId) || {}
-        );
+
+        if (!!ordersData) {
+          setSlaData(
+            ordersData.find((order) => order.order_id === orderId) || {}
+          );
+        }
 
         calcularTempoRestante();
       } catch (error) {
@@ -64,7 +68,14 @@ function OrderCard({ orderId, orderDate }) {
       // clearInterval(fetchDataInterval);
       clearInterval(calculateInterval);
     };
-  }, [orderId, orderDate, slaData.date_order, slaData.sla_start]);
+  }, [
+    orderId,
+    orderPrinted,
+    orderDate,
+    orderDateModified,
+    slaData.date_order,
+    slaData.sla_start,
+  ]);
 
   const backgroundColor = calculateBackgroundColor(remainingTime); // alart for warning order
   return (
@@ -74,20 +85,26 @@ function OrderCard({ orderId, orderDate }) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <Card.Body id="container-card">
-          <Card.Title className="card-title">
-          <div>Pedido: {orderId}</div>
-            <Card.Text className="card-time" style={{ backgroundColor }}>
-              <RxLapTimer alt="Time Icon" />
-              <div>
-                <strong>{remainingTime}</strong>
-              </div>
-            </Card.Text>
-          </Card.Title>
+        <Card.Title className="card-title">
+          <div>Pedido: {orderId} </div>
+          <Card.Text className="card-time" style={{ backgroundColor }}>
+            <RxLapTimer alt="Time Icon" />
+            <div>
+              <strong>{remainingTime}</strong>
+            </div>
+          </Card.Text>
+        </Card.Title>
 
         <Card.Text className="card-data">
-          <strong>Data</strong>:{" "}
-          {moment(orderDate).format("DD/MM/YYYY HH:mm:ss")}
-          {/* <PopoverComponent order={orderId} /> */}
+          <div>
+            <strong>Impresso: </strong>
+            {orderPrinted ? "true" : "false"}
+          </div>
+          <div>
+            <strong>Data: </strong>
+            {moment(orderDate).format("DD/MM/YYYY HH:mm:ss")}
+            {/* <PopoverComponent order={orderId} /> */}
+          </div>
         </Card.Text>
       </Card.Body>
     </Card>

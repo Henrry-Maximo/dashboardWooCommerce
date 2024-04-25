@@ -19,7 +19,7 @@ async function formattedOrdersData() {
             id: order.order_id,
             order_number: order.order_number,
             status: status,
-            printed: order.printed,
+            printed: order.printed ? 1 : 0,
             date_created: formatDate(order.created_at),
             date_modified: formatDate(order.modified_at),
           });

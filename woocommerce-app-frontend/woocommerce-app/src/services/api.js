@@ -19,8 +19,14 @@ export const fetchOrders = async () => {
     const response = await apiToken.get("/orders");
     return response.data;
   } catch (err) {
-    console.error("Erro ao acessar a API de dados (orders)", err);
-    throw err;
+    if (err.response && err.response.status === 401) {
+      sessionStorage.removeItem("jwt");
+      alert("Token expirado");
+      window.location.href = "/login";
+    } else {
+    //   console.error("Erro ao acessar a API de dados (orders)", err);
+    // throw err;
+    }
   }
 };
 
@@ -31,7 +37,7 @@ export const fetchOrderSla = async () => {
     const response = await apiToken.get("/order-data-sla");
     return response.data;
   } catch (err) {
-    console.error("Erro ao acessar a API de dados (sla)", err);
-    throw err;
+    // console.error("Erro ao acessar a API de dados (sla)", err);
+    // throw err;
   }
 };

@@ -3,26 +3,55 @@ const { Database } = require("../models/databaseModel.js");
 
 const db = new Database();
 
+// class OrderController {
+//   constructor(db) {
+//     this.db = db;
+//   }
+// }
+
 const getOrderData = async (req, res) => {
   try {
     const fetchApiData = await formatOrderData();
     const ordersFromDatabase = [];
 
-    for (const line of fetchApiData) {
-      // pegar os pedidos retornados da api e inserir no bd
-      const orderFromDatabase = await db.getOrder(line.id);
+    // função para selecionar pedido no database
+    async function getOrderDatabase(row) {
+      const orderFromDatabase = await db.getOrder(row);
       const order = orderFromDatabase[0];
-      if (!order) {
-        await db.insertOrder(
-          line.id,
-          line.order_number,
-          line.status,
-          line.printed,
-          line.date_created,
-          line.date_modified
-        );
-      }
+      return order;
     }
+
+    // função para selecionar pedido na api
+    async function getOrderApi() {
+      const orderFromApi = await formatOrderData();
+      const orders = [];
+      for (const row of orderFromApi) {
+        const order = row;
+        orders.push(order);
+      }
+      return orders;
+    }
+
+    // pegar os pedidos retornados da api e inserir no bd (se não existir)
+    async function postOrderDatabase() {
+      const fetchNewOrder = await getOrderApi();
+      fetchNewOrder.forEach(async (row) => {
+        const fetchDatabaseOrder = await getOrderDatabase(row.id);
+
+        if (!fetchDatabaseOrder) {
+          await db.insertOrder(
+            row.id,
+            row.order_number,
+            row.status,
+            row.printed,
+            row.date_created,
+            row.date_modified
+          );
+          console.log("Pedido inserido com sucesso");
+        }
+      });
+    }
+    postOrderDatabase();
 
     // pegar os pedidos retornados da api e consultar no bd
     for (const line of fetchApiData) {
@@ -47,12 +76,15 @@ const getOrderData = async (req, res) => {
         break;
       case 404:
         res.status(404).json({
-          error: "Recurso não encontrado",
+          error: "Recurso não encontrado. Problema de Conexão a API",
           message: `${error.message}`,
         });
         break;
       default:
-        res.json({ error: "Erro inesperado", message: `${error.message}` });
+        console.log(error.status);
+        res
+          .status(500)
+          .json({ error: "Erro inesperado", message: `${error.message}` });
     }
   }
 };

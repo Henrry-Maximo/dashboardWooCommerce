@@ -14,8 +14,10 @@ function DashboardCenter() {
   const [orders, setOrders] = useState([]);
 
   const getOrdersApi = async () => {
-    let ordersNewData = await fetchOrders();
-    setOrders(ordersNewData);
+    const ordersNewData = await fetchOrders();
+    if (!!ordersNewData) {
+      setOrders(ordersNewData);
+    }
   };
 
   useEffect(() => {
@@ -35,7 +37,7 @@ function DashboardCenter() {
       return 0;
     }
   };
-  
+
   const renderOrderCards = (status) => {
     if (orders) {
       return orders
@@ -43,13 +45,21 @@ function DashboardCenter() {
         .map((order) => (
           <OrderCard
             key={order.id}
-            orderId={order.id_order}
+            orderId={order.order_number}
+            orderPrinted={order.printed}
             orderDate={order.date_created}
+            orderDateModified={order.date_modified}
           />
         ));
     } else {
       // Exibir uma mensagem de carregamento ou erro na interface do usuário
-      return <p>Falha na conexão.<br/>Por favor, tente novamente mais tarde.</p>;
+      return (
+        <p>
+          Falha na conexão.
+          <br />
+          Por favor, tente novamente mais tarde.
+        </p>
+      );
     }
   };
 
@@ -60,7 +70,9 @@ function DashboardCenter() {
           <FaClipboardCheck className="dashboard-icon" />
           Liberado:
         </span>
-        <div className="dashboard-count">{countOrdersByStatus("nfe-emitida")}</div>
+        <div className="dashboard-count">
+          {countOrdersByStatus("nfe-emitida")}
+        </div>
         <div className="dashboard-cards">{renderOrderCards("nfe-emitida")}</div>
       </div>
       <div className="dashboard-column">
@@ -68,8 +80,12 @@ function DashboardCenter() {
           <FaBox className="dashboard-icon" />
           Separação:
         </span>
-        <div className="dashboard-count">{countOrdersByStatus("pedido_separacao")}</div>
-        <div className="dashboard-cards">{renderOrderCards("pedido_separacao")}</div>
+        <div className="dashboard-count">
+          {countOrdersByStatus("pedido_separacao")}
+        </div>
+        <div className="dashboard-cards">
+          {renderOrderCards("pedido_separacao")}
+        </div>
       </div>
       <div className="dashboard-column">
         <span className="dashboard-status">
@@ -84,7 +100,9 @@ function DashboardCenter() {
           <FaTruckFast className="dashboard-icon" />
           Transporte:
         </span>
-        <div className="dashboard-count">{countOrdersByStatus("transporte")}</div>
+        <div className="dashboard-count">
+          {countOrdersByStatus("transporte")}
+        </div>
         <div className="dashboard-cards">{renderOrderCards("transporte")}</div>
       </div>
     </div>
