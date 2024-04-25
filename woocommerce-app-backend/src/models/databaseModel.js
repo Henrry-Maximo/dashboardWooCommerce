@@ -19,6 +19,38 @@ class Database {
     }
   }
 
+  async insertOrder(
+    orderId,
+    number,
+    status,
+    printed,
+    date_created,
+    date_modified
+  ) {
+    try {
+      // Consulta para obter o pedido no banco de dados
+      const queryDatabase =
+        "INSERT INTO dashboard_orders(id_order, order_number, status, printed, date_created, date_modified) VALUES(?, ?, ?, ?, ?, ?)";
+      const queryApi = [
+        orderId,
+        number,
+        status,
+        printed,
+        date_created,
+        date_modified,
+      ];
+
+      const [rows] = await this.connection.query(queryDatabase, queryApi);
+
+      if (!!rows && rows.length > 0) {
+        console.log("Inserção feita com sucesso");
+      }
+    } catch (error) {
+      console.error("Erro ao inserir pedido no banco de dados:", error);
+      throw error; // Lança o erro para tratamento externo, se necessário
+    }
+  }
+
   // async insertUser(userData) {
   //   try {
   //     // Insira um novo usuário no banco de dados
@@ -38,5 +70,5 @@ class Database {
 // getOrder(10177);
 
 module.exports = {
-  Database
-}
+  Database,
+};

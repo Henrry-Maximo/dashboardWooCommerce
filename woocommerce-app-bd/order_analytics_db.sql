@@ -17,12 +17,12 @@ CREATE TABLE dashboard_users (
 -- Cria a tabela dashboard_orders
 create table dashboard_orders (
    id_order INT PRIMARY KEY AUTO_INCREMENT,
-   #order_number VARCHAR(20) NOT NULL,
+   order_number VARCHAR(20) NOT NULL,
    status VARCHAR(45) NOT NULL,
-   #printed BOOLEAN NOT NULL,
+   printed BOOLEAN NOT NULL,
    date_created DATETIME NOT NULL,
-   #date_modified DATETIME NOT NULL,
-   active BOOLEAN NOT NULL
+   date_modified DATETIME NOT NULL
+   #active BOOLEAN NOT NULL
 );
 
 -- Cria a tabela dashboard_orders_line
