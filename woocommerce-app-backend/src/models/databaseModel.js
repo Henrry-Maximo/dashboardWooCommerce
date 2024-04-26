@@ -38,7 +38,7 @@ class Database {
     try {
       // Inserir pedido no banco de dados
       const insertOrderQuery =
-        "INSERT INTO dashboard_orders(id_order, order_number, status, printed, date_created, date_modified) VALUES(?, ?, ?, ?, ?, ?)";
+        "INSERT INTO dashboard_orders(id_order, order_number, status, printed, date_created, date_modified, active) VALUES(?, ?, ?, ?, ?, ?, ?)";
       const [rows] = await this.connection.query(insertOrderQuery, [
         orderId,
         number,
@@ -46,6 +46,7 @@ class Database {
         printed,
         date_created,
         date_modified,
+        this.fetchActiveOrder ? 1 : 0
       ]);
 
       if (!!rows && rows.length > 0) {
@@ -59,16 +60,15 @@ class Database {
     }
   }
 
-  async updateOrder(orderId, status, printed, date_modified, active) {
+  async updateOrder(orderId, status, printed, date_modified) {
     try {
       // Consulta para obter o pedido no banco de dados
       const updateOrderQuery =
-        "INSERT INTO dashboard_orders(id_order, status, printed, date_modified, active) VALUES(?, ?, ?, ?) WHERE id_order = ?";
+        "UPDATE dashboard_orders SET status = ?, printed = ?, date_modified = ? WHERE id_order = ?";
       const [rows] = await this.connection.query(updateOrderQuery, [
         status,
         printed,
         date_modified,
-        active,
         [orderId],
       ]);
 

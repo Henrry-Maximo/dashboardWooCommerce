@@ -49,8 +49,33 @@ async function insertOrdersIntoDatabase() {
         row.date_created,
         row.date_modified
       );
-      console.log("Pedido inserido com sucesso");
-    } 
+    }
+  }
+}
+
+async function updateOrdersInDatabase() {
+  const fetchNewOrders = await getOrderDataFromApi();
+
+  for (const row of fetchNewOrders) {
+    const fetchDatabaseOrder = await db.getOrder(row.id);
+
+    if (!fetchDatabaseOrder) {
+      // await db.updateOrder(
+
+      // );
+      // console.log("Pedido desativado no banco de dados")
+      return null;
+    }
+
+    if (fetchDatabaseOrder) {
+      await db.updateOrder(
+        row.id,
+        row.status,
+        row.printed ? 1 : 0,
+        row.date_modified
+      );
+      console.log("Pedido atualizado com sucesso!");
+    }
   }
 }
 
@@ -59,6 +84,9 @@ const getOrderData = async (req, res) => {
   try {
     // Inserir novos pedidos no banco de dados
     await insertOrdersIntoDatabase();
+
+    // Atualizar pedidos no banco de dados
+    await updateOrdersInDatabase();
 
     // Obter os pedidos do banco de dados
     const ordersFromDatabase = await getOrderDataFromDatabase();
