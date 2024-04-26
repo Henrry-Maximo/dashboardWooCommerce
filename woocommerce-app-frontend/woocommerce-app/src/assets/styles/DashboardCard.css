@@ -44,5 +44,12 @@
   color: #000000;
   font-size: 18px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.card-printed {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }

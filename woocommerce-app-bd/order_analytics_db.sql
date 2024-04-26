@@ -21,8 +21,8 @@ create table dashboard_orders (
    status VARCHAR(45) NOT NULL,
    printed BOOLEAN NOT NULL,
    date_created DATETIME NOT NULL,
-   date_modified DATETIME NOT NULL
-   #active BOOLEAN NOT NULL
+   date_modified DATETIME NOT NULL,
+   active BOOLEAN NOT NULL
 );
 
 -- Cria a tabela dashboard_orders_line

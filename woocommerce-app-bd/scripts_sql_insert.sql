@@ -13,7 +13,7 @@ SELECT * FROM dashboard_order_sla; # tabela pedidos associados ao SLA
 
 # Inserção de Pedidos na tabela "dashboard_orders"
 INSERT INTO dashboard_orders (ID_ORDER, STATUS, DATE_CREATED, ACTIVE)
-VALUES ("2324", "nfe-emitida",  "2023-12-12 07:07:56", '1');
+VALUES (10699, "nfe-emitida",  "2024-04-24 15:11:23", '1');
        
 INSERT INTO dashboard_users (name, password)
 VALUES ("Edivanei", "@12345");
@@ -29,13 +29,13 @@ SET date_created = "2024-01-25 10:54:28"
 WHERE id_order = 8316;
 
 UPDATE dashboard_orders
-SET active = 0
+SET printed = 0
 WHERE id_order = 7584;
 
 -- Exclusão:
 
 DELETE FROM dashboard_orders 
-WHERE id_order = 7912;
+WHERE id_order = 10691;
     
 DELETE FROM dashboard_order_sla 
 WHERE id = 1;
