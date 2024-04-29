@@ -85,16 +85,6 @@ async function updateOrdersInDatabase() {
         await db.connection.query(query, rows);
       }
     }
-
-    // if (fetchDatabaseOrder) {
-    //   await db.updateOrder(
-    //     row.id,
-    //     row.status,
-    //     row.printed ? 1 : 0,
-    //     row.date_modified
-    //   );
-    //   // console.log("Pedido atualizado com sucesso!");
-    // }
   }
 }
 

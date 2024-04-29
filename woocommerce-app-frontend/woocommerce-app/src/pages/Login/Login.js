@@ -51,6 +51,7 @@ const Login = (request, response) => {
               placeholder="Digite seu usuário"
               value={user}
               onChange={(e) => setUser(e.target.value)}
+              required
             />
           </div>
           <div className="form-group">
@@ -62,6 +63,7 @@ const Login = (request, response) => {
               placeholder="Digite sua senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
           {error && <span className="error-message">{error}</span>}

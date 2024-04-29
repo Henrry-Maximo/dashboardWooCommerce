@@ -9,6 +9,8 @@ SELECT * FROM dashboard_orders_shipping; # tabela de pedidos associados à ender
 SELECT * FROM dashboard_slas; # tabela com definição do SLA
 SELECT * FROM dashboard_order_sla; # tabela pedidos associados ao SLA 
 
+SELECT * FROM dashboard_orders ORDER BY date_created ASC;
+
 -- Inserção:
 
 # Inserção de Pedidos na tabela "dashboard_orders"

@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
-const secret = process.env.TOKEN_SECRET;
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 function verifyJWT(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -16,7 +18,7 @@ function verifyJWT(req, res, next) {
   const [scheme, token] = parts;
   if (!/^Bearer$/i.test(scheme)) return res.status(401).send({ message: 'Token inválido.' });
 
-  jwt.verify(token, secret, (err, decoded) => {
+  jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
     if (err) {
       return res.status(401).send({
         message: 'Usuário não autenticado.'

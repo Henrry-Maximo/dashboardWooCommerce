@@ -12,7 +12,26 @@ class Database {
     try {
       // Consulta para obter o pedido no banco de dados
       const selectOrderQuery =
-        "SELECT * FROM dashboard_orders WHERE id_order = ?;";
+        "SELECT * FROM dashboard_orders WHERE id_order = ? ORDER BY date_created ASC;";
+      const [rows] = await this.connection.query(selectOrderQuery, [orderId]);
+
+      // Se não houver resultado, retornar null
+      if (rows.length === 0) {
+        return null;
+      }
+
+      return rows;
+    } catch (error) {
+      console.error("Erro ao obter pedido do banco de dados:", error);
+      throw error; // Lança o erro para tratamento externo, se necessário
+    }
+  }
+
+  async getOrderbyDateAsc(orderId) {
+    try {
+      // Consulta para obter o pedido no banco de dados
+      const selectOrderQuery =
+        "SELECT * FROM dashboard_orders WHERE date_created ASC;";
       const [rows] = await this.connection.query(selectOrderQuery, [orderId]);
 
       // Se não houver resultado, retornar null

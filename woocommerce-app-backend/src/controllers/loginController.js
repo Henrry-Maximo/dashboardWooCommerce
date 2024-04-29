@@ -1,23 +1,26 @@
 const express = require("express");
 const login = require("../services/loginService.js");
 const generateToken = require("../../helpers/userfeatures.js");
+const { validationResult } = require("express-validator");
 
 const router = express.Router();
 
 router.post("/", async (req, res) => {
   const { username, password } = req.body;
 
+  const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return response.status(400).json({ errors: errors.array() });
+    }
+
   // Validar entrada de dados
   if (!username || !password) {
-    return res.status(401).send({ message: "Credenciais inválidas." });
+    return res.status(401).send({ message: "Usuário ou senha está faltando." });
   }
 
   try {
     const isValidCredentials = await login(username, password);
-
-    if (!isValidCredentials){
-        return res.status(401).send({ messsage: "Usuário não existe." })
-    }
 
     if (isValidCredentials.length > 0) {
       const { id_user, name_user } = isValidCredentials[0];
@@ -25,7 +28,7 @@ router.post("/", async (req, res) => {
 
       res.status(200).send({ message: "Login efetuado com sucesso.", token });
     } else {
-      res.status(401).send({ message: "Login ou senha inválidos." });
+      res.status(401).send({ message: "Usuário ou senha incorretos." });
     }
   } catch (error) {
     res.status(500).send({
