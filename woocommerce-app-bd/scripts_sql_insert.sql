@@ -25,12 +25,16 @@ SET sla_id = 2, sla_start = 8
 WHERE order_id = 8009;
 
 UPDATE dashboard_orders
-SET date_created = "2024-01-25 10:54:28"
-WHERE id_order = 8316;
+SET status = "pedido_separacao"
+WHERE id_order = 10279;
 
 UPDATE dashboard_orders
 SET printed = 1
-WHERE id_order = 10688;
+WHERE id_order = 10279;
+
+UPDATE dashboard_orders
+SET active = 0
+WHERE id_order = 10284;
 
 -- Exclusão:
 

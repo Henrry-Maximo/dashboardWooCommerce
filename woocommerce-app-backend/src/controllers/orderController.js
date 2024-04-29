@@ -55,27 +55,46 @@ async function insertOrdersIntoDatabase() {
 
 async function updateOrdersInDatabase() {
   const fetchNewOrders = await getOrderDataFromApi();
+  const desactiveOrderInDatabase = false; // parâmetro utilizado para desativar visualização
 
   for (const row of fetchNewOrders) {
     const fetchDatabaseOrder = await db.getOrder(row.id);
 
-    if (!fetchDatabaseOrder) {
-      // await db.updateOrder(
-
-      // );
-      // console.log("Pedido desativado no banco de dados")
-      return null;
-    }
-
-    if (fetchDatabaseOrder) {
+    // atualizar se dados não convergirem
+    if (
+      (fetchDatabaseOrder.length > 0 &&
+        fetchDatabaseOrder[0].status !== row.status) ||
+      fetchDatabaseOrder[0].printed !== row.printed ||
+      fetchDatabaseOrder[0].date_modified !== row.date_modified
+    ) {
       await db.updateOrder(
-        row.id,
+        fetchDatabaseOrder[0].id_order,
         row.status,
-        row.printed ? 1 : 0,
+        row.printed,
         row.date_modified
       );
-      console.log("Pedido atualizado com sucesso!");
     }
+
+    // desativar no banco pedidos não retornados
+    const fetchMissingOrders = await db.selectMissingOrders(fetchNewOrders);
+    if (fetchMissingOrders[0]) {
+      {
+        const missingOrder = fetchMissingOrders[0].id_order;
+        const query = `UPDATE dashboard_orders SET active = ? WHERE id_order = ? AND active <> 0`;
+        const rows = [desactiveOrderInDatabase ? 1 : 0, missingOrder];
+        await db.connection.query(query, rows);
+      }
+    }
+
+    // if (fetchDatabaseOrder) {
+    //   await db.updateOrder(
+    //     row.id,
+    //     row.status,
+    //     row.printed ? 1 : 0,
+    //     row.date_modified
+    //   );
+    //   // console.log("Pedido atualizado com sucesso!");
+    // }
   }
 }
 

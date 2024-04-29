@@ -14,7 +14,7 @@ class Database {
       const selectOrderQuery =
         "SELECT * FROM dashboard_orders WHERE id_order = ?;";
       const [rows] = await this.connection.query(selectOrderQuery, [orderId]);
-      
+
       // Se não houver resultado, retornar null
       if (rows.length === 0) {
         return null;
@@ -46,7 +46,7 @@ class Database {
         printed,
         date_created,
         date_modified,
-        this.fetchActiveOrder ? 1 : 0
+        this.fetchActiveOrder ? 1 : 0,
       ]);
 
       if (!!rows && rows.length > 0) {
@@ -78,6 +78,16 @@ class Database {
     } catch (error) {
       console.error("Erro ao atualizar pedido:", error);
       throw error;
+    }
+  }
+
+  async selectMissingOrders(orders) {
+    if (orders.length > 0) {
+      const selectMissingOrders = `SELECT * FROM dashboard_orders WHERE id_order NOT IN (?)`;
+      const [rows] = await this.connection.query(selectMissingOrders, [
+        orders.map((line) => line.id),
+      ]);
+      return rows || [];
     }
   }
 
