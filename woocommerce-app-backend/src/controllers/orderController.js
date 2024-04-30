@@ -16,21 +16,18 @@ async function getOrderDataFromApi() {
 
 // Função para acessar os pedidos do banco de dados
 async function getOrderDataFromDatabase() {
-  const fetchApiData = await getOrderDataFromApi();
+  // const fetchApiData = await getOrderDataFromApi();
   const ordersFromDatabase = [];
 
-  for (const line of fetchApiData) {
-    const orderFromDatabaseArray = await db.getOrder(line.id);
-    const orderFromDatabase = orderFromDatabaseArray[0]; // Acessar o primeiro elemento do array
+  const orderFromDatabaseArray = await db.getOrderbyDateAsc();
 
-    if (!orderFromDatabase) {
-      console.log("Pedido não encontrado");
-    }
-
-    ordersFromDatabase.push(orderFromDatabase);
+  if (!orderFromDatabaseArray) {
+    console.log("Não existe pedido para buscar.");
   }
 
-  return ordersFromDatabase;
+  // ordersFromDatabase.push(orderFromDatabaseArray);
+
+  return orderFromDatabaseArray;
 }
 
 // pegar os pedidos retornados da api e inserir no bd (se não existir)

@@ -27,12 +27,12 @@ class Database {
     }
   }
 
-  async getOrderbyDateAsc(orderId) {
+  async getOrderbyDateAsc() {
     try {
       // Consulta para obter o pedido no banco de dados
       const selectOrderQuery =
-        "SELECT * FROM dashboard_orders WHERE date_created ASC;";
-      const [rows] = await this.connection.query(selectOrderQuery, [orderId]);
+        "SELECT * FROM dashboard_orders ORDER BY date_created ASC;";
+      const [rows] = await this.connection.query(selectOrderQuery);
 
       // Se não houver resultado, retornar null
       if (rows.length === 0) {

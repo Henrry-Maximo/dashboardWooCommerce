@@ -8,8 +8,7 @@ SELECT * FROM dashboard_orders_line; # tabela de pedidos com dados específicos
 SELECT * FROM dashboard_orders_shipping; # tabela de pedidos associados à endereços
 SELECT * FROM dashboard_slas; # tabela com definição do SLA
 SELECT * FROM dashboard_order_sla; # tabela pedidos associados ao SLA 
-
-SELECT * FROM dashboard_orders ORDER BY date_created ASC;
+SELECT * FROM dashboard_orders order by date_created ASC;
 
 -- Inserção:
 
@@ -35,8 +34,8 @@ SET printed = 1
 WHERE id_order = 10279;
 
 UPDATE dashboard_orders
-SET active = 0
-WHERE id_order = 10284;
+SET active = 1
+WHERE id_order = 11692;
 
 -- Exclusão:
 
