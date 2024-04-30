@@ -15,14 +15,20 @@ function DashboardCenter() {
 
   const getOrdersApi = async () => {
     const ordersNewData = await fetchOrders();
-    if (!!ordersNewData) {
+
+    // if (!ordersNewData) {
+    //   console.error("Pedidos não obtidos.")
+    //   return null;
+    // }
+
+    try {
       setOrders(ordersNewData);
+    } catch (err) {
+      console.error(err);
     }
   };
 
-  useEffect(() => {
-    getOrdersApi();
-  }, [orders]);
+   
 
   // Contador de Pedidos da Coluna
   const countOrdersByStatus = (status) => {
@@ -33,7 +39,6 @@ function DashboardCenter() {
         throw new Error("Falha na conexão.");
       }
     } catch (error) {
-      // Você pode optar por retornar 0 ou outra resposta adequada em caso de erro
       return 0;
     }
   };
@@ -62,6 +67,18 @@ function DashboardCenter() {
       );
     }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      while (true) {
+        await new Promise(resolve => setTimeout(resolve, 30000)); // Espera 15 segundos
+        console.log("Atualização em 30 segundos");
+        getOrdersApi();
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   return (
     <div className="dashboard-content">

@@ -17,7 +17,7 @@ async function getOrderDataFromApi() {
 // Função para acessar os pedidos do banco de dados
 async function getOrderDataFromDatabase() {
   // const fetchApiData = await getOrderDataFromApi();
-  const ordersFromDatabase = [];
+  // const ordersFromDatabase = [];
 
   const orderFromDatabaseArray = await db.getOrderbyDateAsc();
 
@@ -71,16 +71,19 @@ async function updateOrdersInDatabase() {
         row.date_modified
       );
     }
+  }
 
-    // desativar no banco pedidos não retornados
-    const fetchMissingOrders = await db.selectMissingOrders(fetchNewOrders);
-    if (fetchMissingOrders[0]) {
-      {
-        const missingOrder = fetchMissingOrders[0].id_order;
-        const query = `UPDATE dashboard_orders SET active = ? WHERE id_order = ? AND active <> 0`;
-        const rows = [desactiveOrderInDatabase ? 1 : 0, missingOrder];
-        await db.connection.query(query, rows);
-      }
+  // desativar no banco pedidos não retornados da api
+  const fetchMissingOrders = await db.selectMissingOrders(
+    fetchNewOrders.map((order) => order.id)
+  );
+
+  if (fetchMissingOrders.length > 0) {
+    {
+      const missingOrder = fetchMissingOrders[0].id_order;
+      const query = `UPDATE dashboard_orders SET active = ? WHERE id_order = ?`;
+      const rows = [desactiveOrderInDatabase ? 1 : 0, missingOrder];
+      await db.connection.query(query, rows);
     }
   }
 }

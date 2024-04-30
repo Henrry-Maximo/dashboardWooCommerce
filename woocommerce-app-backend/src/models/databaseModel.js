@@ -31,7 +31,7 @@ class Database {
     try {
       // Consulta para obter o pedido no banco de dados
       const selectOrderQuery =
-        "SELECT * FROM dashboard_orders ORDER BY date_created ASC;";
+        "SELECT * FROM dashboard_orders WHERE active = 1 ORDER BY date_created ASC;";
       const [rows] = await this.connection.query(selectOrderQuery);
 
       // Se não houver resultado, retornar null
@@ -102,12 +102,11 @@ class Database {
 
   async selectMissingOrders(orders) {
     if (orders.length > 0) {
-      const selectMissingOrders = `SELECT * FROM dashboard_orders WHERE id_order NOT IN (?)`;
-      const [rows] = await this.connection.query(selectMissingOrders, [
-        orders.map((line) => line.id),
-      ]);
+      const selectMissingOrders = `SELECT * FROM dashboard_orders WHERE active = 1 AND id_order NOT IN (?)`;
+      const [rows] = await this.connection.query(selectMissingOrders, [orders]);
       return rows || [];
     }
+    return [];
   }
 
   // async deleteOrder(

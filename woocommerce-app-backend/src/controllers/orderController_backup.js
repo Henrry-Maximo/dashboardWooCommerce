@@ -123,7 +123,7 @@ async function getOrdersOut(orders) {
     const querySelectMissingOrders = `SELECT * FROM dashboard_orders WHERE id_order NOT IN (?)`;
     const [missingOrdersRows] = await connection.query(
       querySelectMissingOrders,
-      [orders.map((apiOrder) => apiOrder.id)]
+      [orders.map((row) => row.id)]
     );
     return missingOrdersRows || [];
   }
