@@ -1,14 +1,21 @@
 const express = require("express");
 const router = express.Router();
 
-const { getOrderData } = require("../controllers/orderController.js");
+const { orderController } = require("../controllers/orderController.js");
+// const slaController = require("../controllers/slaController.js");
+
 const loginController = require("../controllers/loginController.js");
+const userController = require("../controllers/userController.js");
 
 // Importando o middleware para verificação de JWT
 const verifyJWT = require("../../middlewares/jwt.js");
 
 router.use("/login", loginController);
-router.get("/orders", verifyJWT, getOrderData);
+router.use("/registration",  userController);
+
+router.get("/orders", verifyJWT, orderController);
+// router.get("/sla", verifyJWT, slaController);
+
 // router.get("/order-data-sla", verifyJWT, getOrderDataSla);
 
 module.exports = router;

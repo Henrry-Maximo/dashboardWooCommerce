@@ -3,12 +3,6 @@ const { Database } = require("../models/databaseModel.js");
 
 const db = new Database();
 
-// class OrderController {
-//   constructor() {
-//     this.db = db;
-//   }
-// }
-
 // função para acessar os dados da api
 async function getOrderDataFromApi() {
   return await formatOrderData();
@@ -16,16 +10,12 @@ async function getOrderDataFromApi() {
 
 // Função para acessar os pedidos do banco de dados
 async function getOrderDataFromDatabase() {
-  // const fetchApiData = await getOrderDataFromApi();
-  // const ordersFromDatabase = [];
-
   const orderFromDatabaseArray = await db.getOrderbyDateAsc();
 
-  if (!orderFromDatabaseArray) {
-    console.log("Não existe pedido para buscar.");
+  // Se não houver resultado, retornar array vazio
+  if (orderFromDatabaseArray.length === 0) {
+    return [];
   }
-
-  // ordersFromDatabase.push(orderFromDatabaseArray);
 
   return orderFromDatabaseArray;
 }
@@ -34,10 +24,15 @@ async function getOrderDataFromDatabase() {
 async function insertOrdersIntoDatabase() {
   const fetchNewOrders = await getOrderDataFromApi();
 
+  // Verificar se a API não retornou resultados
+  if (fetchNewOrders.length === 0) {
+    return;
+  }
+
   for (const row of fetchNewOrders) {
     const fetchDatabaseOrder = await db.getOrder(row.id);
 
-    if (fetchDatabaseOrder === null) {
+    if (fetchDatabaseOrder.length === 0) {
       await db.insertOrder(
         row.id,
         row.order_number,
@@ -50,9 +45,11 @@ async function insertOrdersIntoDatabase() {
   }
 }
 
+// função para atualizar pedidos se forem diferentes ou desativar os
+// não retornados
 async function updateOrdersInDatabase() {
   const fetchNewOrders = await getOrderDataFromApi();
-  const desactiveOrderInDatabase = false; // parâmetro utilizado para desativar visualização
+  //const activeOrderInDatabase = true; // parâmetro utilizado para desativar visualização
 
   for (const row of fetchNewOrders) {
     const fetchDatabaseOrder = await db.getOrder(row.id);
@@ -73,29 +70,81 @@ async function updateOrdersInDatabase() {
     }
   }
 
-  // desativar no banco pedidos não retornados da api
-  const fetchMissingOrders = await db.selectMissingOrders(
-    fetchNewOrders.map((order) => order.id)
-  );
+  // pedidos para ativo se a api retornar
+  // try {
+  //   for (const line of fetchNewOrders) {
+  //     // console.log("Iterando sobre o pedido:", line);
+  //     if (line) {
+  //       const activeOrder = line[0].id;
+  //       console.log(activeOrder);
+  //       const query = `UPDATE dashboard_orders SET active = ? WHERE id_order = ?`;
+  //       const rows = [activeOrderInDatabase ? 1 : 0, activeOrder];
+  //       await db.connection.query(query, rows);
+  //       console.log("Pedido ativado:", activeOrder);
+  //     }
+  //   }
+  // } catch (error) {
+  //   console.error("Erro ao ativar os pedidos:", error);
+  //   throw error; // Lançar o erro para tratamento externo, se necessário
+  // }
+}
 
-  if (fetchMissingOrders.length > 0) {
-    {
-      const missingOrder = fetchMissingOrders[0].id_order;
-      const query = `UPDATE dashboard_orders SET active = ? WHERE id_order = ?`;
-      const rows = [desactiveOrderInDatabase ? 1 : 0, missingOrder];
-      await db.connection.query(query, rows);
+// desativar no banco pedidos não retornados da api
+async function updateOrderNotReturnApi() {
+  const fetchNewOrders = await getOrderDataFromApi();
+  const desactiveOrderInDatabase = false; // parâmetro utilizado para desativar visualização
+
+  for (const line of fetchNewOrders) {
+    const fetchMissingOrders = await db.selectMissingOrders(line.map((order) => order.id));
+    console.log(fetchMissingOrders);
+
+    if (fetchMissingOrders.length > 0) {
+      {
+        const missingOrder = fetchMissingOrders[0].id_order;
+        const query = `UPDATE dashboard_orders SET active = ? WHERE id_order = ?`;
+        const rows = [desactiveOrderInDatabase ? 1 : 0, missingOrder];
+        await db.connection.query(query, rows);
+      }
     }
   }
 }
 
+// async function activeOrderReturnApi() {
+//   const fetchNewOrders = getOrderDataFromApi();
+
+//   for (const row of fetchNewOrders) {
+//     const activeOrder = row[0].id;
+
+//     const returnOrderExists = db.getOrder(activeOrder);
+//     console.log(returnOrderExists);
+
+//     // se api retornar array vazio, desativar todos os pedidos no database
+//   if (activeOrder.length === 0) {
+//     try {
+//       // Desativar todos os pedidos no banco de dados
+//       const query = `UPDATE dashboard_orders SET active = ?`;
+//       const rows = [0]; // 0 para desativar os pedidos
+//       await db.connection.query(query, rows);
+//       console.log("Todos os pedidos foram desativados.");
+//     } catch (error) {
+//       console.error("Erro ao desativar os pedidos:", error);
+//       throw error; // Lançar o erro para tratamento externo, se necessário
+//     }
+//   }
+//   }
+// }
+
 // Controller main
-const getOrderData = async (req, res) => {
+const main = async (req, res) => {
   try {
     // Inserir novos pedidos no banco de dados
     await insertOrdersIntoDatabase();
 
     // Atualizar pedidos no banco de dados
     await updateOrdersInDatabase();
+
+    // desativar pedidos não retornados pela api
+    await updateOrderNotReturnApi();
 
     // Obter os pedidos do banco de dados
     const ordersFromDatabase = await getOrderDataFromDatabase();
@@ -139,18 +188,7 @@ const getOrderData = async (req, res) => {
 //   }
 // };
 
-// separar a execução da chamada da api para me retornar os dados: isolar
-// criar uma função para tratar da consulta ao banco com os pedidos
-
-// script para tratar dos dados retornados da api: executar todas as
-// lógicas necessarias, alimentando o banco de dados com as atualizações.
-// Serão chamados por uma função que estará dentro de uma função anônima
-// sendo requisitada por uma determinada rota.
-
-// função principal: vai manter toda a lógica - CRUD.
-// separar as operações do bd, manter em um arquivo databaseModel.js
-
 module.exports = {
-  getOrderData,
+  orderController: main,
   // getOrderDataSla,
 };

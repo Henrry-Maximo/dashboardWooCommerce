@@ -15,7 +15,7 @@ SELECT * FROM dashboard_orders WHERE active = 1 and id_order NOT IN (10555);
 
 # Inserção de Pedidos na tabela "dashboard_orders"
 INSERT INTO dashboard_orders (ID_ORDER, ORDER_NUMBER, STATUS, PRINTED, DATE_CREATED, DATE_MODIFIED, ACTIVE)
-VALUES (10556, "10556", "transporte", 0, "2024-04-30 14:11:23", "2024-04-30 14:11:23", 1);
+VALUES (10559, "10558", "transporte", 0, "2024-04-30 14:11:23", "2024-04-30 14:11:23", 1);
        
 INSERT INTO dashboard_users (name, password)
 VALUES ("Edivanei", "@12345");
@@ -32,7 +32,7 @@ WHERE id_order = 10279;
 
 UPDATE dashboard_orders
 SET printed = 1
-WHERE id_order = 11695;
+WHERE id_order = 10279;
 
 UPDATE dashboard_orders
 SET active = 1
@@ -41,7 +41,7 @@ WHERE id_order = 11692;
 -- Exclusão:
 
 DELETE FROM dashboard_orders 
-WHERE id_order = 7912;
+WHERE id_order = 10279;
     
 DELETE FROM dashboard_order_sla 
 WHERE id = 1;

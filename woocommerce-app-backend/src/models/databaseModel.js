@@ -15,34 +15,24 @@ class Database {
         "SELECT * FROM dashboard_orders WHERE id_order = ? ORDER BY date_created ASC;";
       const [rows] = await this.connection.query(selectOrderQuery, [orderId]);
 
-      // Se não houver resultado, retornar null
-      if (rows.length === 0) {
-        return null;
-      }
-
       return rows;
     } catch (error) {
       console.error("Erro ao obter pedido do banco de dados:", error);
-      throw error; // Lança o erro para tratamento externo, se necessário
+      throw error;
     }
   }
 
   async getOrderbyDateAsc() {
     try {
-      // Consulta para obter o pedido no banco de dados
+      // Consulta para obter os pedidos (ativo + decrescente)
       const selectOrderQuery =
         "SELECT * FROM dashboard_orders WHERE active = 1 ORDER BY date_created ASC;";
       const [rows] = await this.connection.query(selectOrderQuery);
 
-      // Se não houver resultado, retornar null
-      if (rows.length === 0) {
-        return null;
-      }
-
       return rows;
     } catch (error) {
       console.error("Erro ao obter pedido do banco de dados:", error);
-      throw error; // Lança o erro para tratamento externo, se necessário
+      throw error;
     }
   }
 
@@ -71,10 +61,7 @@ class Database {
       if (!!rows && rows.length > 0) {
         console.log("Inserção feita com sucesso");
       }
-
-      // return res.status(200).send({ message: "Pedido inserido com sucesso" });
     } catch (error) {
-      console.error("Erro ao inserir pedido no banco de dados:", error);
       throw error;
     }
   }
