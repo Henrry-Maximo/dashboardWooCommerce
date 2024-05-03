@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:8080/mov-painel";
+const baseURL = "http://localhost:8080/mov";
 export const api = axios.create({ baseURL });
 
 export function configureAxios(token) {
@@ -16,7 +16,7 @@ export const fetchOrders = async () => {
   try {
     const token = sessionStorage.getItem("jwt");
     const apiToken = configureAxios(token);
-    const response = await apiToken.get("/orders");
+    const response = await apiToken.get("/orders/get-orders");
     return response.data;
   } catch (err) {
     if (err.response && err.response.status === 401) {

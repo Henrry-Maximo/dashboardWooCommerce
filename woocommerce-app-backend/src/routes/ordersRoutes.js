@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { orderController } = require("../controllers/orderController.js");
+const orderController = require("../controllers/orderController.js");
 // const slaController = require("../controllers/slaController.js");
 
 const loginController = require("../controllers/loginController.js");
@@ -13,7 +13,7 @@ const verifyJWT = require("../../middlewares/jwt.js");
 router.use("/login", loginController);
 router.use("/registration",  userController);
 
-router.get("/orders", verifyJWT, orderController);
+router.use("/orders", verifyJWT, orderController);
 // router.get("/sla", verifyJWT, slaController);
 
 // router.get("/order-data-sla", verifyJWT, getOrderDataSla);

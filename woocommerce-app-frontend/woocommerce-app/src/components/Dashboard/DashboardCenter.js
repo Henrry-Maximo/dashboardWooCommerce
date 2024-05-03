@@ -59,7 +59,7 @@ function DashboardCenter() {
     } else {
       // Exibir uma mensagem de carregamento ou erro na interface do usuário
       return (
-        <p>
+        <p style={{ textAlign: "center" }}>
           Falha na conexão.
           <br />
           Por favor, tente novamente mais tarde.

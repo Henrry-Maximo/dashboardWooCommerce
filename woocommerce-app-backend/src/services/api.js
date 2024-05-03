@@ -6,32 +6,6 @@ const dotenv = require("dotenv");
 // carregar informações do .env
 dotenv.config();
 
-// declaração de função padrão
-// async function connect() {
-//       const WooCommerceRestApi = {
-//         url: process.env.URL_SITE,
-//         method: 'GET',
-//       };
-
-//       const authHeader = oauth.toHeader(oauth.authorize(WooCommerceRestApi));
-//       const response = await axios.get(WooCommerceRestApi.url, { headers: authHeader });
-
-//       return response.data;
-// };
-
-// expressão de função de seta (ES6: arrow function expression)
-// const connectApi = async () => {
-//     const WooCommerceRestApi = {
-//       url: process.env.URL_SITE,
-//       method: 'GET',
-//     };
-
-//     const authHeader = oauth.toHeader(oauth.authorize(WooCommerceRestApi));
-//     const response = await axios.get(WooCommerceRestApi.url, { headers: authHeader });
-
-//     return response.data;
-// };
-
 // Instanciando WoocommerceRestApi
 const api = new WooCommerceRestApi({
   url: process.env.URL_SITE,
@@ -42,8 +16,9 @@ const api = new WooCommerceRestApi({
 // Função para buscar os pedidos da API
 async function fetchDataOrders(req, res) {
   try {
-    // Requisição para obter os dados / retornar 12 pedidos de cada status
+    // Requisição para obt  er os dados / retornar 12 pedidos de cada status
     const response = await api.get("logistica/dashboard?limit=12");
+    // console.log(`teste: ${response}`);
 
     // Retorna os dados obtidos
     return response.data;

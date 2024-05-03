@@ -1,3 +1,6 @@
+const express = require("express");
+const router = express.Router();
+
 const { formatOrderData } = require("../models/orderModel.js");
 const { Database } = require("../models/databaseModel.js");
 
@@ -14,7 +17,7 @@ async function getOrderDataFromDatabase() {
 
   // Se não houver resultado, retornar array vazio
   if (orderFromDatabaseArray.length === 0) {
-    return [];
+    return;
   }
 
   return orderFromDatabaseArray;
@@ -25,7 +28,7 @@ async function insertOrdersIntoDatabase() {
   const fetchNewOrders = await getOrderDataFromApi();
 
   // Verificar se a API não retornou resultados
-  if (fetchNewOrders.length === 0) {
+  if (!fetchNewOrders || fetchNewOrders.length === 0) {
     return;
   }
 
@@ -76,15 +79,19 @@ async function updateOrderNotReturnApi() {
   const fetchNewOrders = await getOrderDataFromApi();
   const desactiveOrderInDatabase = false; // parâmetro utilizado para desativar visualização
 
+  if (fetchNewOrders.length === 0) {
+    return;
+  }
+
   // cria uma nova lista de ids
   const orderIds = fetchNewOrders.map((order) => order.id);
   const fetchMissingOrders = await db.selectMissingOrders(orderIds);
 
   for (const line of fetchMissingOrders) {
-      await db.updateOrderForDesactive(
-        desactiveOrderInDatabase ? 1 : 0,
-        line.id_order
-      );
+    await db.updateOrderForDesactive(
+      desactiveOrderInDatabase ? 1 : 0,
+      line.id_order
+    );
   }
 }
 
@@ -113,44 +120,56 @@ async function updateOrderNotReturnApi() {
 //   }
 // }
 
-// Controller main
-const main = async (req, res) => {
+router.post("/insert-orders", async (req, res) => {
   try {
     // Inserir novos pedidos no banco de dados
-    await insertOrdersIntoDatabase();
+    const rows = await insertOrdersIntoDatabase();
 
-    // Atualizar pedidos no banco de dados
-    await updateOrdersInDatabase();
+    if (!rows || rows.length === 0) {
+      res.status(204).end();
+    } else {
+      res
+        .status(200)
+        .json({ message: "Pedidos inseridos no banco de dados com sucesso." });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: "Erro ao inserir pedidos no banco de dados.",
+      erro: `${err.message}`,
+    });
+  }
 
-    // desativar pedidos não retornados pela api
-    await updateOrderNotReturnApi();
+  // Atualizar pedidos no banco de dados
+  // await updateOrdersInDatabase();
 
+  // // desativar pedidos não retornados pela api
+  // await updateOrderNotReturnApi();
+});
+
+// rota para obter pedidos do banco de dados
+router.get("/get-orders", async (req, res) => {
+  try {
     // Obter os pedidos do banco de dados
     const ordersFromDatabase = await getOrderDataFromDatabase();
 
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json(ordersFromDatabase);
-  } catch (error) {
-    switch (error.status) {
-      case 500:
-        res
-          .status(500)
-          .json({ error: "Problema de conexão", message: `${error.message}` });
-        break;
-      case 404:
-        res.status(404).json({
-          error: "Recurso não encontrado. Problema de Conexão a API",
-          message: `${error.message}`,
-        });
-        break;
-      default:
-        console.log(error.status);
-        res
-          .status(500)
-          .json({ error: "Erro inesperado", message: `${error.message}` });
+    // se estiver vazio ou comprimento for igual a zero? : responder com 204 - sem conteúdo
+    // se estiver com conteúdo? : responder com 200 - aprovado
+
+    if (!ordersFromDatabase || ordersFromDatabase.length === 0) {
+      res.status(204).end();
+    } else {
+      res.setHeader("Content-Type", "application/json");
+      res.status(200).json(ordersFromDatabase);
     }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Problema de conexão.", erro: `${error.message}` });
   }
-};
+});
+
+// Controller main
+const main = async (req, res) => {};
 
 // const getOrderDataSla = async (req, res) => {
 //   try {
@@ -167,7 +186,4 @@ const main = async (req, res) => {
 //   }
 // };
 
-module.exports = {
-  orderController: main,
-  // getOrderDataSla,
-};
+module.exports = router;

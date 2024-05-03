@@ -14,7 +14,7 @@ const Login = (request, response) => {
 
   async function handleLogin(e) {
     e.preventDefault();
-    const formattedUser = user ? user.toLowerCase() : ""; 
+    const formattedUser = user ? user.toLowerCase() : "";
     const formattedPassword = password ? password.toLowerCase() : "";
 
     try {
@@ -66,7 +66,7 @@ const Login = (request, response) => {
               required
             />
           </div>
-          {error && <span className="error-message">{error}</span>}
+          {<div style={{ textAlign: "center" }}><span className="error-message">{error}</span></div>}
           <button type="submit" className="btn btn-primary">
             Entrar
           </button>

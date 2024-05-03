@@ -15,7 +15,7 @@ app.use(cors());
 // Utilizando o middleware para analisar solicitações JSON
 app.use(express.json());
 
-app.use("/mov-painel", routes);
+app.use("/mov", routes);
 
 try {
   app.listen(PORT, () => {
