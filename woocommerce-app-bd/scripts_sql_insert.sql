@@ -8,14 +8,13 @@ SELECT * FROM dashboard_orders_line; # tabela de pedidos com dados específicos
 SELECT * FROM dashboard_orders_shipping; # tabela de pedidos associados à endereços
 SELECT * FROM dashboard_slas; # tabela com definição do SLA
 SELECT * FROM dashboard_order_sla; # tabela pedidos associados ao SLA 
-SELECT * FROM dashboard_orders WHERE active = 1 ORDER BY date_created ASC;
-SELECT * FROM dashboard_orders WHERE active = 1 and id_order NOT IN (10555);
+SELECT * FROM dashboard_orders ORDER BY date_created ASC;
 
 -- Inserção:
 
 # Inserção de Pedidos na tabela "dashboard_orders"
 INSERT INTO dashboard_orders (ID_ORDER, ORDER_NUMBER, STATUS, PRINTED, DATE_CREATED, DATE_MODIFIED, ACTIVE)
-VALUES (10559, "10558", "transporte", 0, "2024-04-30 14:11:23", "2024-04-30 14:11:23", 1);
+VALUES (11692, "11693", "pedido_separacao", 0, "2024-04-24 15:11:23", "2024-04-24 15:11:23", 1);
        
 INSERT INTO dashboard_users (name, password)
 VALUES ("Edivanei", "@12345");
@@ -41,7 +40,7 @@ WHERE id_order = 11692;
 -- Exclusão:
 
 DELETE FROM dashboard_orders 
-WHERE id_order = 10279;
+WHERE id_order = 7912;
     
 DELETE FROM dashboard_order_sla 
 WHERE id = 1;

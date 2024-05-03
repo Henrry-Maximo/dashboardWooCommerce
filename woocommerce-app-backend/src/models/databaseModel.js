@@ -91,42 +91,26 @@ class Database {
     if (orders.length > 0) {
       const selectMissingOrders = `SELECT * FROM dashboard_orders WHERE active = 1 AND id_order NOT IN (?)`;
       const [rows] = await this.connection.query(selectMissingOrders, [orders]);
-      return rows || [];
+      return rows;
     }
-    return [];
+    return;
   }
 
-  // async deleteOrder(
-  //   orderId,
-  //   number,
-  //   status,
-  //   printed,
-  //   date_created,
-  //   date_modified
-  // ) {
-  //   try {
-  //     // Consulta para obter o pedido no banco de dados
-  //     const queryDatabase =
-  //       "INSERT INTO dashboard_orders(id_order, order_number, status, printed, date_created, date_modified) VALUES(?, ?, ?, ?, ?, ?)";
-  //     const queryApi = [
-  //       orderId,
-  //       number,
-  //       status,
-  //       printed,
-  //       date_created,
-  //       date_modified,
-  //     ];
-
-  //     const [rows] = await this.connection.query(queryDatabase, queryApi);
-
-  //     if (!!rows && rows.length > 0) {
-  //       console.log("Inserção feita com sucesso");
-  //     }
-  //   } catch (error) {
-  //     console.error("Erro ao inserir pedido no banco de dados:", error);
-  //     throw error; // Lança o erro para tratamento externo, se necessário
-  //   }
-  // }
+  async updateOrderForDesactive(active, orderId) {
+    try {
+      // Consulta para obter o pedido no banco de dados
+      const updateOrderQuery =
+        "UPDATE dashboard_orders SET active = ? WHERE id_order = ?";
+      await this.connection.query(updateOrderQuery, [
+        active,
+        orderId,
+      ]);
+      return;
+    } catch (error) {
+      console.error("Erro ao atualizar pedido:", error);
+      throw error;
+    }
+  }
 }
 
 module.exports = {

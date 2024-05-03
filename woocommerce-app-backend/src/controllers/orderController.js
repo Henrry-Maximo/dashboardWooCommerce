@@ -69,24 +69,6 @@ async function updateOrdersInDatabase() {
       );
     }
   }
-
-  // pedidos para ativo se a api retornar
-  // try {
-  //   for (const line of fetchNewOrders) {
-  //     // console.log("Iterando sobre o pedido:", line);
-  //     if (line) {
-  //       const activeOrder = line[0].id;
-  //       console.log(activeOrder);
-  //       const query = `UPDATE dashboard_orders SET active = ? WHERE id_order = ?`;
-  //       const rows = [activeOrderInDatabase ? 1 : 0, activeOrder];
-  //       await db.connection.query(query, rows);
-  //       console.log("Pedido ativado:", activeOrder);
-  //     }
-  //   }
-  // } catch (error) {
-  //   console.error("Erro ao ativar os pedidos:", error);
-  //   throw error; // Lançar o erro para tratamento externo, se necessário
-  // }
 }
 
 // desativar no banco pedidos não retornados da api
@@ -94,18 +76,15 @@ async function updateOrderNotReturnApi() {
   const fetchNewOrders = await getOrderDataFromApi();
   const desactiveOrderInDatabase = false; // parâmetro utilizado para desativar visualização
 
-  for (const line of fetchNewOrders) {
-    const fetchMissingOrders = await db.selectMissingOrders(line.map((order) => order.id));
-    console.log(fetchMissingOrders);
+  // cria uma nova lista de ids
+  const orderIds = fetchNewOrders.map((order) => order.id);
+  const fetchMissingOrders = await db.selectMissingOrders(orderIds);
 
-    if (fetchMissingOrders.length > 0) {
-      {
-        const missingOrder = fetchMissingOrders[0].id_order;
-        const query = `UPDATE dashboard_orders SET active = ? WHERE id_order = ?`;
-        const rows = [desactiveOrderInDatabase ? 1 : 0, missingOrder];
-        await db.connection.query(query, rows);
-      }
-    }
+  for (const line of fetchMissingOrders) {
+      await db.updateOrderForDesactive(
+        desactiveOrderInDatabase ? 1 : 0,
+        line.id_order
+      );
   }
 }
 
