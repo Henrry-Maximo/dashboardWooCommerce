@@ -70,16 +70,12 @@ class Database {
       // Consulta para obter o pedido no banco de dados
       const updateOrderQuery =
         "UPDATE dashboard_orders SET status = ?, printed = ?, date_modified = ? WHERE id_order = ?";
-      const [rows] = await this.connection.query(updateOrderQuery, [
+      await this.connection.query(updateOrderQuery, [
         status,
         printed,
         date_modified,
         [orderId],
       ]);
-
-      if (!!rows && rows.length > 0) {
-        console.log("Atualização do pedido feita com sucesso");
-      }
     } catch (error) {
       console.error("Erro ao atualizar pedido:", error);
       throw error;
@@ -100,10 +96,7 @@ class Database {
       // Consulta para obter o pedido no banco de dados
       const updateOrderQuery =
         "UPDATE dashboard_orders SET active = ? WHERE id_order = ?";
-      await this.connection.query(updateOrderQuery, [
-        active,
-        orderId,
-      ]);
+      await this.connection.query(updateOrderQuery, [active, orderId]);
       return;
     } catch (error) {
       console.error("Erro ao atualizar pedido:", error);

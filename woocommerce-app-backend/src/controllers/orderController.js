@@ -11,69 +11,6 @@ async function getOrderDataFromApi() {
   return await formatOrderData();
 }
 
-// Função para acessar os pedidos do banco de dados
-async function getOrderDataFromDatabase() {
-  const orderFromDatabaseArray = await db.getOrderbyDateAsc();
-
-  // Se não houver resultado, retornar array vazio
-  if (orderFromDatabaseArray.length === 0) {
-    return;
-  }
-
-  return orderFromDatabaseArray;
-}
-
-// pegar os pedidos retornados da api e inserir no bd (se não existir)
-async function insertOrdersIntoDatabase() {
-  const fetchNewOrders = await getOrderDataFromApi();
-
-  // Verificar se a API não retornou resultados
-  if (!fetchNewOrders || fetchNewOrders.length === 0) {
-    return;
-  }
-
-  for (const row of fetchNewOrders) {
-    const fetchDatabaseOrder = await db.getOrder(row.id);
-
-    if (fetchDatabaseOrder.length === 0) {
-      await db.insertOrder(
-        row.id,
-        row.order_number,
-        row.status,
-        row.printed,
-        row.date_created,
-        row.date_modified
-      );
-    }
-  }
-}
-
-// função para atualizar pedidos se forem diferentes ou desativar os
-// não retornados
-async function updateOrdersInDatabase() {
-  const fetchNewOrders = await getOrderDataFromApi();
-  //const activeOrderInDatabase = true; // parâmetro utilizado para desativar visualização
-
-  for (const row of fetchNewOrders) {
-    const fetchDatabaseOrder = await db.getOrder(row.id);
-
-    // atualizar se dados não convergirem
-    if (
-      (fetchDatabaseOrder.length > 0 &&
-        fetchDatabaseOrder[0].status !== row.status) ||
-      fetchDatabaseOrder[0].printed !== row.printed ||
-      fetchDatabaseOrder[0].date_modified !== row.date_modified
-    ) {
-      await db.updateOrder(
-        fetchDatabaseOrder[0].id_order,
-        row.status,
-        row.printed,
-        row.date_modified
-      );
-    }
-  }
-}
-
 // desativar no banco pedidos não retornados da api
 async function updateOrderNotReturnApi() {
   const fetchNewOrders = await getOrderDataFromApi();
@@ -94,6 +31,33 @@ async function updateOrderNotReturnApi() {
     );
   }
 }
+
+// função para atualizar pedidos se forem diferentes ou desativar os não retornados
+async function updateOrdersInDatabase() {
+  const fetchNewOrders = await getOrderDataFromApi();
+
+  for (const row of fetchNewOrders) {
+    const fetchDatabaseOrder = await db.getOrder(row.id);
+
+    // atualizar se dados não convergirem
+    if (
+      fetchDatabaseOrder.length > 0 &&
+      (fetchDatabaseOrder[0].status !== row.status ||
+        fetchDatabaseOrder[0].printed !== row.printed ||
+        fetchDatabaseOrder[0].date_modified !== row.date_modified)
+    ) {
+      db.updateOrder(
+        fetchDatabaseOrder[0].id_order,
+        row.status,
+        row.printed,
+        row.date_modified
+      );
+    }
+  }
+}
+
+// // desativar pedidos não retornados pela api
+// await updateOrderNotReturnApi();
 
 // async function activeOrderReturnApi() {
 //   const fetchNewOrders = getOrderDataFromApi();
@@ -120,6 +84,49 @@ async function updateOrderNotReturnApi() {
 //   }
 // }
 
+// Atualizar pedidos no banco de dados
+router.put("/update-orders", async (req, res) => {
+  try {
+    await updateOrdersInDatabase();
+
+    res.status(200).json({
+      message: "Pedidos atualizados com sucesso!",
+    });
+  } catch (error) {
+    // Em caso de erro, responder com status 500 e uma mensagem de erro
+    res.status(500).json({
+      message: "Houve um erro no servidor.",
+      erro: `${error.message}`,
+    });
+  }
+});
+
+// pegar os pedidos retornados da api e inserir no bd (se não existir)
+async function insertOrdersIntoDatabase() {
+  const fetchNewOrders = await getOrderDataFromApi();
+
+  // Verificar se a API não retornou resultados
+  if (!fetchNewOrders || fetchNewOrders.length === 0) {
+    return;
+  }
+
+  for (const row of fetchNewOrders) {
+    const fetchDatabaseOrder = await db.getOrder(row.id);
+
+    if (fetchDatabaseOrder.length === 0) {
+      await db.insertOrder(
+        row.id,
+        row.order_number,
+        row.status,
+        row.printed,
+        row.date_created,
+        row.date_modified
+      );
+    }
+  }
+}
+
+// rota para inserir pedidos no banco de dados
 router.post("/insert-orders", async (req, res) => {
   try {
     // Inserir novos pedidos no banco de dados
@@ -138,13 +145,19 @@ router.post("/insert-orders", async (req, res) => {
       erro: `${err.message}`,
     });
   }
-
-  // Atualizar pedidos no banco de dados
-  // await updateOrdersInDatabase();
-
-  // // desativar pedidos não retornados pela api
-  // await updateOrderNotReturnApi();
 });
+
+// Função para acessar os pedidos do banco de dados
+async function getOrderDataFromDatabase() {
+  const orderFromDatabaseArray = await db.getOrderbyDateAsc();
+
+  // Se não houver resultado, retornar array vazio
+  if (orderFromDatabaseArray.length === 0) {
+    return;
+  }
+
+  return orderFromDatabaseArray;
+}
 
 // rota para obter pedidos do banco de dados
 router.get("/get-orders", async (req, res) => {
@@ -167,9 +180,6 @@ router.get("/get-orders", async (req, res) => {
       .json({ message: "Problema de conexão.", erro: `${error.message}` });
   }
 });
-
-// Controller main
-const main = async (req, res) => {};
 
 // const getOrderDataSla = async (req, res) => {
 //   try {
