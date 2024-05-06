@@ -3,8 +3,7 @@
 -- Consultas:
 
 SELECT * FROM dashboard_users; # tabela de usuários 
-SELECT * FROM dashboard_orders
-; # tabela de pedidos
+SELECT * FROM dashboard_orders; # tabela de pedidos
 SELECT * FROM dashboard_orders_line; # tabela de pedidos com dados específicos 
 SELECT * FROM dashboard_orders_shipping; # tabela de pedidos associados à endereços
 SELECT * FROM dashboard_slas; # tabela com definição do SLA

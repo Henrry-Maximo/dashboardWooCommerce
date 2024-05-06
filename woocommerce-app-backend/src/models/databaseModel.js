@@ -17,7 +17,6 @@ class Database {
 
       return rows;
     } catch (error) {
-      console.error("Erro ao obter pedido do banco de dados:", error);
       throw error;
     }
   }
