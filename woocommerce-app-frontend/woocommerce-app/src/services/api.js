@@ -17,6 +17,9 @@ export const fetchOrders = async () => {
     const token = sessionStorage.getItem("jwt");
     const apiToken = configureAxios(token);
     const response = await apiToken.get("/orders/get-orders");
+    await apiToken.post("/orders/insert-orders");
+    await apiToken.put("/orders/update-orders");
+    await apiToken.put("/orders/update-orders-desactive");
     return response.data;
   } catch (err) {
     if (err.response && err.response.status === 401) {
@@ -24,8 +27,9 @@ export const fetchOrders = async () => {
       alert("Token expirado");
       window.location.href = "/login";
     } else {
-    //   console.error("Erro ao acessar a API de dados (orders)", err);
-    // throw err;
+      // Uncomment the following lines if you want to handle errors
+      // console.error("Erro ao acessar a API de dados (orders)", err);
+      // throw err;
     }
   }
 };

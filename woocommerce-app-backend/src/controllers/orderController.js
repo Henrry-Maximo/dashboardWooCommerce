@@ -17,10 +17,101 @@ async function getOrderDataFromDatabase() {
 
   // Se não houver resultado, retornar array vazio
   if (orderFromDatabaseArray.length === 0) {
-    return;
+    return [];
   }
 
   return orderFromDatabaseArray;
+}
+
+// pegar os pedidos retornados da api e inserir no bd (se não existir)
+async function insertOrdersIntoDatabase() {
+  const fetchNewOrders = await getOrderDataFromApi();
+  let listOrdersInsert = [];
+
+  // Verificar se a API não retornou resultados
+  if (!fetchNewOrders || fetchNewOrders.length === 0) {
+    return;
+  }
+
+  for (const row of fetchNewOrders) {
+    const fetchDatabaseOrder = await db.getOrder(row.id);
+
+    if (fetchDatabaseOrder.length === 0) {
+      await db.insertOrder(
+        row.id,
+        row.order_number,
+        row.status,
+        row.printed,
+        row.date_created,
+        row.date_modified
+      );
+      listOrdersInsert.push({ id: row.id });
+    }
+  }
+  return listOrdersInsert;
+}
+
+// função para atualizar pedidos se forem diferentes ou desativar os não retornados
+async function updateOrdersInDatabase() {
+  const fetchNewOrders = await getOrderDataFromApi();
+  const listOrdersUpdate = [];
+
+  for (const row of fetchNewOrders) {
+    const fetchDatabaseOrder = await db.getOrder(row.id);
+
+    // converter o valor para um booleano / se estiver vazio, ele será convertido para false
+    if (!fetchDatabaseOrder || fetchDatabaseOrder.length === 0) {
+      continue;
+    }
+
+    const orderToUpdate = fetchDatabaseOrder[0];
+
+    // Convertendo as datas para o mesmo formato
+    const modifiedDateDatabase = new Date(
+      orderToUpdate.date_modified
+    ).toISOString();
+    const modifiedDateRow = new Date(row.date_modified).toISOString();
+
+    // atualizar se dados não convergirem
+    if (
+      orderToUpdate.status !== row.status ||
+      orderToUpdate.printed !== row.printed ||
+      modifiedDateDatabase !== modifiedDateRow
+    ) {
+      db.updateOrder(
+        orderToUpdate.id_order,
+        row.status,
+        row.printed,
+        row.date_modified
+      );
+      listOrdersUpdate.push({ id_order: orderToUpdate.id_order });
+    }
+  }
+  return listOrdersUpdate;
+}
+
+// desativar no banco pedidos não retornados da api
+async function updateOrderNotReturnApi() {
+  const fetchNewOrders = await getOrderDataFromApi();
+  const desactiveOrderInDatabase = false; // parâmetro utilizado para desativar visualização
+  let listOdersOffline = [];
+
+  if (!fetchNewOrders || fetchNewOrders.length === 0) {
+    return;
+  }
+
+  // cria uma nova lista de ids
+  const orderIds = fetchNewOrders.map((order) => order.id);
+  const fetchMissingOrders = await db.selectMissingOrders(orderIds);
+
+  for (const line of fetchMissingOrders) {
+    await db.updateOrderForDesactive(
+      desactiveOrderInDatabase ? 1 : 0,
+      line.id_order
+    );
+    listOdersOffline.push({ order: line.id_order });
+  }
+  return listOdersOffline;
 }
 
 // rota para obter pedidos do banco de dados
@@ -45,43 +136,18 @@ router.get("/get-orders", async (req, res) => {
   }
 });
 
-// pegar os pedidos retornados da api e inserir no bd (se não existir)
-async function insertOrdersIntoDatabase() {
-  const fetchNewOrders = await getOrderDataFromApi();
-
-  // Verificar se a API não retornou resultados
-  if (!fetchNewOrders || fetchNewOrders.length === 0) {
-    return;
-  }
-
-  for (const row of fetchNewOrders) {
-    const fetchDatabaseOrder = await db.getOrder(row.id);
-
-    if (fetchDatabaseOrder.length === 0) {
-      await db.insertOrder(
-        row.id,
-        row.order_number,
-        row.status,
-        row.printed,
-        row.date_created,
-        row.date_modified
-      );
-    }
-  }
-}
-
 // rota para inserir pedidos no banco de dados
 router.post("/insert-orders", async (req, res) => {
   try {
     // Inserir novos pedidos no banco de dados
     const rows = await insertOrdersIntoDatabase();
-
     if (!rows || rows.length === 0) {
       res.status(204).end();
     } else {
-      res
-        .status(200)
-        .json({ message: "Pedidos inseridos no banco de dados com sucesso." });
+      res.status(200).json({
+        id_order: rows,
+        message: "Pedidos inseridos no banco de dados com sucesso.",
+      });
     }
   } catch (err) {
     res.status(500).json({
@@ -91,48 +157,17 @@ router.post("/insert-orders", async (req, res) => {
   }
 });
 
-// função para atualizar pedidos se forem diferentes ou desativar os não retornados
-async function updateOrdersInDatabase() {
-  const fetchNewOrders = await getOrderDataFromApi();
-
-  for (const row of fetchNewOrders) {
-
-    const fetchDatabaseOrder = await db.getOrder(row.id);
-    
-    if (!!fetchDatabaseOrder && fetchDatabaseOrder.length === 0) {
-      return [];
-    }
-
-    // atualizar se dados não convergirem
-    if (
-      fetchDatabaseOrder.length > 0 &&
-      (fetchDatabaseOrder[0].status !== row.status ||
-        fetchDatabaseOrder[0].printed !== row.printed ||
-        fetchDatabaseOrder[0].date_modified !== row.date_modified)
-    ) {
-      db.updateOrder(
-        fetchDatabaseOrder[0].id_order,
-        row.status,
-        row.printed,
-        row.date_modified
-      );
-    }
-  }
-}
-
 // Atualizar pedidos no banco de dados
 router.put("/update-orders", async (req, res) => {
   try {
     let list = await updateOrdersInDatabase();
 
-    // console.log(list);
-
     if (!!list && list.length == 0) {
-      res.status(200).json({ message: "Nenhum pedido precisa de atualização." })
+      res.status(204).end();
     } else {
-      res.status(200).json({
-        message: "Pedidos atualizados com sucesso!",
-      });
+      res
+        .status(200)
+        .json({ list, message: "Pedidos atualizados com sucesso!" });
     }
   } catch (error) {
     // Em caso de erro, responder com status 500 e uma mensagem de erro
@@ -143,32 +178,18 @@ router.put("/update-orders", async (req, res) => {
   }
 });
 
-// desativar no banco pedidos não retornados da api
-async function updateOrderNotReturnApi() {
-  const fetchNewOrders = await getOrderDataFromApi();
-  const desactiveOrderInDatabase = false; // parâmetro utilizado para desativar visualização
-
-  if (fetchNewOrders.length === 0) {
-    return;
-  }
-
-  // cria uma nova lista de ids
-  const orderIds = fetchNewOrders.map((order) => order.id);
-  const fetchMissingOrders = await db.selectMissingOrders(orderIds);
-
-  for (const line of fetchMissingOrders) {
-    await db.updateOrderForDesactive(
-      desactiveOrderInDatabase ? 1 : 0,
-      line.id_order
-    );
-  }
-}
-
+// pedidos
 router.put("/update-orders-desactive", async (req, res) => {
   try {
-    await updateOrderNotReturnApi()
-    
-    res.status(204).end();
+    const rows = await updateOrderNotReturnApi();
+
+    if (!rows || rows.length === 0) {
+      res.status(204).end();
+    } else {
+      res
+        .status(200)
+        .json({ rows, message: "Pedido(s) desativado no database." });
+    }
   } catch (err) {
     res.status(500).json({
       message: "Houve um erro no servidor.",
@@ -176,50 +197,5 @@ router.put("/update-orders-desactive", async (req, res) => {
     });
   }
 });
-
-// router.put("/orders-", async () => {
-//   // desativar pedidos não retornados pela api
-//   await activeOrderReturnApi();
-// });
-
-// async function activeOrderReturnApi() {
-//   const fetchNewOrders = getOrderDataFromApi();
-
-//   for (const row of fetchNewOrders) {
-//     const activeOrder = row[0].id;
-
-//     const returnOrderExists = db.getOrder(activeOrder);
-//     console.log(returnOrderExists);
-
-//     // se api retornar array vazio, desativar todos os pedidos no database
-//     if (activeOrder.length === 0) {
-//       try {
-//         // Desativar todos os pedidos no banco de dados
-//         const query = `UPDATE dashboard_orders SET active = ?`;
-//         const rows = [0]; // 0 para desativar os pedidos
-//         await db.connection.query(query, rows);
-//         console.log("Todos os pedidos foram desativados.");
-//       } catch (error) {
-//         console.error("Erro ao desativar os pedidos:", error);
-//         throw error; // Lançar o erro para tratamento externo, se necessário
-//       }
-//     }
-//   }
-// }
-
-// const getOrderDataSla = async (req, res) => {
-//   try {
-//     const queryConsultOrders = "SELECT * FROM dashboard_order_sla;";
-//     const [resultOrders] = await db.query(queryConsultOrders);
-
-//     res.setHeader("Content-Type", "application/json");
-
-//     res.json(resultOrders);
-//   } catch (error) {
-//     res.status(500).json({ error: "Falha ao obter SLA das ordens." });
-//     console.error(error.messaxge);
-//     throw error;
-//   }
-// };
 
 module.exports = router;

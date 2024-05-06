@@ -1,4 +1,4 @@
-const db = require("../database/configDatabase.js");
+const db = require("../database/configDatabase.js"); // importando config db
 
 class Database {
   constructor() {

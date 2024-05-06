@@ -71,7 +71,7 @@ function DashboardCenter() {
   useEffect(() => {
     const fetchData = async () => {
       while (true) {
-        await new Promise(resolve => setTimeout(resolve, 30000)); // Espera 15 segundos
+        await new Promise(resolve => setTimeout(resolve, 10000)); // Espera 15 segundos
         console.log("Atualização em 30 segundos");
         getOrdersApi();
       }
