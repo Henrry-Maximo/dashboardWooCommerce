@@ -190,7 +190,7 @@ router.put("/update-orders-desactive", async (req, res) => {
         .status(200)
         .json({ rows, message: "Pedido(s) desativado no database." });
     }
-  } catch (err) {
+  } catch (error) {
     res.status(500).json({
       message: "Houve um erro no servidor.",
       erro: `${error.message}`,

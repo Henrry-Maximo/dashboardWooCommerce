@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { fetchOrders } from "../../services/api.js";
+import { fetchOrders, operatorsInOrders } from "../../services/api.js";
 import OrderCard from "./DashboardCard.js";
 import "../../assets/styles/Dashboard.css";
 
@@ -79,6 +79,19 @@ function DashboardCenter() {
   
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const operatorsDataOrders = async () => {
+      while (true) {
+        await new Promise(resolve => setTimeout(resolve, 30000)); // Espera 15 segundos
+        console.log("Atualização em 30 segundos");
+        await operatorsInOrders();
+      }
+    };
+  
+    operatorsDataOrders();
+  }, []);
+  
 
   return (
     <div className="dashboard-content">
