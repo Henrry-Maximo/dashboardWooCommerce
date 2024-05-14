@@ -16,9 +16,6 @@ router.post(
       .withMessage("A senha deve conter entre 7 e 12 caracteres"),
   ],
   async (req, res) => {
-    //const email = req.body.email;
-    //const password = request.body.password;
-    //const userName = request.body.userName;
     const { username, password } = req.body;
 
     const errors = validationResult(req);

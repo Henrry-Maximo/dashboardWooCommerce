@@ -1,33 +1,31 @@
-#container-error {
+#container {
   display: flex;
   height: 100vh;
   justify-content: center;
   align-items: center;
 }
 
-.content-error {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 5px 10px;
-  color: #daaa00;
+#error {
+  padding: 1rem;
 }
 
-.content-error p {
+#error span {
+  display: flex;
+  gap: 10px;
+  color: #daaa00;
   font-size: 34px;
   padding: 2px 5px;
 }
 
-.content-error p a {
-  padding: 10px 0px 10px 0px;
+#error a {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  margin: 1rem;
   font-size: 18px;
-  display: block;
   color: gray;
 }
 
-.content-error p a:hover {
+#error a:hover {
   color: #daaa00;
 }
-
-

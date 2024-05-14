@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
 import "../../assets/styles/DashboardCard.css";
-import moment from "moment-timezone";
+// import moment from "moment-timezone";
 // import { fetchOrderSla } from "../../services/api.js";
-import { calculateBackgroundColor } from "../../utils/helpers.js";
+// import { calculateBackgroundColor } from "../../utils/helpers.js";
 
 import { format, formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale/pt-BR";

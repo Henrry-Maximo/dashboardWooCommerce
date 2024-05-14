@@ -1,7 +1,8 @@
 const express = require("express");
+const { validationResult } = require("express-validator");
+
 const login = require("../services/loginService.js");
 const generateToken = require("../../helpers/userfeatures.js");
-const { validationResult } = require("express-validator");
 
 const router = express.Router();
 

@@ -1,17 +1,15 @@
 import React from "react";
 import "../../assets/styles/Error.css";
-import { MDBIcon } from "mdb-react-ui-kit";
+
+import { FaExclamationCircle } from "react-icons/fa";
 
 const Error = () => {
   return (
-    <div id="container-error">
-    <div className="content-error">
-      <p>
-        <MDBIcon fas icon="exclamation-circle" />
-        404 - Página Não Encontrada.
-        <a href="/">Por favor, retorne para a home.</a>
-      </p>
-    </div>
+    <div id="container">
+        <div id="error">
+          <span><FaExclamationCircle />404 - Página Não Encontrada.</span>
+          <a href="/">Por favor, retorne para a home.</a>
+        </div>
     </div>
   );
 };

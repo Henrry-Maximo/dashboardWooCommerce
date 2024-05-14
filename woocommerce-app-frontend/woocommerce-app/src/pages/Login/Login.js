@@ -66,7 +66,11 @@ const Login = (request, response) => {
               required
             />
           </div>
-          {<div style={{ textAlign: "center" }}><span className="error-message">{error}</span></div>}
+          {
+            <div style={{ textAlign: "center" }}>
+              <span className="error-message">{error}</span>
+            </div>
+          }
           <button type="submit" className="btn btn-primary">
             Entrar
           </button>
