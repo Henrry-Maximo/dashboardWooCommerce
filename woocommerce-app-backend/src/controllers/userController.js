@@ -2,7 +2,8 @@ const express = require("express");
 
 const { body, validationResult } = require("express-validator");
 const { Database } = require("../services/userService.js");
-const { hash, bcrypt } = require("bcrypt");
+const { hash } = require("bcrypt");
+const { randomInt } = require("crypto")
 
 const db = new Database();
 const router = express.Router();
@@ -42,13 +43,16 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
     if (password.length < 10) {
-     res.status(400).json({message: 'Senha deve ter pelo menos 10 caracteres'})
+     return res.status(400).json({message: 'Senha deve ter pelo menos 10 caracteres'})
     }
 
     // se usernamer existir: função para encontrar se usuário digitado já existe no database
 
     try {
-      const passwordHash = await hash(password, 10);
+      // sortear um número entre 10 e 16
+      // senha: requisitos essenciais
+      const randomSalt = randomInt(10, 16);
+      const passwordHash = await hash(password, randomSalt);
     
       await db.insertUser({ name: username, password: passwordHash });
       res.status(201).json({ message: "Usuário cadastrado com sucesso!" });

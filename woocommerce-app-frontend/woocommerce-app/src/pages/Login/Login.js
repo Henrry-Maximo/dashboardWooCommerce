@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../services/api.js";
 import "../../assets/styles/Login.css";
 import Logo from "../../assets/images/mov-logo.png";
@@ -65,6 +65,11 @@ const Login = (request, response) => {
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+          </div>
+          <div>
+            <Link to="/registration" className="nav-link" style={{ color: "black" }}>
+              Registre-se
+            </Link>
           </div>
           {
             <div style={{ textAlign: "center" }}>

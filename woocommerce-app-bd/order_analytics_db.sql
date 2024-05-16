@@ -11,7 +11,7 @@ USE order_analytics_db;
 CREATE TABLE dashboard_users (
    id INT(11) PRIMARY KEY AUTO_INCREMENT,
    name VARCHAR(45),
-   password VARCHAR(30)
+   password VARCHAR(400)
 );
 
 -- Cria a tabela dashboard_orders

@@ -3,7 +3,7 @@ import "./App.css";
 
 import Home from "./pages/Home/Home.js";
 import Login from "./pages/Login/Login.js";
-// import Registration from "./pages/Registration/Registration.js"
+import Registration from "./pages/Registration/Registration.js"
 
 import Error from './pages/Error/Error.js';
 import ProtectedRouter from './ProtectedRouter.js';
@@ -19,7 +19,7 @@ function App() {
           <Route path="/*" element={<Error />} />
         </Route>
         <Route path="/login" element={<Login />} />
-        {/* <Route path="/registration" element={<Registration />} /> */}
+        <Route path="/registration" element={<Registration />} />
       </Routes>
     </>
   );
