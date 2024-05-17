@@ -10,6 +10,8 @@ class Database {
       const sql = "INSERT INTO dashboard_users(name, password) VALUES(?, ?);";
       const dataUser = [name, password];
       await this.connection.query(sql, dataUser);
+
+      return;
     } catch (error) {
       throw error;
     }
@@ -20,7 +22,6 @@ class Database {
     const sql = "SELECT * FROM dashboard_users";
     const [rows] = await conn.query(sql);
   
-    conn.end();
     return rows;
   }
   
@@ -29,10 +30,8 @@ class Database {
     const sql =
       "UPDATE dashboard_users SET name = ?, passowrd = ? WHERE id = ?";
     const dataUser = [name, password [idUser]];
-  
     await conn.query(sql, dataUser);
   
-    conn.end();
     return;
   }
   
@@ -41,7 +40,7 @@ class Database {
     const sql = "DELETE FROM dashboard_users WHERE id = ?";
     //const dataUser = [idUser];
     await conn.query(sql, [idUser]);
-    conn.end();
+    
     return;
   }
 }
