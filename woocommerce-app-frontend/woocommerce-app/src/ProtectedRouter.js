@@ -3,7 +3,7 @@ import { Navigate, Outlet } from "react-router-dom";
 function ProtectedRouter() {
     const isAuth = userAuth();
     return (
-        isAuth ? <Outlet to="/" /> : <Navigate to="/login" />
+        isAuth ? <Outlet to="/dashboard" /> : <Navigate to="/login" />
     );
 };
 

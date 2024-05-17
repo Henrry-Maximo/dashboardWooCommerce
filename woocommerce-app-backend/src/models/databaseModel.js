@@ -90,12 +90,12 @@ class Database {
     return;
   }
 
-  async updateOrderForDesactive(active, orderId) {
+  async updateOrderForDeactivate(isActive, orderId) {
     try {
       // Consulta para obter o pedido no banco de dados
       const updateOrderQuery =
         "UPDATE dashboard_orders SET active = ? WHERE id_order = ?";
-      await this.connection.query(updateOrderQuery, [active, orderId]);
+      await this.connection.query(updateOrderQuery, [isActive, orderId]);
       return;
     } catch (error) {
       console.error("Erro ao atualizar pedido:", error);

@@ -23,9 +23,8 @@ const Registation = (request, response) => {
         password: formattedPassword,
       };
 
-      const { data } = await api.post("/registration", dataLogin);
+      await api.post("/registration", dataLogin);
 
-      alert(`${data.message}`);
       navigate("/login");
     } catch (error) {
       setError(error.response.data.message);

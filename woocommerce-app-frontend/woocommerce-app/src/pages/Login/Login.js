@@ -28,7 +28,7 @@ const Login = (request, response) => {
       sessionStorage.setItem("login", true);
       sessionStorage.setItem("jwt", data.token);
 
-      navigate("/");
+      navigate("/dashboard")
     } catch (error) {
       setError(error.response.data.message);
     }

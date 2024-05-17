@@ -1,17 +1,27 @@
 const mysql = require('mysql2');
 
-const connection = mysql.createConnection({
+// const connection = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',
+//     database: 'order_analytics_db'
+// });
+
+
+const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'order_analytics_db'
+    database: 'order_analytics_db',
+    waitForConnections: true,
+    connectionLimit: 100, // ou o número máximo de conexões que você deseja
+    queueLimit: 0
 });
 
-connection.connect(function (err) {
-    if (err) {
-        // console.error(`Erro de conexão MySQL: ${err}`);
-        // return;
-    }
-});
+// pool.connect(function (err) {
+//     if (err) {
+//         throw err;
+//     }
+// });
 
-module.exports = connection;
+module.exports = pool;

@@ -105,7 +105,7 @@ async function updateOrderNotReturnApi() {
   const fetchMissingOrders = await db.selectMissingOrders(orderIds);
 
   for (const line of fetchMissingOrders) {
-    await db.updateOrderForDesactive(
+    await db.updateOrderForDeactivate(
       desactiveOrderInDatabase ? 1 : 0,
       line.id_order
     );
