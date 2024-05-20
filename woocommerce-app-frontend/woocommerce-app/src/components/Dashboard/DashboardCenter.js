@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { fetchOrders, operatorsInOrders } from "../../services/api.js";
 import OrderCard from "./DashboardCard.js";
-import "../../assets/styles/Dashboard.css";
+// import "../../assets/styles/Dashboard.css";
 
 // icons
 import { FaClipboardCheck } from "react-icons/fa6";

@@ -1,5 +1,5 @@
 import React from "react";
-import "../../assets/styles/DashboardFooter.css";
+// import "../../assets/styles/DashboardFooter.css";
 
 const DashboardFooter = () => {
     return (

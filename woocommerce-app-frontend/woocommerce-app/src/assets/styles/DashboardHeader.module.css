@@ -1,10 +1,10 @@
-.dashboard-header {
-  background-color: #333;
-  color: #fff;
+.wrapper {
+  background-color: var(--gray-400);
+  color: var(--white);
   padding: 1rem;
 }
 
-.header-container {
+.container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -12,36 +12,37 @@
   margin: 0 auto;
 }
 
-.logo {
+.titleHeader {
   margin: 0;
-  color: #daaa00;
+  color: var(--yellow);
 }
 
-.logo:hover {
-  color: #ffffff;
+.titleHeader:hover {
+  color: var(--white);
+  cursor: default;
 }
 
-.nav {
+.optionsNav {
   flex-grow: 1;
   padding: 20px;
 }
 
-.nav-list {
+.listNav {
   list-style: none;
   padding: 0;
   display: flex;
 }
 
-.nav-item {
+.itemNav {
   margin-right: 1rem;
 }
 
-.nav-link {
+.linkNav {
   text-decoration: none;
   color: #fff;
 }
 
-.nav-link:hover {
+.linkNav:hover {
   color: #daaa00;
 }
 

@@ -4,7 +4,6 @@ import "./App.css";
 import Home from "./pages/Home/Home.js";
 import Login from "./pages/Login/Login.js";
 import Registration from "./pages/Registration/Registration.js"
-
 import Error from './pages/Error/Error.js';
 import ProtectedRouter from './ProtectedRouter.js';
 

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
-import "../../assets/styles/DashboardCard.css";
+// import "../../assets/styles/DashboardCard.css";
 // import moment from "moment-timezone";
 // import { fetchOrderSla } from "../../services/api.js";
 // import { calculateBackgroundColor } from "../../utils/helpers.js";

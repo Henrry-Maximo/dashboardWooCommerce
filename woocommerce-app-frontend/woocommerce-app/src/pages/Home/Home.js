@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
+
 import DashboardHeader from "../../components/Dashboard/DashboardHeader.js";
 import DashboardSidebar from "../../components/Dashboard/DashboardSidebar.js";
 import DashboardFooter from "../../components/Dashboard/DashboardFooter.js";
 import DashboardCenter from "../../components/Dashboard/DashboardCenter.js";
 
-// import styles from "../../assets/styles/Home.css";
 import Welcome from "./Welcome.js";
 import About from "./About.js";
+
+import styles from "../../assets/styles/Home.module.css";
 
 const Home = () => {
   const location = useLocation();

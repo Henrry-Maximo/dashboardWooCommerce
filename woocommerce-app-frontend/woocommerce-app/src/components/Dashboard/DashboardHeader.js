@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../../assets/styles/DashboardHeader.css"; 
+import styles from "../../assets/styles/DashboardHeader.module.css"; 
 
 const Header = ({ toggleMenu }) => {
   function handleLogout() {
@@ -9,27 +9,26 @@ const Header = ({ toggleMenu }) => {
   }
 
   return (
-    <header className="dashboard-header">
-      <div className="header-container">
+    <header className={styles.wrapper}>
+      <div className={styles.container}>
         <div className="sidebar-toggle" onClick={toggleMenu}>
           ☰
         </div>
-        <h1 className="logo">MOV: DASHBOARD</h1>
-        <nav className="nav">
-          <ul className="nav-list">
-            <li className="nav-item">
-              <Link to="/" className="nav-link">
+        <h1 className={styles.titleHeader}>MOV: DASHBOARD</h1>
+        <nav className={styles.optionsNav}>
+          <ul className={styles.listNav}>
+            <li className={styles.itemNav}>
+              <Link to="/" className={styles.linkNav}>
                 Início
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/sobre" className="nav-link">
+            <li className={styles.itemNav}>
+              <Link to="/sobre" className={styles.linkNav}>
                 Sobre
               </Link>
             </li>
           </ul>
         </nav>
-
         <div className="logout-btn-container">
           <button className="logout-btn" onClick={handleLogout}>
             Sair

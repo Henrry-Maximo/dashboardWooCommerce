@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../services/api.js";
-import "../../assets/styles/Login.css";
+
+import styles from "../../assets/styles/Login.module.css";
 import Logo from "../../assets/images/mov-logo.png";
 import Logowork from "../../assets/images/key.svg";
 // import Logo from "../../assets/images/noun-login.svg";
@@ -36,18 +37,18 @@ const Login = (request, response) => {
   }
 
   return (
-    <div id="container">
-      <div id="login-content">
-        <div className="login-intro">
-          <img src={Logo} alt="Logo da Empresa" className="login-logo" />
+    <div className={styles.wrapper}>
+      <div className={styles.containerLogin}>
+        <div className={styles.headerLogin}>
+          <img src={Logo} alt="Logo da Empresa" className={styles.headerLogo} />
           <p>Faça login em sua conta</p>
         </div>
-        <form className="login-form" onSubmit={handleLogin}>
-          <div className="form-group">
+        <form onSubmit={handleLogin}>
+          <div className={styles.formLogin}>
             <label htmlFor="username">Usuário:</label>
             <input
               type="text"
-              className="form-control"
+              className={styles.formControl}
               id="username"
               placeholder="Digite seu usuário"
               value={user}
@@ -59,7 +60,7 @@ const Login = (request, response) => {
             <label htmlFor="password">Senha:</label>
             <input
               type="password"
-              className="form-control"
+              className={styles.formControl}
               id="password"
               placeholder="Digite sua senha"
               value={password}
@@ -74,15 +75,15 @@ const Login = (request, response) => {
           </div>
           {
             <div style={{ textAlign: "center" }}>
-              <span className="error-message">{error}</span>
+              <span className={styles.messageError}>{error}</span>
             </div>
           }
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className={styles.buttonLogin}>
             Entrar
           </button>
         </form>
       </div>
-      <div id="div-content">
+      <div className={styles.formBackground}>
         <img src={Logowork} alt="Logo da Empresa" />
       </div>
     </div>

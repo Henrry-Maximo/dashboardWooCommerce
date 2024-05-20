@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../../assets/styles/DashboardSidebar.css";
 
-// icons
+import styles from "../../assets/styles/DashboardSidebar.module.css";
+
 import { FaDisplay } from "react-icons/fa6";
 import { FaBox } from "react-icons/fa";
 import { GrConfigure } from "react-icons/gr";
@@ -10,11 +10,11 @@ import { GrConfigure } from "react-icons/gr";
 
 const DashboardSidebar = ({ menuOpen, closeMenu }) => {
   return (
-    <aside className={`sidebar ${menuOpen ? "" : "open"}`}>
-      <nav className="sidebar-nav">
-        <ul className="sidebar-list">
-          <li className="sidebar-item">
-            <Link to="/dashboard" className="sidebar-link" onClick={closeMenu}>
+    <aside className={styles.sidebar}>
+      <nav className={styles.navSidebar}>
+        <ul className={styles.listSidebar}>
+          <li className={styles.itemSidebar}>
+            <Link to="/dashboard" className={styles.linkSidebar} onClick={closeMenu}>
             <FaBox id="sidebar-img" />
               Dashboard de Pedidos
             </Link>

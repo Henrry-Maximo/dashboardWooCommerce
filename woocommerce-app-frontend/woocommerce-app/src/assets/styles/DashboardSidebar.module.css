@@ -5,33 +5,33 @@
   transition: all 0.3s ease-out allow-discrete;
 }
 
-.sidebar-nav {
+.navSidebar {
   padding: 1rem;
 }
 
-.sidebar-list {
+.listSidebar {
   list-style: none;
   padding: 0;
   padding: 10px;
 }
 
-.sidebar-item {
+.itemSidebar {
   margin-bottom: 1rem;
 }
 
-.sidebar-item .sidebar-link {
+.itemSidebar .linkSidebar {
   text-decoration: none !important;
   justify-content: center;
   gap: 10px;
   display: inline-flex;
 }
 
-.sidebar-link {
+.linkSidebar {
   text-decoration: none;
   color: #ffffff;
 }
 
-.sidebar-link:hover {
+.linkSidebar:hover {
   color: #daaa00;
 }
 
@@ -43,7 +43,7 @@
     /* position: relative; */
   }
 
-  .sidebar-nav {
+  .navSidebar {
     padding: 1rem;
   }
 }

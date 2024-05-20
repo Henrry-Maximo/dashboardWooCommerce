@@ -1,5 +1,5 @@
 import React from "react";
-import "../../assets/styles/Error.css";
+// import "../../assets/styles/Error.css";
 
 import { FaExclamationCircle } from "react-icons/fa";
 

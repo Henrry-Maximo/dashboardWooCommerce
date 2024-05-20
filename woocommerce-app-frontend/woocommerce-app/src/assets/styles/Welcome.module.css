@@ -1,17 +1,22 @@
-.main-content {
+.content {
   display: block;
-  background-color: #ffffff;
+  background-color: var(--white);
   border-radius: 10px;
   flex: 1;
   padding: 30px;
 }
 
-.content-h1 {
+.content img {
+  max-width: 110px;
+  margin: 40px;
+}
+
+.content h1 {
   font-size: 24px;
   margin-bottom: 10px;
 }
 
-.content-p {
+.content p {
   font-size: 16px;
   margin-left: 4px;
 }

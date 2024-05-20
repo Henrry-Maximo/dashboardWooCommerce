@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../services/api.js";
-import "../../assets/styles/Login.css";
+// import "../../assets/styles/Login.css";
 import Logo from "../../assets/images/mov-logo.png";
 import Logowork from "../../assets/images/key.svg";
 // import Logo from "../../assets/images/noun-login.svg";

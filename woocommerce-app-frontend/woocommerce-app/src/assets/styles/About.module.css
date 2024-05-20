@@ -1,4 +1,4 @@
-.about-container {
+.wrapperAbout {
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -6,6 +6,20 @@
   padding: 20px;
   width: 50%;
   margin: 0 auto;
+}
+
+.wrapperAbout h2 {
+  color: #333;
+  padding: 10px;
+}
+
+.wrapperAbout .titleAbout {
+  margin: 10px;
+}
+
+.wrapperAbout img {
+  max-width: 110px;
+  margin: 40px;
 }
 
 a {
