@@ -11,7 +11,7 @@ USE order_analytics_db;
 CREATE TABLE dashboard_users (
    id INT(11) PRIMARY KEY AUTO_INCREMENT,
    name VARCHAR(45),
-   password VARCHAR(400)
+   password VARCHAR(90)
 );
 
 -- Cria a tabela dashboard_orders
@@ -73,7 +73,7 @@ CREATE TABLE dashboard_order_sla (
 );
 
 INSERT INTO dashboard_users (name, password)
-VALUES ("Admin", "@123");
+VALUES ("Admin", "$2b$14$I2h.s9h0ArJvM6hF/DYaquTkoII4.eL7mXRVnEtqZuYS4vs7/1ZZi");
 
 INSERT INTO dashboard_slas (NAME, STATUS, NUMBER_TIME, DEFINITION_TIME, DATA_CREATION)
 VALUES ("8 Horas", "nfe-emitida", 8, "hour", "2023/08/24"),

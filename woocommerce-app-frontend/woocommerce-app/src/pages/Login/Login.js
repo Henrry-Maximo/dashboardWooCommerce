@@ -30,6 +30,7 @@ const Login = (request, response) => {
 
       navigate("/dashboard")
     } catch (error) {
+      console.log(error.response);
       setError(error.response.data.message);
     }
   }

@@ -24,6 +24,12 @@ class Database {
   
     return rows;
   }
+
+  async userExists(username) {
+    const query = "SELECT name FROM dashboard_users WHERE name = ?";
+    const [rows] = await this.connection.query(query, [username]);
+    return rows.length > 0;
+  }
   
   async updateUser(name, password, idUser) {
     const conn = await this.connection;

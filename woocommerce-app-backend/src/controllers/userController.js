@@ -3,19 +3,15 @@ const express = require("express");
 const { body, validationResult } = require("express-validator");
 const { Database } = require("../services/userService.js");
 const { hash } = require("bcrypt");
-const { randomInt } = require("crypto")
+const { randomInt } = require("crypto");
 
 const db = new Database();
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  // try... catch - checar se há erros
   try {
     const results = await db.findUser();
 
-    //console.log(results)
-    //!results.length==0
-    //!! - verificação do tipo
     if (results.length == 0) {
       res.status(204).end();
     } else {
@@ -29,35 +25,32 @@ router.get("/", async (req, res) => {
 router.post(
   "/",
   [
-    body("username").isString().withMessage("Usuário não pode ter número"),
-    body("password")
-      .isLength({ min: 7, max: 12 })
-      .withMessage("A senha deve conter entre 7 e 12 caracteres"),
+    body("username").notEmpty().withMessage("Usuário não pode ser vazio."),
+    body("password").isLength({ min: 7, max: 12 }).withMessage("A senha deve conter entre 7 e 12 caracteres."),
   ],
   async (req, res) => {
     const { username, password } = req.body;
 
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ message: errors.array() });
     }
-    if (password.length < 10) {
-     return res.status(400).json({message: 'Senha deve ter pelo menos 10 caracteres'})
-    }
-
-    // se usernamer existir: função para encontrar se usuário digitado já existe no database
 
     try {
+      // Verificar se o usuário já existe
+      const userExists = await db.userExists(username);
+      if (userExists) {
+        return res.status(400).json({ message: "Usuário já existe." });
+      }
+
       // sortear um número entre 10 e 16
-      // senha: requisitos essenciais
       const randomSalt = randomInt(10, 16);
       const passwordHash = await hash(password, randomSalt);
-    
+
       await db.insertUser({ name: username, password: passwordHash });
       res.status(201).json({ message: "Usuário cadastrado com sucesso!" });
     } catch (err) {
-      res.status(500).json({ message: `Encontramos um erro: ${err}` });
+      res.status(400).json({ err: `Falha no registro!` });
     }
   }
 );
