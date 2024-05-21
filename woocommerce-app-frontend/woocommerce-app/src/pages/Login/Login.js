@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../services/api.js";
 
 import styles from "../../assets/styles/Login.module.css";
-import Logo from "../../assets/images/mov-logo.png";
+import Logo from "../../assets/images/icon.png";
 import Logowork from "../../assets/images/key.svg";
 // import Logo from "../../assets/images/noun-login.svg";
 
@@ -29,7 +29,7 @@ const Login = (request, response) => {
       sessionStorage.setItem("login", true);
       sessionStorage.setItem("jwt", data.token);
 
-      navigate("/dashboard")
+      navigate("/dashboard");
     } catch (error) {
       console.log(error.response);
       setError(error.response.data.message);
@@ -41,35 +41,41 @@ const Login = (request, response) => {
       <div className={styles.containerLogin}>
         <div className={styles.headerLogin}>
           <img src={Logo} alt="Logo da Empresa" className={styles.headerLogo} />
-          <p>Faça login em sua conta</p>
+          <p>Faça <strong>login</strong> em sua conta</p>
         </div>
-        <form onSubmit={handleLogin}>
-          <div className={styles.formLogin}>
-            <label htmlFor="username">Usuário:</label>
-            <input
-              type="text"
-              className={styles.formControl}
-              id="username"
-              placeholder="Digite seu usuário"
-              value={user}
-              onChange={(e) => setUser(e.target.value)}
-              required
-            />
+        <form onSubmit={handleLogin} className={styles.formBody}>
+          <div className={styles.spaceInput}>
+            <div className={styles.formLogin}>
+              <label htmlFor="username">Usuário:</label>
+              <input
+                type="text"
+                className={styles.formControl}
+                id="username"
+                placeholder="Digite seu usuário"
+                value={user}
+                onChange={(e) => setUser(e.target.value)}
+                required
+              />
+            </div>
+            <div className={styles.formLogin}>
+              <label htmlFor="password">Senha:</label>
+              <input
+                type="password"
+                className={styles.formControl}
+                id="password"
+                placeholder="Digite sua senha"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Senha:</label>
-            <input
-              type="password"
-              className={styles.formControl}
-              id="password"
-              placeholder="Digite sua senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <Link to="/registration" className="nav-link" style={{ color: "black" }}>
+          <div className={styles.formLink}>
+            <Link
+              to="/registration"
+              className={styles.linkRegistration}
+              style={{ color: "black" }}
+            >
               Registre-se
             </Link>
           </div>

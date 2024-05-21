@@ -40,20 +40,34 @@
 }
 
 .headerLogo {
-  width: 18.75rem;
+  width: 10.75rem;
+  padding: 15px;
 }
 
 /* label and input */
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.spaceInput {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
 .formLogin {
   margin-bottom: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 2px;
-}
-
-.formLogin {
   margin: 0;
   padding: 0;
+}
+
+.formLogin label {
+  padding: 0px 0px 10px 15px;
 }
 
 .formControl {
@@ -82,6 +96,15 @@
   box-shadow: 0 0 0 5px rgba(119, 119, 119, 0.3);
 }
 
+.formLink {
+  margin: 5px 0px 0px 0px;
+  padding-top: 15px;
+}
+
+.linkRegistration {
+  color: #daaa00 !important;
+}
+
 .messageError {
   color: #dc3545;
   font-size: 14px;
@@ -101,8 +124,9 @@
   transition: background-color 0.3s;
   display: inline-flex;
   width: 100%;
-  margin-top: 100px;
+  margin-top: 60px;
   justify-content: center;
+  box-shadow: 0px 5px 5px 0px #0d0c2271;
 }
 
 .buttonLogin:hover {

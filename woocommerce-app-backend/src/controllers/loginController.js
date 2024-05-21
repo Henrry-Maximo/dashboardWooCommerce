@@ -35,7 +35,6 @@ router.post(
           .send({ message: "Usuário ou senha incorretos." });
       }
 
-      
       // comparar a senha fornecida com a senha armazenada
       const isValidPassword = await bcrypt.compare(password, user[0].password);
       if (isValidPassword) {

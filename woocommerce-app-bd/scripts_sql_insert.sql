@@ -40,8 +40,8 @@ WHERE id_order = 10872;
 
 -- Exclusão:
 
-DELETE FROM dashboard_orders 
-WHERE id_order = 10872;
+DELETE FROM dashboard_users 
+WHERE id = 1;
     
 DELETE FROM dashboard_order_sla 
 WHERE id = 1;
