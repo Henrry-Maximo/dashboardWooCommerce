@@ -1,22 +1,19 @@
-.dashboard-footer {
+.main {
   background-color: #333;
   color: #fff;
   padding: 5px;
   width: 100%;
 }
 
-/* Color Link */
-.a-link {
+.main .link {
   color: white;
 }
 
-.a-link:hover {
+.main .link:hover {
   color: #daaa00;
 }
 
-/* Position Info */
-
-.config {
+.content {
   display: inline-block;
   text-align: center;
   width: 50%; /* Adiciona uma largura para ocupar metade da linha */

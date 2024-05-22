@@ -46,11 +46,11 @@
   color: #daaa00;
 }
 
-.logout-btn-container {
+.boxBtn {
   margin-left: 1rem;
 }
 
-.logout-btn {
+.handleLogout {
   background-color: #daaa00;
   color: #fff;
   border: none;
@@ -59,7 +59,7 @@
   cursor: pointer;
 }
 
-.logout-btn:hover {
+.handleLogout:hover {
   background-color: #606060;
 }
 

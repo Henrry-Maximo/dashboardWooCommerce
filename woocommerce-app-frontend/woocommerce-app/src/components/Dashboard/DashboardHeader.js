@@ -29,8 +29,8 @@ const Header = ({ toggleMenu }) => {
             </li>
           </ul>
         </nav>
-        <div className="logout-btn-container">
-          <button className="logout-btn" onClick={handleLogout}>
+        <div className={styles.boxBtn}>
+          <button className={styles.handleLogout} onClick={handleLogout}>
             Sair
           </button>
         </div>
