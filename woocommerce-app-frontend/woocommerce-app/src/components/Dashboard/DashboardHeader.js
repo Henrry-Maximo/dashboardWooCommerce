@@ -11,7 +11,7 @@ const Header = ({ toggleMenu }) => {
   return (
     <header className={styles.wrapper}>
       <div className={styles.container}>
-        <div className="sidebar-toggle" onClick={toggleMenu}>
+        <div className={styles.sidebarToggle} onClick={toggleMenu}>
           ☰
         </div>
         <h1 className={styles.titleHeader}>MOV: DASHBOARD</h1>

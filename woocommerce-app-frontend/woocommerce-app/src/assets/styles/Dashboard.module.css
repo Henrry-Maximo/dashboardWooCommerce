@@ -1,27 +1,27 @@
-.dashboard-content {
+.wrapper {
   display: grid;
   grid-template-columns: auto auto auto auto;
   padding: 1rem;
 }
 
-.dashboard-column {
+.columnStatus {
   padding: 30px 1rem;
   margin: 0px 5px;
 }
 
-.dashboard-status {
+.titleStatus {
   display: flex;
   justify-content: center;
   font-weight: bold;
   font-size: 34px;
 }
 
-.dashboard-icon {
+.iconByStatus {
   margin-right: 5px;
 }
 
 /* Exibição do Contador de Pedidos */
-.dashboard-count {
+.countByStatus {
   background-color: white;
   box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.342);
   border-radius: 5px;
@@ -32,7 +32,7 @@
 }
 
 /* Exibição do Fundo do Card */
-.dashboard-cards {
+.bodyCard {
   display: block;
   border-radius: 5px;
   padding: 2px 4px;
@@ -40,7 +40,7 @@
 }
 
 @media screen and (max-width: 700px) {
-  .dashboard-content {
+  .wrapper {
     display: inline;
   }
 }

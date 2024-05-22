@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { fetchOrders, operatorsInOrders } from "../../services/api.js";
 import OrderCard from "./DashboardCard.js";
-// import "../../assets/styles/Dashboard.css";
+import styles from "../../assets/styles/Dashboard.module.css";
 
 // icons
 import { FaClipboardCheck } from "react-icons/fa6";
@@ -27,8 +27,6 @@ function DashboardCenter() {
       console.error(err);
     }
   };
-
-   
 
   // Contador de Pedidos da Coluna
   const countOrdersByStatus = (status) => {
@@ -71,69 +69,70 @@ function DashboardCenter() {
   useEffect(() => {
     const fetchData = async () => {
       while (true) {
-        await new Promise(resolve => setTimeout(resolve, 10000)); // Espera 15 segundos
+        await new Promise((resolve) => setTimeout(resolve, 10000)); // Espera 15 segundos
         console.log("Atualização em 30 segundos");
         getOrdersApi();
       }
     };
-  
+
     fetchData();
   }, []);
 
   useEffect(() => {
     const operatorsDataOrders = async () => {
       while (true) {
-        await new Promise(resolve => setTimeout(resolve, 30000)); // Espera 15 segundos
+        await new Promise((resolve) => setTimeout(resolve, 30000)); // Espera 15 segundos
         console.log("Atualização em 30 segundos");
         await operatorsInOrders();
       }
     };
-  
+
     operatorsDataOrders();
   }, []);
-  
 
   return (
-    <div className="dashboard-content">
-      <div className="dashboard-column">
-        <span className="dashboard-status">
-          <FaClipboardCheck className="dashboard-icon" />
+    <div className={styles.wrapper}>
+      <div className={styles.columnStatus}>
+        <span className={styles.titleStatus}>
+          <FaClipboardCheck className={styles.iconByStatus} />
           Liberado:
         </span>
-        <div className="dashboard-count">
+        <div className={styles.countByStatus}>
           {countOrdersByStatus("nfe-emitida")}
         </div>
-        <div className="dashboard-cards">{renderOrderCards("nfe-emitida")}</div>
+        <div className={styles.bodyCard}>{renderOrderCards("nfe-emitida")}</div>
       </div>
-      <div className="dashboard-column">
-        <span className="dashboard-status">
-          <FaBox className="dashboard-icon" />
+      <div className={styles.columnStatus}>
+        <span className={styles.titleStatus}>
+          <FaBox className={styles.iconByStatus} />
           Separação:
         </span>
-        <div className="dashboard-count">
+        <div className={styles.countByStatus}>
           {countOrdersByStatus("pedido_separacao")}
         </div>
-        <div className="dashboard-cards">
+        <div className={styles.bodyCard}>
           {renderOrderCards("pedido_separacao")}
         </div>
       </div>
-      <div className="dashboard-column">
-        <span className="dashboard-status">
-          <FaExclamationCircle className="dashboard-icon" />
+      <div className={styles.columnStatus}>
+        <span className={styles.titleStatus}>
+          <FaExclamationCircle className={styles.iconByStatus} />
           Coleta:
         </span>
-        <div className="dashboard-count">{countOrdersByStatus("retirada")}</div>
-        <div className="dashboard-cards">{renderOrderCards("retirada")}</div>
+        <div className={styles.countByStatus}>
+          {countOrdersByStatus("retirada")}
+        </div>
+        <div className={styles.bodyCard}>{renderOrderCards("retirada")}</div>
       </div>
-      <div className="dashboard-column">
-        <span className="dashboard-status">
-          <FaTruckFast className="dashboard-icon" />
+      <div className={styles.columnStatus}>
+        <span className={styles.titleStatus}>
+          <FaTruckFast className={styles.iconByStatus} />
           Transporte:
         </span>
-        <div className="dashboard-count">
+        <div className={styles.countByStatus}>
           {countOrdersByStatus("transporte")}
         </div>
-        <div className="dashboard-cards">{renderOrderCards("transporte")}</div>
+        <div className={styles.bodyCard}>{renderOrderCards("transporte")}</div>
       </div>
     </div>
   );

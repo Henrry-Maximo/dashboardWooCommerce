@@ -26,12 +26,11 @@ const Home = () => {
       <DashboardHeader toggleMenu={toggleMenu} menuOpen={menuOpen} />
       <div style={{ display: "flex", flex: "1" }}>
         <DashboardSidebar
-          style={{ width: "256px" }}
           menuOpen={menuOpen}
           closeMenu={() => setMenuOpen(false)}
         />
         {pathname === "/" || pathname === "/sobre" ? (
-          <div style={{ flex: "1", padding: "0px 5px", overflow: "auto" }}>
+          <div style={{ display: "flex", flex: "1", padding: "0px 5px", overflow: "auto", alignItems: "center" }}>
             {pathname === "/" && <Welcome />}
             {pathname === "/sobre" && <About />}
           </div>
@@ -43,7 +42,7 @@ const Home = () => {
           </div>
         ) : null}
       </div>
-      <DashboardFooter style={{ background: "red" }} />
+      <DashboardFooter />
     </div>
   );
 };

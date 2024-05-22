@@ -1,15 +1,14 @@
 import React, { useState } from "react";
+import { format, formatDistanceToNow } from "date-fns";
+import { ptBR } from "date-fns/locale/pt-BR";
+
 import Card from "react-bootstrap/Card";
-// import "../../assets/styles/DashboardCard.css";
+import styles from "../../assets/styles/DashboardCard.module.css";
 // import moment from "moment-timezone";
 // import { fetchOrderSla } from "../../services/api.js";
 // import { calculateBackgroundColor } from "../../utils/helpers.js";
 
-import { format, formatDistanceToNow } from "date-fns";
-import { ptBR } from "date-fns/locale/pt-BR";
-
 // import PopoverComponent from "../../components/Popover/index.js";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import { RxLapTimer } from "react-icons/rx";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { RxCrossCircled } from "react-icons/rx";
@@ -112,10 +111,10 @@ function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Card.Body id="container-card">
-        <Card.Title className="card-title">
+      <Card.Body className={styles.container}>
+        <Card.Title className={styles.title}>
           <Card.Subtitle>Pedido: {orderId}</Card.Subtitle>
-          <Card.Text className="card-time" > 
+          <Card.Text className={styles.card} > 
           {/* style={{ backgroundColor }} */}
             <RxLapTimer alt="Time Icon" />
             <div>

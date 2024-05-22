@@ -38,15 +38,16 @@
 /* Media query para tornar responsivo */
 @media screen and (max-width: 768px) {
   .sidebar {
-    /* width: 100%; */
-    /* height: auto; */
-    /* position: relative; */
+    width: 100%;
+    height: auto;
+    position: relative;
   }
 
   .navSidebar {
     padding: 1rem;
   }
 }
+
 /* 
 .sidebar {
   width: 200px;
@@ -65,21 +66,7 @@
   background-color: rgba(255, 255, 255, 0);
 }
 
-.sidebar-toggle {
-  background-color: #575757;
-  border-radius: 7px;
-  color: white;
-  cursor: pointer;
-  padding: 10px;
-  margin: 10px;
-  font-size: 18px;
-}
-
-.sidebar-toggle:hover {
-  background-color: #daaa00;
-}
-
-#sidebar-img {
+#icon {
   height: 14px;
   width: 30px;
 }
