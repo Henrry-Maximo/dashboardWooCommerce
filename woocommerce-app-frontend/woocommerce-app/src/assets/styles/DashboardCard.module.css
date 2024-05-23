@@ -21,10 +21,13 @@
   color: #343a40;
   font-weight: bold;
   font-size: 18px;
-  margin-bottom: 10px;
+  margin: 0.625rem 0rem 1rem 0rem;
+  /* margin-bottom: 10px; */
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
+
 
 .cardTime {
   display: flex;

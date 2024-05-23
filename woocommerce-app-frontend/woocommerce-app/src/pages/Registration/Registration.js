@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../services/api.js";
-// import "../../assets/styles/Login.css";
-import Logo from "../../assets/images/mov-logo.png";
-import Logowork from "../../assets/images/key.svg";
+
+import styles from "../../assets/styles/Registration.module.css";
+import Logo from "../../assets/images/icon.png";
+import Logowork from "../../assets/images/noun-login.svg";
 // import Logo from "../../assets/images/noun-login.svg";
 
 const Registation = (request, response) => {
@@ -32,51 +33,53 @@ const Registation = (request, response) => {
   }
 
   return (
-    <div id="container">
-      <div id="login-content">
-        <div className="login-intro">
-          <img src={Logo} alt="Logo da Empresa" className="login-logo" />
-          <p>Faça seu registro</p>
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
+        <div className={styles.headerLogin}>
+          <img src={Logo} alt="Logo da Empresa" className={styles.headerLogo} />
+          <p>Faça o <strong>registro</strong> da sua conta</p>
         </div>
-        <form className="login-form" onSubmit={handleRegistation}>
-          <div className="form-group">
-            <label htmlFor="username">Usuário:</label>
-            <input
-              type="text"
-              className="form-control"
-              id="username"
-              placeholder="Digite seu usuário"
-              value={user}
-              onChange={(e) => setUser(e.target.value)}
-              required
-            />
+        <form className={styles.formBody} onSubmit={handleRegistation}>
+          <div className={styles.spaceInput}>
+            <div className={styles.formLogin}>
+              <label htmlFor="username">Usuário:</label>
+              <input
+                type="text"
+                className={styles.formControl}
+                placeholder="..."
+                value={user}
+                onChange={(e) => setUser(e.target.value)}
+                required
+              />
+            </div>
+            <div className={styles.formLogin}>
+              <label htmlFor="password">Senha:</label>
+              <input
+                type="password"
+                className={styles.formControl}
+                placeholder="..."
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
           </div>
-          <div className="form-group">
-            <label htmlFor="password">Senha:</label>
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              placeholder="Digite sua senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <Link to="/login" className="nav-link" style={{ color: "black" }}>Login</Link>
+          <div className={styles.formLink}>
+            <Link to="/login" className={styles.linkRegistration} style={{ color: "black" }}>
+              Login
+            </Link>
           </div>
           {
             <div style={{ textAlign: "center" }}>
-              <span className="error-message">{error}</span>
+              <span className={styles.messageError}>{error}</span>
             </div>
           }
-          <button type="submit" className="btn btn-primary">
+          <button type="submit" className={styles.buttonLogin}>
             Registrar-se
           </button>
         </form>
       </div>
-      <div id="div-content">
+      <div className={styles.formBackground}>
         <img src={Logowork} alt="Logo da Empresa" />
       </div>
     </div>

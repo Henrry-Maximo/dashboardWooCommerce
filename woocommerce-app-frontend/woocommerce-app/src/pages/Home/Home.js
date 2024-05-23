@@ -15,22 +15,31 @@ const Home = () => {
   const location = useLocation();
   const { pathname } = location;
 
-  const [menuOpen, setMenuOpen] = useState(false);
+  // Hook useState para gerenciar o estado do menu (aberto/fechado)
+  const [menuOpen, setMenuOpen] = useState(true);
 
+  // Função para alternar o estado do menu
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <DashboardHeader toggleMenu={toggleMenu} menuOpen={menuOpen} />
+      <DashboardHeader toggleMenu={toggleMenu} />
       <div style={{ display: "flex", flex: "1" }}>
         <DashboardSidebar
           menuOpen={menuOpen}
-          closeMenu={() => setMenuOpen(false)}
         />
         {pathname === "/" || pathname === "/sobre" ? (
-          <div style={{ display: "flex", flex: "1", padding: "0px 5px", overflow: "auto", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              flex: "1",
+              padding: "0px 5px",
+              overflow: "auto",
+              alignItems: "center",
+            }}
+          >
             {pathname === "/" && <Welcome />}
             {pathname === "/sobre" && <About />}
           </div>

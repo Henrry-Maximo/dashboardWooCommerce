@@ -1,5 +1,5 @@
 body {
-  background-color: var(--gray-100);
+  background-color: var(--white-background);
   color: var(--gray-900);
   /* proriedade semelhantes / chrome && firefox */
   -webkit-font-smoothing: antialiased;
