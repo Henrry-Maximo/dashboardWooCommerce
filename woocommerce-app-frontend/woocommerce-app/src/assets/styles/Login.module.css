@@ -28,9 +28,16 @@
 }
 
 
-@media (max-width: 800px) {
-  #formBackground {
+@media (max-width: 850px) {
+  .formBackground {
+    /* visibility: collapse; */
     display: none;
+  }
+  .containerLogin {
+    height: 40rem;
+    margin: auto;
+    display: flow;
+    align-content: center;
   }
 }
 

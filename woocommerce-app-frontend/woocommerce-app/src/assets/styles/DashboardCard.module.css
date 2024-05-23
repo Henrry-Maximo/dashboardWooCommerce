@@ -8,7 +8,7 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-#container:hover {
+.container:hover {
   transform: translateY(-10px);
   background-color: #ffffff;
   z-index: 1;
@@ -26,7 +26,7 @@
   justify-content: space-between;
 }
 
-.card {
+.cardTime {
   display: flex;
   align-items: center;
   background-color: #007bff;
@@ -36,18 +36,18 @@
   margin-bottom: 10px;
 }
 
-.card strong {
+.cardTime strong {
   margin-left: 10px;
 }
 
-.card-data {
+.cardDate {
   color: #000000;
   font-size: 18px;
   display: flex;
   justify-content: space-between;
 }
 
-.card-printed {
+.cardPrinted {
   display: flex;
   justify-content: center;
   align-items: center;
