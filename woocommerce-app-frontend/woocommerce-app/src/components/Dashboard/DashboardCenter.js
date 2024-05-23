@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { fetchOrders, operatorsInOrders } from "../../services/api.js";
 import OrderCard from "./DashboardCard.js";
+import AnimatedCircles from "./DashboardLoading.js";
 import styles from "../../assets/styles/Dashboard.module.css";
 
 // icons
@@ -57,11 +58,9 @@ function DashboardCenter() {
     } else {
       // Exibir uma mensagem de carregamento ou erro na interface do usuário
       return (
-        <p style={{ textAlign: "center" }}>
-          Falha na conexão.
-          <br />
-          Por favor, tente novamente mais tarde.
-        </p>
+        <div>
+          <AnimatedCircles  />
+        </div>
       );
     }
   };
