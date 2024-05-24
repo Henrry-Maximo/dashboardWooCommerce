@@ -100,8 +100,13 @@ async function updateOrderNotReturnApi() {
   if (!fetchNewOrders || fetchNewOrders.length === 0) {
     const ordersAllActive = await db.getOrderbyDateAsc();
 
-    for (const row of ordersAllActive) {
-      await db.updateOrderForDeactivate(desactiveOrderInDatabase ? 1 : 0, row.id_order);
+    if (ordersAllActive.length > 0) {
+      for (const row of ordersAllActive) {
+        await db.updateOrderForDeactivate(
+          desactiveOrderInDatabase ? 1 : 0,
+          row.id_order
+        );
+      }
     }
 
     return;

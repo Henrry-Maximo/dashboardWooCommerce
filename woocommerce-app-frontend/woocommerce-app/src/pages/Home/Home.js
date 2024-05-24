@@ -9,7 +9,7 @@ import DashboardCenter from "../../components/Dashboard/DashboardCenter.js";
 import Welcome from "./Welcome.js";
 import About from "./About.js";
 
-import styles from "../../assets/styles/Home.module.css";
+// import styles from "../../assets/styles/Home.module.css";
 
 const Home = () => {
   const location = useLocation();
