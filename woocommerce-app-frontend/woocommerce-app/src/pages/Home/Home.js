@@ -20,15 +20,23 @@ const Home = () => {
 
   // Função para alternar o estado do menu
   const toggleMenu = () => {
+    console.log(!menuOpen);
     setMenuOpen(!menuOpen);
   };
 
+  // deslogar usuário (botão sair do header)
+  function handleLogout() {
+    sessionStorage.clear();
+    window.location.reload(true);
+  }
+
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <DashboardHeader toggleMenu={toggleMenu} />
+      <DashboardHeader toggleMenu={toggleMenu} closeMenu={() => setMenuOpen(true)} handleLogout={handleLogout} />
       <div style={{ display: "flex", flex: "1" }}>
         <DashboardSidebar
           menuOpen={menuOpen}
+          closeMenu={() => setMenuOpen(true)}
         />
         {pathname === "/" || pathname === "/sobre" ? (
           <div

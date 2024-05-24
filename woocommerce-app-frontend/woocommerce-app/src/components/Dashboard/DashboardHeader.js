@@ -2,12 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "../../assets/styles/DashboardHeader.module.css"; 
 
-const Header = ({ toggleMenu }) => {
-  function handleLogout() {
-    sessionStorage.clear();
-    window.location.reload(true);
-  }
-
+const Header = ({ toggleMenu, closeMenu, handleLogout }) => {
   return (
     <header className={styles.wrapper}>
       <div className={styles.container}>
@@ -18,12 +13,12 @@ const Header = ({ toggleMenu }) => {
         <nav className={styles.optionsNav}>
           <ul className={styles.listNav}>
             <li className={styles.itemNav}>
-              <Link to="/" className={styles.linkNav}>
+              <Link to="/" className={styles.linkNav} onClick={closeMenu}>
                 Início
               </Link>
             </li>
             <li className={styles.itemNav}>
-              <Link to="/sobre" className={styles.linkNav}>
+              <Link to="/sobre" className={styles.linkNav} onClick={closeMenu}>
                 Sobre
               </Link>
             </li>

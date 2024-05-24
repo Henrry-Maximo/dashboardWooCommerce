@@ -7,13 +7,17 @@ import { FaDisplay } from "react-icons/fa6";
 import { FaBox } from "react-icons/fa";
 import { GrConfigure } from "react-icons/gr";
 
-const DashboardSidebar = ({ menuOpen }) => {
+const DashboardSidebar = ({ menuOpen, closeMenu }) => {
   return (
     <aside className={`${styles.sidebar} ${menuOpen ? styles.open : ""}`}>
       <nav className={styles.navSidebar}>
         <ul className={styles.listSidebar}>
           <li className={styles.itemSidebar}>
-            <Link to="/dashboard" className={styles.linkSidebar}>
+            <Link
+              to="/dashboard"
+              className={styles.linkSidebar}
+              onClick={closeMenu}
+            >
               <FaBox className={styles.icon} />
               Dashboard de Pedidos
             </Link>
