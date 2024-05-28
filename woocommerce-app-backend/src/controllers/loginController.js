@@ -18,13 +18,9 @@ router.post(
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return response.status(400).json({ message: errors.array() });
+      const error = errors.array();
+      return response.status(400).json({ message: error[0].msg });
     }
-
-    // validar entrada de dados
-    // if (!username || !password) {
-    //   return res.status(401).send({ message: "Usuário ou senha está faltando." });
-    // }
 
     try {
       // obter usuário do banco
