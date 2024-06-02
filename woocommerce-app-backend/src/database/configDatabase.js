@@ -10,15 +10,18 @@ dotenv.config();
 //     database: 'order_analytics_db'
 // });
 
+
+// regra: verificar conexão
 const pool = mysql.createPool({
   host: process.env.HOST,
   user: process.env.USER,
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
   waitForConnections: true,
-  connectionLimit: 100, // ou o número máximo de conexões que você deseja
+  connectionLimit: 100, // número máximo de conexões
   queueLimit: 0,
 });
+
 
 // pool.connect(function (err) {
 //     if (err) {
