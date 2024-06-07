@@ -34,6 +34,19 @@ class Database {
     }
   }
 
+  async getOrderbyDateAscDeactivate() {
+    try {
+      // Consulta para obter os pedidos (ativo + decrescente)
+      const selectOrderQuery =
+        "SELECT * FROM dashboard_orders WHERE active = 0 ORDER BY date_created ASC;";
+      const [rows] = await this.connection.query(selectOrderQuery);
+
+      return rows;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async insertOrder(
     orderId,
     number,

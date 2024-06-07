@@ -112,6 +112,26 @@ async function updateOrderNotReturnApi() {
     return;
   }
 
+  // if (fetchNewOrders) {
+  //   const ordersAllActive = await db.getOrderbyDateAscDeactivate();
+  //   desactiveOrderInDatabase = true;
+
+  //   if (ordersAllActive) {
+  //     for (const row of ordersAllActive) {
+  //       // 1. percorrer os dados
+  //       // 2. verificar se são iguais: id da api, id do banco
+  //       // 3. se forem, atualizar para ativo
+
+  //       await db.updateOrderForDeactivate(
+  //         desactiveOrderInDatabase ? 1 : 0,
+  //         row.id_order
+  //       );
+  //     }
+  //   }
+
+  //   return;
+  // }
+
   // Criar uma lista de IDs das ordens retornadas pela API
   const orderIds = fetchNewOrders.map((order) => order.id);
 
