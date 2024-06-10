@@ -36,7 +36,7 @@ WHERE id_order = 10872;
 
 UPDATE dashboard_orders
 SET active = 0
-WHERE id_order = 11672;
+WHERE id_order = 11229;
 
 -- Exclusão:
 

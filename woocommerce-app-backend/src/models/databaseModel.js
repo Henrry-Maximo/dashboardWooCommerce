@@ -34,12 +34,12 @@ class Database {
     }
   }
 
-  async getOrderbyDateAscDeactivate() {
+  async getOrderbyDateAscDeactivate(idOrder) {
     try {
       // Consulta para obter os pedidos (ativo + decrescente)
       const selectOrderQuery =
-        "SELECT * FROM dashboard_orders WHERE active = 0 ORDER BY date_created ASC;";
-      const [rows] = await this.connection.query(selectOrderQuery);
+        "SELECT * FROM dashboard_orders WHERE active = 0 AND id_order = ? ORDER BY date_created ASC;";
+      const [rows] = await this.connection.query(selectOrderQuery,[idOrder]);
 
       return rows;
     } catch (error) {
