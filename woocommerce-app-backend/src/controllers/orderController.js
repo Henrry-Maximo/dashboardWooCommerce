@@ -112,12 +112,16 @@ async function updateOrderNotReturnApi() {
     return;
   }
 
+  // Se a API retornar dados, verificar cada linha e atualizar para true no banco de dados
   if (fetchNewOrders) {
     const onOrderForOn = true;
 
     for (const row of fetchNewOrders) {
       const orderUpdateActive = await db.getOrderbyDateAscDeactivate(row.id);
-      await db.updateOrderForDeactivate(onOrderForOn ? 1 : 0, orderUpdateActive[0].id_order);
+      console.log(orderUpdateActive)
+      // if (orderUpdateActive) {
+      //   await db.updateOrderForDeactivate(onOrderForOn ? 1 : 0, orderUpdateActive[0].id_order);
+      // }
     }
     
     return;

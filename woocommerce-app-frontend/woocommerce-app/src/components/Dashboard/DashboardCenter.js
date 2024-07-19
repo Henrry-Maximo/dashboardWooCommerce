@@ -9,8 +9,10 @@ import styles from "../../assets/styles/Dashboard.module.css";
 import { FaClipboardCheck } from "react-icons/fa6";
 import { FaBox } from "react-icons/fa";
 import { FaExclamationCircle } from "react-icons/fa";
-import { FaTruckFast } from "react-icons/fa6";
+// import { FaTruckFast } from "react-icons/fa6";
 
+import gifTransport from '../../assets/images/teste.gif';
+// woocommerce-app-frontend\woocommerce-app\src\assets\images
 function DashboardCenter() {
   const [orders, setOrders] = useState([]);
 
@@ -94,7 +96,7 @@ function DashboardCenter() {
       <div className={styles.columnStatus}>
         <span className={styles.titleStatus}>
           <FaClipboardCheck className={styles.iconByStatus} />
-          Liberado:
+          Liberado
         </span>
         <div className={styles.countByStatus}>
           {countOrdersByStatus("nfe-emitida")}
@@ -104,7 +106,7 @@ function DashboardCenter() {
       <div className={styles.columnStatus}>
         <span className={styles.titleStatus}>
           <FaBox className={styles.iconByStatus} />
-          Separação:
+          Separação
         </span>
         <div className={styles.countByStatus}>
           {countOrdersByStatus("pedido_separacao")}
@@ -116,7 +118,7 @@ function DashboardCenter() {
       <div className={styles.columnStatus}>
         <span className={styles.titleStatus}>
           <FaExclamationCircle className={styles.iconByStatus} />
-          Coleta:
+          Coleta
         </span>
         <div className={styles.countByStatus}>
           {countOrdersByStatus("retirada")}
@@ -125,8 +127,9 @@ function DashboardCenter() {
       </div>
       <div className={styles.columnStatus}>
         <span className={styles.titleStatus}>
-          <FaTruckFast className={styles.iconByStatus} />
-          Transporte:
+          {/* <FaTruckFast className={styles.iconByStatus} /> */}
+          <img src={gifTransport} alt="teste" className={styles.iconByStatus}></img>
+          Transporte
         </span>
         <div className={styles.countByStatus}>
           {countOrdersByStatus("transporte")}

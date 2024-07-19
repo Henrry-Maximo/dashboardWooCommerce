@@ -9,7 +9,7 @@ const Header = ({ toggleMenu, closeMenu, handleLogout }) => {
         <div className={styles.sidebarToggle} onClick={toggleMenu}>
           ☰
         </div>
-        <h1 className={styles.titleHeader}>MOV: DASHBOARD</h1>
+        <h1 className={styles.titleHeader}>MOV DASHBOARD</h1>
         <nav className={styles.optionsNav}>
           <ul className={styles.listNav}>
             <li className={styles.itemNav}>

@@ -41,7 +41,7 @@ class Database {
         "SELECT * FROM dashboard_orders WHERE active = 0 AND id_order = ? ORDER BY date_created ASC;";
       const [rows] = await this.connection.query(selectOrderQuery,[idOrder]);
 
-      return rows;
+      return rows || "";
     } catch (error) {
       throw error;
     }

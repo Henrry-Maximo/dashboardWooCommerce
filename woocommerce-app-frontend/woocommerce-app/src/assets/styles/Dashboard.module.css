@@ -14,10 +14,13 @@
   justify-content: center;
   font-weight: bold;
   font-size: 34px;
+  gap: 10px;
 }
 
 .iconByStatus {
   margin-right: 5px;
+  height: 40px;
+  width: 85px;
 }
 
 /* Exibição do Contador de Pedidos */
