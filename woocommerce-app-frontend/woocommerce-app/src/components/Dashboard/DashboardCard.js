@@ -27,15 +27,39 @@ function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
     }
   );
 
+  const publishedDateModifiedFormatted = format(
+    orderDateModified,
+    "dd 'de' LLLL 'às' HH:mm'h'",
+    {
+      locale: ptBR,
+    }
+  );
+
   const publishedDate = format(orderDate, "dd'/'MM'/'yyyy HH:mm'h'", {
     locale: ptBR,
   });
+
+  const publishedModifiedDate = format(
+    orderDateModified,
+    "dd'/'MM'/'yyyy HH:mm'h'",
+    {
+      locale: ptBR,
+    }
+  );
 
   // valor data: há cerca...
   const publishedDateRelativeToNow = formatDistanceToNow(orderDate, {
     locale: ptBR,
     addSuffix: true,
   });
+
+  const publishedDateModifiedRelativeToNow = formatDistanceToNow(
+    orderDateModified,
+    {
+      locale: ptBR,
+      addSuffix: true,
+    }
+  );
 
   // useEffect(() => {
   //   async function fetchData() {
@@ -124,16 +148,36 @@ function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
         <Card.Text className={styles.cardDate}>
           <div className={styles.cardPrinted}>
             <strong>Impresso: </strong>
-            {orderPrinted ? <FaRegCheckCircle /> : <RxCrossCircled />}
+            {orderPrinted ? (
+              <FaRegCheckCircle
+                style={{ background: "var(--green)", borderRadius: "10px" }}
+              />
+            ) : (
+              <RxCrossCircled
+                style={{ background: "var(--yellow)", borderRadius: "10px" }}
+              />
+            )}
           </div>
-          <time title={publishedDateFormatted} dateTime={orderDate}>
-            <div>
-              <strong>Data: </strong>
-              {publishedDate}
-              {/* <PopoverComponent order={orderId} /> */}
-            </div>
-            <div>{publishedDateRelativeToNow}</div>
-          </time>
+          <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+            <time title={publishedDateFormatted} dateTime={orderDate}>
+              <div>
+                <strong>Criado: </strong>
+                {publishedDate}
+                {/* <PopoverComponent order={orderId} /> */}
+              </div>
+              <div>{publishedDateRelativeToNow}</div>
+            </time>
+            <time
+              title={publishedDateModifiedFormatted}
+              dateTime={orderDateModified}
+            >
+              <div>
+                <strong>Modificado: </strong>
+                {publishedModifiedDate}
+              </div>
+              <div>{publishedDateModifiedRelativeToNow}</div>
+            </time>
+          </div>
         </Card.Text>
       </Card.Body>
     </Card>

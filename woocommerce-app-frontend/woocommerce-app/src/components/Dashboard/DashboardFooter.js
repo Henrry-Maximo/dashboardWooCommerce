@@ -9,7 +9,7 @@ const DashboardFooter = () => {
                 <a href="https://mov.com.br/" target="_blank" className={styles.link} rel="noreferrer">
                     MOV
                 </a>
-                . Todos os direitos reservados.
+                .  Todos os direitos reservados.
             </p>
             <p className={styles.version}>Version 1.0</p>
         </footer>

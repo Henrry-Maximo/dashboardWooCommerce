@@ -1,6 +1,7 @@
 .wrapper {
   background-color: var(--gray-400);
   color: var(--white);
+  border-bottom: 1px solid orange;
   padding: 1rem;
 }
 
