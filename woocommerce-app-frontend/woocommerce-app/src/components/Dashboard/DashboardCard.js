@@ -137,7 +137,7 @@ function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
     >
       <Card.Body className={styles.container}>
         <Card.Title className={styles.title}>
-          <Card.Subtitle>Pedido: {orderId}</Card.Subtitle>
+          <Card.Subtitle style={{ fontSize: "1.40rem" }}>Pedido: {orderId}</Card.Subtitle>
           <Card.Text className={styles.cardTime}>
             {/* style={{ backgroundColor }} */}
             <RxLapTimer alt="Time Icon" />
@@ -147,8 +147,8 @@ function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
 
         <Card.Text className={styles.cardDate}>
           <div className={styles.cardPrinted}>
-            <strong>Impresso: </strong>
-            {orderPrinted ? (
+          <strong>Impresso: </strong>
+            {orderPrinted ? (    
               <FaRegCheckCircle
                 style={{ background: "var(--green)", borderRadius: "10px" }}
               />

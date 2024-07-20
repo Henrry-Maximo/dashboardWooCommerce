@@ -11,8 +11,13 @@ import { FaBox } from "react-icons/fa";
 import { FaExclamationCircle } from "react-icons/fa";
 // import { FaTruckFast } from "react-icons/fa6";
 
-import gifTransport from '../../assets/images/teste.gif';
-// woocommerce-app-frontend\woocommerce-app\src\assets\images
+import gifCheck from '../../assets/images/check.gif';
+import gifBox from '../../assets/images/box.gif';
+import gifExclamation from '../../assets/images/exclamation.gif';
+import gifTransport from '../../assets/images/transport.gif';
+
+// woocommerce-app-frontend\woocommerce-app\src\assets\images;
+
 function DashboardCenter() {
   const [orders, setOrders] = useState([]);
 
@@ -71,7 +76,7 @@ function DashboardCenter() {
     const fetchData = async () => {
       while (true) {
         await new Promise((resolve) => setTimeout(resolve, 10000)); // Espera 15 segundos
-        console.log("Atualização em 30 segundos");
+        // console.log("Atualização em 30 segundos");
         getOrdersApi();
       }
     };
@@ -82,8 +87,8 @@ function DashboardCenter() {
   useEffect(() => {
     const operatorsDataOrders = async () => {
       while (true) {
-        await new Promise((resolve) => setTimeout(resolve, 30000)); // Espera 15 segundos
-        console.log("Atualização em 30 segundos");
+        await new Promise((resolve) => setTimeout(resolve, 30000));
+        // console.log("Atualização em 30 segundos");
         await operatorsInOrders();
       }
     };
@@ -95,7 +100,8 @@ function DashboardCenter() {
     <div className={styles.wrapper}>
       <div className={styles.columnStatus}>
         <span className={styles.titleStatus}>
-          <FaClipboardCheck className={styles.iconByStatus} />
+          {/* <FaClipboardCheck className={styles.iconByStatus} /> */}
+          <img src={gifCheck} alt="gif-collect" className={styles.iconByStatus}></img>
           Liberado
         </span>
         <div className={styles.countByStatus}>
@@ -105,7 +111,8 @@ function DashboardCenter() {
       </div>
       <div className={styles.columnStatus}>
         <span className={styles.titleStatus}>
-          <FaBox className={styles.iconByStatus} />
+          {/* <FaBox className={styles.iconByStatus} /> */}
+          <img src={gifBox} alt="gif-collect" className={styles.iconByStatus}></img>
           Separação
         </span>
         <div className={styles.countByStatus}>
@@ -117,7 +124,8 @@ function DashboardCenter() {
       </div>
       <div className={styles.columnStatus}>
         <span className={styles.titleStatus}>
-          <FaExclamationCircle className={styles.iconByStatus} />
+          {/* <FaExclamationCircle className={styles.iconByStatus} /> */}
+          <img src={gifExclamation} alt="gif-collect" className={styles.iconByStatus}></img>
           Coleta
         </span>
         <div className={styles.countByStatus}>
@@ -128,7 +136,7 @@ function DashboardCenter() {
       <div className={styles.columnStatus}>
         <span className={styles.titleStatus}>
           {/* <FaTruckFast className={styles.iconByStatus} /> */}
-          <img src={gifTransport} alt="teste" className={styles.iconByStatus}></img>
+          <img src={gifTransport} alt="gif-transport" className={styles.iconByStatus}></img>
           Transporte
         </span>
         <div className={styles.countByStatus}>

@@ -44,8 +44,9 @@
 
 .cardDate {
   color: #000000;
-  font-size: 18px;
+  font-size: 1.25rem;
   display: flex;
+  gap: 1rem;
   justify-content: space-between;
 }
 
