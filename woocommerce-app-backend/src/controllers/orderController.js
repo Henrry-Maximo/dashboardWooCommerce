@@ -93,7 +93,6 @@ async function updateOrdersInDatabase() {
 // desativar no banco pedidos não retornados da api
 async function updateOrderNotReturnApi() {
   const fetchNewOrders = await getOrderDataFromApi();
-  const desactiveOrderInDatabase = false; // parâmetro utilizado para desativar visualização
   let listOrdersOffline = [];
 
   // Se a API não retornar nenhuma ordem, desativar todas as ordens no banco de dados
@@ -102,44 +101,33 @@ async function updateOrderNotReturnApi() {
 
     if (ordersAllActive.length > 0) {
       for (const row of ordersAllActive) {
-        await db.updateOrderForDeactivate(
-          desactiveOrderInDatabase ? 1 : 0,
-          row.id_order
-        );
+        await db.updateOrderForDeactivate(0, row.id_order);
       }
     }
-
-    return;
   }
 
   // Se a API retornar dados, verificar cada linha e atualizar para true no banco de dados
-  if (fetchNewOrders) {
-    const onOrderForOn = true;
-
+  if (fetchNewOrders && fetchNewOrders.length > 0) {
     for (const row of fetchNewOrders) {
       const orderUpdateActive = await db.getOrderbyDateAscDeactivate(row.id);
-      console.log(orderUpdateActive)
-      // if (orderUpdateActive) {
-      //   await db.updateOrderForDeactivate(onOrderForOn ? 1 : 0, orderUpdateActive[0].id_order);
-      // }
+      if (orderUpdateActive.length > 0) {
+        await db.updateOrderForDeactivate(1, orderUpdateActive[0].id_order);
+      }
     }
-    
-    return;
   }
 
   // Criar uma lista de IDs das ordens retornadas pela API
   const orderIds = fetchNewOrders.map((order) => order.id);
-
   // Obter ordens no banco de dados que não estão na lista de IDs da API
   const fetchMissingOrders = await db.selectMissingOrders(orderIds);
 
-  for (const line of fetchMissingOrders) {
-    await db.updateOrderForDeactivate(
-      desactiveOrderInDatabase ? 1 : 0,
-      line.id_order
-    );
-    listOrdersOffline.push({ order: line.id_order });
+  if (fetchMissingOrders) {
+    for (const line of fetchMissingOrders) {
+      await db.updateOrderForDeactivate(0, line.id_order);
+      listOrdersOffline.push({ order: line.id_order });
+    }
   }
+  
   return listOrdersOffline;
 }
 
