@@ -15,7 +15,7 @@ SELECT * FROM dashboard_orders WHERE active = 1 AND id_order NOT IN (10279, 1028
 
 # Inserção de Pedidos na tabela "dashboard_orders"
 INSERT INTO dashboard_orders (ID_ORDER, ORDER_NUMBER, STATUS, PRINTED, DATE_CREATED, DATE_MODIFIED, ACTIVE)
-VALUES (11673, "11693", "pedido_separacao", 0, "2024-04-24 15:11:23", "2024-04-24 15:11:23", 1);
+VALUES (33335, "33335", "pedido_separacao", 0, "2024-04-24 15:11:23", "2024-04-24 15:11:23", 1);
        
 INSERT INTO dashboard_users (name, password)
 VALUES ("Edivanei", "@12345");
@@ -27,8 +27,8 @@ SET sla_id = 2, sla_start = 8
 WHERE order_id = 8009;
 
 UPDATE dashboard_orders
-SET status = "pedido_separacao"
-WHERE id_order = 10842;
+SET status = "nfe-emitida"
+WHERE id_order = 12279;
 
 UPDATE dashboard_orders
 SET printed = 1
