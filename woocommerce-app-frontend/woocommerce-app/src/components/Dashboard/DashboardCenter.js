@@ -6,9 +6,9 @@ import AnimatedCircles from "./DashboardLoading.js";
 import styles from "../../assets/styles/Dashboard.module.css";
 
 // icons
-import { FaClipboardCheck } from "react-icons/fa6";
-import { FaBox } from "react-icons/fa";
-import { FaExclamationCircle } from "react-icons/fa";
+// import { FaClipboardCheck } from "react-icons/fa6";
+// import { FaBox } from "react-icons/fa";
+// import { FaExclamationCircle } from "react-icons/fa";
 // import { FaTruckFast } from "react-icons/fa6";
 
 import gifCheck from '../../assets/images/check.gif';

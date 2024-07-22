@@ -19,13 +19,13 @@ function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
   const [isHovered, setIsHovered] = useState(false);
 
   // valor data: formatação
-  const publishedDateFormatted = format(
-    orderDate,
-    "dd 'de' LLLL 'às' HH:mm'h'",
-    {
-      locale: ptBR,
-    }
-  );
+  // const publishedDateFormatted = format(
+  //   orderDate,
+  //   "dd 'de' LLLL 'às' HH:mm'h'",
+  //   {
+  //     locale: ptBR,
+  //   }
+  // );
 
   const publishedDateModifiedFormatted = format(
     orderDateModified,
@@ -35,9 +35,9 @@ function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
     }
   );
 
-  const publishedDate = format(orderDate, "dd'/'MM'/'yyyy HH:mm'h'", {
-    locale: ptBR,
-  });
+  // const publishedDate = format(orderDate, "dd'/'MM'/'yyyy HH:mm'h'", {
+  //   locale: ptBR,
+  // });
 
   const publishedModifiedDate = format(
     orderDateModified,
@@ -48,10 +48,10 @@ function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
   );
 
   // valor data: há cerca...
-  const publishedDateRelativeToNow = formatDistanceToNow(orderDate, {
-    locale: ptBR,
-    addSuffix: true,
-  });
+  // const publishedDateRelativeToNow = formatDistanceToNow(orderDate, {
+  //   locale: ptBR,
+  //   addSuffix: true,
+  // });
 
   const publishedDateModifiedRelativeToNow = formatDistanceToNow(
     orderDateModified,
@@ -159,14 +159,14 @@ function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
             )}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-            <time title={publishedDateFormatted} dateTime={orderDate}>
+            {/* <time title={publishedDateFormatted} dateTime={orderDate}>
               <div>
                 <strong>Criado: </strong>
                 {publishedDate}
-                {/* <PopoverComponent order={orderId} /> */}
+                <PopoverComponent order={orderId} />
               </div>
               <div>{publishedDateRelativeToNow}</div>
-            </time>
+            </time> */}
             <time
               title={publishedDateModifiedFormatted}
               dateTime={orderDateModified}

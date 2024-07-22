@@ -34,6 +34,17 @@
   color: #daaa00;
 }
 
+.handleLogout {
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.handleLogout:hover {
+  background-color: #606060;
+}
+
 /* Media query para tornar responsivo */
 @media screen and (max-width: 768px) {
   .sidebar {

@@ -32,11 +32,12 @@ const Home = () => {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <DashboardHeader toggleMenu={toggleMenu} closeMenu={() => setMenuOpen(true)} handleLogout={handleLogout} />
+      <DashboardHeader toggleMenu={toggleMenu} closeMenu={() => setMenuOpen(true)}  />
       <div style={{ display: "flex", flex: "1" }}>
         <DashboardSidebar
           menuOpen={menuOpen}
           closeMenu={() => setMenuOpen(true)}
+          handleLogout={handleLogout}
         />
         {pathname === "/" || pathname === "/sobre" ? (
           <div

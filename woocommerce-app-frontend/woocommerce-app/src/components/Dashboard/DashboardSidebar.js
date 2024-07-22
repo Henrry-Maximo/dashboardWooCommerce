@@ -8,6 +8,7 @@ import { FaDisplay } from "react-icons/fa6";
 import { FaBox } from "react-icons/fa";
 import { GrConfigure } from "react-icons/gr";
 import { FaExclamationCircle } from "react-icons/fa";
+import { MdLogout } from "react-icons/md";
 
 const DashboardSidebar = ({ menuOpen, closeMenu, handleLogout }) => {
   return (
@@ -52,12 +53,16 @@ const DashboardSidebar = ({ menuOpen, closeMenu, handleLogout }) => {
               Sobre
             </Link>
           </li>
+          <li className={styles.itemSidebar}>
+            <Link
+              className={styles.linkSidebar}
+              onClick={handleLogout}
+            >
+              <MdLogout />
+              Sair
+            </Link>
+          </li>
         </ul>
-        {/* <div className={styles.boxBtn}>
-          <button className={styles.handleLogout} onClick={handleLogout}>
-            Sair
-          </button>
-        </div> */}
       </nav>
     </aside>
   );

@@ -13,16 +13,6 @@
   margin: 0 auto;
 }
 
-.titleHeader {
-  margin: 0;
-  color: var(--yellow);
-}
-
-.titleHeader:hover {
-  color: var(--white);
-  cursor: default;
-}
-
 .optionsNav {
   flex-grow: 1;
   padding: 20px;
@@ -54,11 +44,10 @@
   cursor: pointer;
   padding: 10px;
   margin: 10px;
-  font-size: 18px;
 }
 
 .sidebarToggle:hover {
-  background-color: #daaa00;
+  background-color:#eaeaea;
 }
 
 .boxBtn {
