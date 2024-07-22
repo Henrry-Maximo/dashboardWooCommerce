@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import styles from "../../assets/styles/DashboardHeader.module.css"; 
 
 const Header = ({ toggleMenu, closeMenu, handleLogout }) => {
@@ -10,7 +10,7 @@ const Header = ({ toggleMenu, closeMenu, handleLogout }) => {
           ☰
         </div>
         <h1 className={styles.titleHeader}>MOV DASHBOARD</h1>
-        <nav className={styles.optionsNav}>
+        {/* <nav className={styles.optionsNav}>
           <ul className={styles.listNav}>
             <li className={styles.itemNav}>
               <Link to="/" className={styles.linkNav} onClick={closeMenu}>
@@ -23,7 +23,7 @@ const Header = ({ toggleMenu, closeMenu, handleLogout }) => {
               </Link>
             </li>
           </ul>
-        </nav>
+        </nav> */}
         <div className={styles.boxBtn}>
           <button className={styles.handleLogout} onClick={handleLogout}>
             Sair
