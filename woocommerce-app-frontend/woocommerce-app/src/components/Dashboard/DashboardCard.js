@@ -29,7 +29,7 @@ function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
 
   const publishedDateModifiedFormatted = format(
     orderDateModified,
-    "dd 'de' LLLL 'às' HH:mm'h'",
+    "dd 'de' LLLL 'às' HH'h'mm",
     {
       locale: ptBR,
     }
@@ -41,7 +41,7 @@ function OrderCard({ orderId, orderPrinted, orderDate, orderDateModified }) {
 
   const publishedModifiedDate = format(
     orderDateModified,
-    "dd'/'MM'/'yyyy HH'h':mm",
+    "dd'/'MM'/'yyyy HH'h'mm",
     {
       locale: ptBR,
     }

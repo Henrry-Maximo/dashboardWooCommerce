@@ -102,7 +102,7 @@ function DashboardCenter() {
         <span className={styles.titleStatus}>
           {/* <FaClipboardCheck className={styles.iconByStatus} /> */}
           <img src={gifCheck} alt="gif-collect" className={styles.iconByStatus}></img>
-          Liberado
+          LIBERADO
         </span>
         <div className={styles.countByStatus}>
           {countOrdersByStatus("nfe-emitida")}
@@ -113,7 +113,7 @@ function DashboardCenter() {
         <span className={styles.titleStatus}>
           {/* <FaBox className={styles.iconByStatus} /> */}
           <img src={gifBox} alt="gif-collect" className={styles.iconByStatus}></img>
-          Separação
+          SEPARAÇÃO
         </span>
         <div className={styles.countByStatus}>
           {countOrdersByStatus("pedido_separacao")}
@@ -126,7 +126,7 @@ function DashboardCenter() {
         <span className={styles.titleStatus}>
           {/* <FaExclamationCircle className={styles.iconByStatus} /> */}
           <img src={gifExclamation} alt="gif-collect" className={styles.iconByStatus}></img>
-          Coleta
+          COLETA
         </span>
         <div className={styles.countByStatus}>
           {countOrdersByStatus("retirada")}
@@ -137,7 +137,7 @@ function DashboardCenter() {
         <span className={styles.titleStatus}>
           {/* <FaTruckFast className={styles.iconByStatus} /> */}
           <img src={gifTransport} alt="gif-transport" className={styles.iconByStatus}></img>
-          Transporte
+          TRANSPORTE
         </span>
         <div className={styles.countByStatus}>
           {countOrdersByStatus("transporte")}
