@@ -20,7 +20,7 @@ const Home = () => {
 
   // Função para alternar o estado do menu
   const toggleMenu = () => {
-    console.log(!menuOpen);
+    // console.log(!menuOpen);
     setMenuOpen(!menuOpen);
   };
 
