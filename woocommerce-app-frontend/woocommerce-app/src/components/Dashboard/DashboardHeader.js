@@ -24,19 +24,19 @@ const Header = ({ toggleMenu }) => {
   }, []);
 
   useEffect(() => {
-    const fetchWeather = async () => {
+    const fetchWeather = setInterval(async () => {
       try {
         const response = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?lat=-23.638435&lon=-46.822674&units=metric&appid=ce3addfba6e2d71da642ee3f32350756&lang=pt_br`
+          `https://api.openweathermap.org/data/2.5/weather?lat=-23.638435&lon=-46.822674&units=metric&appid=${process.env.REACT_APP_API_TEMP}&lang=pt_br`
         );
         const data = response.data;
         setWeather(data);
       } catch (error) {
         console.error("Error fetching weather data", error);
       }
-    };
+    }, 600000);
 
-    fetchWeather();
+    return () => clearInterval(fetchWeather);
   }, []);
 
   const nowSystemDate = format(currentTime, "dd'/'MM'/'yyyy", {
@@ -47,7 +47,9 @@ const Header = ({ toggleMenu }) => {
     locale: ptBR,
   });
 
-  const nowTempFormatterString = weather ? weather.weather[0].description : "Carregando...";
+  const nowTempFormatterString = weather
+    ? weather.weather[0].description
+    : "Carregando...";
   const nowTempString =
     nowTempFormatterString.charAt(0).toUpperCase() +
     nowTempFormatterString.slice(1).toLowerCase();

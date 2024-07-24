@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://10.10.2.16:8080/mov";
+const baseURL = process.env.REACT_APP_API_BASE;
 export const api = axios.create({ baseURL });
 
 export function configureAxios(token) {
