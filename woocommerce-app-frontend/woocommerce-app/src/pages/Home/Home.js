@@ -9,7 +9,7 @@ import DashboardCenter from "../../components/Dashboard/DashboardCenter.js";
 import Welcome from "./Welcome.js";
 import About from "./About.js";
 
-// import styles from "../../assets/styles/Home.module.css";
+import styles from "../../assets/styles/Home.module.css";
 
 const Home = () => {
   const location = useLocation();
@@ -31,7 +31,7 @@ const Home = () => {
   }
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }} className={styles.removeScroll}>
       <DashboardHeader toggleMenu={toggleMenu} closeMenu={() => setMenuOpen(true)}  />
       <div style={{ display: "flex", flex: "1" }}>
         <DashboardSidebar
