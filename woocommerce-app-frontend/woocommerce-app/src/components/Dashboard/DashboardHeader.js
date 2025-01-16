@@ -7,6 +7,11 @@ import mov from "../../assets/images/mov-logo-new.png";
 import iconMenu from "../../assets/images/menu-fill.png";
 import arrowMenu from "../../assets/images/arrow-logo.gif";
 
+import TiWeatherPartlySunny from "../../assets/weather-icons/TiWeatherPartlySunny.png";
+import TiWeatherSunny from "../../assets/weather-icons/TiWeatherSunny.png";
+import TiWeatherCloudy from "../../assets/weather-icons/TiWeatherCloudy.png";
+import TiWeatherStormy from "../../assets/weather-icons/TiWeatherStormy.png";
+
 import { format } from "date-fns";
 import axios from "axios";
 
@@ -56,6 +61,17 @@ const Header = ({ toggleMenu }) => {
 
   const nowTempTime = weather ? ~~weather.main.temp : "Carregando...";
 
+  function getIconWeather(climateDegreesNumber) {
+    if (climateDegreesNumber >= 20 && climateDegreesNumber <= 26) {
+      return <img src={TiWeatherPartlySunny} alt="climate" style={{ width: "32px" }} />;
+    } else if (climateDegreesNumber >= 27 && climateDegreesNumber <= 36) {
+      return <img src={TiWeatherSunny} alt="climate" style={{ width: "32px" }} />;
+    } else if (climateDegreesNumber < 20) {
+      return <img src={TiWeatherCloudy} alt="climate" style={{ width: "32px" }} />;
+    }
+    return <img src={TiWeatherStormy} alt="climate" style={{ width: "32px" }} />;
+  }
+
   return (
     <header className={styles.wrapper}>
       <div className={styles.container}>
@@ -102,8 +118,16 @@ const Header = ({ toggleMenu }) => {
           </p>
           <p style={{ fontSize: "18px", fontWeight: "300" }}>{nowSystemDate}</p>
           {weather && (
-            <p style={{ fontSize: "18px", fontWeight: "300" }}>
-              {nowTempString}, {nowTempTime} °C
+            <p
+              style={{
+                fontSize: "18px",
+                fontWeight: "300",
+                display: "flex",
+                gap: "4px",
+                alignItems: "center"
+              }}
+            >
+              {nowTempString}, {nowTempTime}°C {getIconWeather(nowTempTime)}
             </p>
           )}
         </div>
