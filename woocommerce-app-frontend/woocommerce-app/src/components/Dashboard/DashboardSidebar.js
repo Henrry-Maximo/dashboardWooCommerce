@@ -37,6 +37,8 @@ const DashboardSidebar = ({ menuOpen, closeMenu, handleLogout }) => {
               Dashboard de Transporte
             </Link>
           </li>
+        </ul>
+        <ul className={styles.listSidebar}>
           <li className={styles.itemSidebar}>
             <Link to="/configuracoes" className={styles.linkSidebar}>
               <GrConfigure className={styles.icon} />
